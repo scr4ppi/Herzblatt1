@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Herzblatt Ehrenfeld | Drinks, Food & Hinterhof</title>
+  <meta name="description" content="Bar und Restaurant in Köln-Ehrenfeld. Tolle Drinks, Nolte Bier, vegane Küche und ein versteckter Hinterhof." />
+  <meta name="author" content="Jan" />
+  <!-- TODO: Finale SEO Keywords ergänzen, bevor die Seite live geht -->
+
+  <style>
+    /* --- CSS Reset & Setup --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Farbpalette für das Herzblatt Design */
+    :root {
+      --beige: #c7a56b;
+      --beige-soft: #d9c397;
+      --sand: #a77a3d;
+      --blue: #17384f;
+      --blue-soft: #275b79;
+      --blue-muted: #d2c09a;
+      --ink: #21180f;
+      --muted: #6f5e49;
+      --white: #fff8ea;
+      --line: rgba(45, 31, 18, 0.22);
+      --shadow: 0 22px 52px rgba(36, 22, 10, 0.22);
+      
+      --radius-xl: 18px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      
+      /* Max-Breite für Desktop, damit der Text lesbar bleibt */
+      --max-w: 1180px; 
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background: var(--beige-soft);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Hintergrund-Textur */
+    .page-wrapper {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(38, 24, 12, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(38, 24, 12, 0.06) 1px, transparent 1px),
+        radial-gradient(circle at 14% 8%, rgba(39, 91, 121, 0.16), transparent 32%),
+        radial-gradient(circle at 86% 10%, rgba(126, 82, 32, 0.28), transparent 34%),
+        linear-gradient(180deg, #d9c397 0%, #c7a56b 48%, #d7be8a 100%);
+      background-size: 42px 42px, 42px 42px, auto, auto, auto;
+    }
+
+    /* --- Navigation --- */
+    .main-nav {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      width: min(calc(100% - 32px), var(--max-w));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 14px 12px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 12px;
+      background: rgba(255, 248, 234, 0.86);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 44px rgba(21, 63, 99, 0.13);
+    }
+
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: max-content;
+    }
+
+    .logo-img {
+      height: 42px;
+      width: auto;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(21, 63, 99, 0.15);
+      transition: transform 0.2s ease;
+    }
+    
+    .logo-nolte {
+      height: 34px;
+      border-radius: 0;
+      box-shadow: none;
+      object-fit: contain;
+    }
+
+    .brand-container:hover .logo-img:not(.logo-nolte) {
+      transform: scale(1.05);
+    }
+    
+    .logo-separator {
+      color: rgba(21, 63, 99, 0.3);
+      font-weight: 300;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .menu-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(23, 33, 43, 0.72);
+      font-size: 0.93rem;
+      font-weight: 650;
+    }
+
+    .menu-links a {
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: 0.2s ease;
+    }
+
+    .menu-links a:hover {
+      color: var(--blue);
+      background: rgba(21, 63, 99, 0.08);
+    }
+
+    /* Buttons */
+    .btn-primary,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 14px 34px rgba(21, 63, 99, 0.26);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: #0f3455;
+      box-shadow: 0 18px 42px rgba(21, 63, 99, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 248, 234, 0.72);
+      color: var(--blue);
+      border: 1px solid var(--line);
+    }
+
+    .btn-secondary:hover {
+      background: #ffffff;
+    }
+
+    /* --- Hero Section --- */
+    .hero {
+      width: min(calc(100% - 32px), var(--max-w));
+      margin: 0 auto;
+      padding: 150px 0 72px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 46px;
+    }
+
+    .hero-tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 13px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background: rgba(21, 63, 99, 0.12);
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 0.86rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-tagline::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--blue-soft);
+      box-shadow: 0 0 0 6px rgba(47, 102, 143, 0.13);
+    }
+
+    h1 {
+      max-width: 760px;
+      color: var(--blue);
+      font-size: clamp(3.1rem, 6.8vw, 6.7rem);
+      line-height: 0.9;
+      letter-spacing: -0.075em;
+      margin-bottom: 24px;
+    }
+
+    .hero-copy {
+      max-width: 640px;
+      color: rgba(23, 33, 43, 0.74);
+      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+      line-height: 1.75;
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 620px;
+    }
+
+    .stat-box {
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(21, 63, 99, 0.12);
+      background: rgba(255, 248, 234, 0.48);
+    }
+
+    .stat-box strong {
+      display: block;
+      color: var(--blue);
+      font-size: 1.35rem;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-box span {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 650;
+    }
+
+    .partner-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 15px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      max-width: max-content;
+      font-weight: 700;
+      color: var(--blue);
+      font-size: 0.9rem;
+    }
+
+    .partner-badge img {
+      width: 75px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-image-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 620px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      background: var(--blue);
+      isolation: isolate;
+    }
+
+    .hero-image-card img {
+      height: 620px;
+      object-fit: cover;
+      filter: saturate(0.94) contrast(1.02);
+    }
+
+    .hero-image-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(21, 63, 99, 0.02), rgba(21, 63, 99, 0.84));
+      z-index: 1;
+    }
+
+    .floating-info {
+      position: absolute;
+      right: 24px;
+      bottom: 24px;
+      z-index: 2;
+      width: min(310px, calc(100% - 48px));
+      padding: 20px;
+      border-radius: 12px;
+      background: rgba(255, 248, 234, 0.9);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.16);
+    }
+
+    .floating-info b {
+      display: block;
+      color: var(--blue);
+      font-size: 1.08rem;
+      margin-bottom: 4px;
+    }
+
+    .floating-info p {
+      color: rgba(23, 33, 43, 0.72);
+      font-size: 0.94rem;
+    }
+
+    /* --- Standard Sections --- */
+    section {
+      width: min(calc(100% - 32px), var(--max-w));
+      margin: 0 auto;
+      padding: 72px 0;
+    }
+
+    .sec-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 30px;
+    }
+
+    .subline {
+      color: var(--blue-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.78rem;
+      font-weight: 900;
+      margin-bottom: 9px;
+    }
+
+    h2 {
+      color: var(--blue);
+      font-size: clamp(2.1rem, 4vw, 4.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      max-width: 720px;
+    }
+
+    .sec-text {
+      max-width: 450px;
+      color: rgba(23, 33, 43, 0.68);
+      font-size: 1rem;
+    }
+
+    /* 3-Spalten Grid */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature-card {
+      padding: 28px;
+      min-height: 260px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--line);
+      background: rgba(255, 248, 234, 0.54);
+      box-shadow: 0 18px 50px rgba(21, 63, 99, 0.08);
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      margin-bottom: 42px;
+      background: var(--blue-muted);
+      color: var(--blue);
+      font-size: 1.45rem;
+    }
+
+    .feature-card h3 {
+      color: var(--blue);
+      font-size: 1.38rem;
+      letter-spacing: -0.035em;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: rgba(23, 33, 43, 0.68);
+      font-size: 0.98rem;
+    }
+
+    /* --- Speisekarte Split Layout --- */
+    .menu-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .menu-image-container {
+      overflow: hidden;
+      min-height: 520px;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .menu-image-container img {
+      height: 100%;
+      min-height: 520px;
+      object-fit: cover;
+    }
+
+    .menu-box {
+      padding: 34px;
+      border-radius: 18px;
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .menu-box .subline,
+    .menu-box h2 {
+      color: var(--beige-soft);
+    }
+
+    .menu-box .sec-text {
+      color: rgba(255, 255, 255, 0.72);
+      margin-bottom: 26px;
+    }
+
+    .tab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 24px;
+    }
+
+    .tab-btn {
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 7px;
+      padding: 9px 13px;
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.76);
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .tab-btn.active,
+    .tab-btn:hover {
+      background: var(--beige-soft);
+      color: var(--blue);
+    }
+
+    .menu-items {
+      display: grid;
+      gap: 14px;
+    }
+
+    .dish-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      padding: 18px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .dish-row h3 {
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+      margin-bottom: 4px;
+    }
+
+    .dish-row p {
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 0.92rem;
+    }
+
+    .dish-price {
+      color: var(--beige);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag-vegan {
+      display: inline-flex;
+      margin-left: 8px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: rgba(199, 234, 192, 0.2);
+      color: #d8ffd0;
+      font-size: 0.72rem;
+      font-weight: 900;
+      vertical-align: middle;
+    }
+
+    /* --- Galerie Grid --- */
+    .masonry-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr 1fr;
+      grid-auto-rows: 220px;
+      gap: 16px;
+    }
+
+    .gal-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 18px 46px rgba(21, 63, 99, 0.11);
+      cursor: pointer;
+      background: var(--sand);
+    }
+
+    .gal-card.span-row {
+      grid-row: span 2;
+    }
+
+    .gal-card.span-col {
+      grid-column: span 2;
+    }
+
+    .gal-card img {
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .gal-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .gal-card span {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      padding: 8px 11px;
+      border-radius: 6px;
+      background: rgba(255, 248, 234, 0.88);
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 0.86rem;
+      backdrop-filter: blur(12px);
+    }
+
+    /* --- Events Banner --- */
+    .event-banner {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 24px;
+      padding: 34px;
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(21, 63, 99, 0.96), rgba(47, 102, 143, 0.92)),
+        url("https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+      color: var(--white);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .event-banner h2,
+    .event-banner .subline {
+      color: var(--beige-soft);
+    }
+
+    .event-banner p {
+      color: rgba(255, 255, 255, 0.74);
+      max-width: 620px;
+      margin: 16px 0 26px;
+    }
+
+    .event-features {
+      display: grid;
+      gap: 12px;
+      align-content: center;
+    }
+
+    .event-features li {
+      list-style: none;
+      padding: 16px 18px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: rgba(255, 255, 255, 0.86);
+      font-weight: 760;
+    }
+
+    /* --- Kontakt & Footer --- */
+    .contact-card {
+      padding: 24px;
+      border-radius: 14px;
+      background: rgba(255, 248, 234, 0.58);
+      border: 1px solid var(--line);
+    }
+
+    .contact-card b {
+      display: block;
+      color: var(--blue);
+      margin-bottom: 7px;
+      font-size: 1.06rem;
+    }
+
+    .contact-card p,
+    .contact-card a {
+      color: rgba(23, 33, 43, 0.7);
+    }
+    
+    .contact-card a:hover {
+      color: var(--blue);
+      text-decoration: underline;
+    }
+
+    footer {
+      width: min(calc(100% - 32px), var(--max-w));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      color: rgba(23, 33, 43, 0.58);
+      font-size: 0.92rem;
+      border-top: 1px solid var(--line);
+    }
+    
+    .footer-nav {
+      display: flex;
+      gap: 16px;
+    }
+    
+    .footer-nav a:hover {
+      color: var(--blue);
+    }
+
+    /* --- Lightbox / Modal Styling --- */
+    .lb-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: none; /* wird per JS via .is-active gesteuert */
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 25, 34, 0.82);
+      backdrop-filter: blur(14px);
+    }
+
+    .lb-overlay.is-active {
+      display: flex;
+    }
+
+    .lb-inner {
+      position: relative;
+      width: min(980px, 100%);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--beige-soft);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lb-inner img {
+      max-height: 78vh;
+      width: 100%;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .lb-btn {
+      position: absolute;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(251, 247, 239, 0.92);
+      color: var(--blue);
+      font-weight: 900;
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+
+    .lb-btn:hover {
+      background: #ffffff;
+    }
+
+    .btn-close {
+      top: 14px;
+      right: 14px;
+      width: 42px;
+      height: 42px;
+      font-size: 1.3rem;
+    }
+
+    .btn-nav {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-prev { left: 14px; }
+    .nav-next { right: 14px; }
+
+    .lb-counter {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 25, 34, 0.7);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    /* --- Media Queries für Handys & Tablets --- */
+    @media (max-width: 920px) {
+      .main-nav {
+        top: 10px;
+        width: calc(100% - 20px);
+      }
+
+      .menu-links {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 118px;
+      }
+
+      .hero-image-card,
+      .hero-image-card img {
+        min-height: 470px;
+        height: 470px;
+      }
+
+      .sec-header,
+      .menu-layout,
+      .event-banner {
+        grid-template-columns: 1fr;
+      }
+
+      .sec-header {
+        align-items: start;
+      }
+
+      .grid-3,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .masonry-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gal-card.span-col {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .btn-primary.nav-cta {
+        display: none; /* CTA im Header auf Handy ausblenden wg Platz */
+      }
+
+      .hero {
+        width: min(calc(100% - 22px), var(--max-w));
+        padding-bottom: 42px;
+      }
+
+      h1 {
+        font-size: clamp(3.25rem, 17vw, 5.2rem);
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        width: min(calc(100% - 22px), var(--max-w));
+        padding: 52px 0;
+      }
+
+      .hero-image-card,
+      .hero-image-card img {
+        min-height: 420px;
+        height: 420px;
+        border-radius: 14px;
+      }
+
+      .floating-info {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        width: auto;
+      }
+
+      .menu-box,
+      .event-banner {
+        padding: 24px;
+        border-radius: 14px;
+      }
+
+      .menu-image-container,
+      .menu-image-container img {
+        min-height: 360px;
+      }
+
+      .masonry-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 250px;
+      }
+
+      .gal-card.span-row,
+      .gal-card.span-col {
+        grid-row: span 1;
+        grid-column: span 1;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+        width: min(calc(100% - 22px), var(--max-w));
+        gap: 12px;
+      }
+      
+      .btn-nav {
+        width: 38px;
+        height: 38px;
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    
+    <!-- Top Navigation -->
+    <header class="main-nav">
+      <a class="brand-container" href="#top">
+        <img src="data:image/jpeg;base64,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Djp9IfZNWl4QqWIwILoFXdtHNRWEI9mcZB8D5gkF6T1MhxI7V+jbczOqjcvM1khsEnGcg4Hj7ADjcNWTaQtbMA21myo58s4BPPGefxAyQRNduhY6bYGQgtYWDpuU73LdMg5Unkc+fLpj7TpLEOEsGwkEh13NnluwwYdSCeYPNj4YAdj1M016ELg82sKYyM5BYHI/dMwbiK93YQCdjhOeBncwXIPlu3DP6DT5/Z4FQ2lQ4sZw20Hmxc8xnn63nzxNf9kIAoUsAAqsGJfcFdWGcnlzU/525R2X1N66xjqETZ6ys2QwIAUqD7/XH3zrmn5uPnKMMAKjrgD88oc+z1Pvm6ZqzZERCkREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQP/9k=" alt="Herzblatt Logo" class="logo-img" />
+        <span class="logo-separator">×</span>
+        <img src="https://www.noltebier.de/wp-content/uploads/2019/08/NOLTE-Logo_blue.png" alt="Nolte Bier Logo" class="logo-img logo-nolte" />
+      </a>
+
+      <nav class="menu-links">
+        <a href="#konzept">Konzept</a>
+        <a href="#speisekarte">Karte & Drinks</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#feiern">Feiern</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+
+      <a class="btn-primary nav-cta" href="#kontakt">Reservieren</a>
+    </header>
+
+    <main id="top">
+      
+      <!-- Hero-Section -->
+      <section class="hero">
+        <div>
+          <div class="hero-tagline">Bar · Drinks · Ehrenfeld</div>
+          <h1>Dein Herzblatt. Mitten im Veedel.</h1>
+          <p class="hero-copy">
+            Großartige Drinks, erfrischende Spritz-Variationen, ehrliche Küche mit vielen veganen Optionen und unser versteckter Hinterhof. Exklusiver Partner von Nolte Bier.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn-primary" href="#speisekarte">Drinks & Karte ansehen</a>
+            <a class="btn-secondary" href="#galerie">Bildergalerie öffnen</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-box">
+              <strong>Hinterhof</strong>
+              <span>die versteckte Oase</span>
+            </div>
+            <div class="stat-box">
+              <strong>Drinks</strong>
+              <span>Spritz & Highballs</span>
+            </div>
+            <div class="stat-box">
+              <strong>Vegan</strong>
+              <span>mehr als nur Beilagen</span>
+            </div>
+          </div>
+          
+          <div class="partner-badge">
+            <img src="https://www.noltebier.de/wp-content/uploads/2019/08/NOLTE-Logo_blue.png" alt="Nolte Bier Logo" />
+            <span>Stolzer Partner von Nolte Bier</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-image-card">
+            <!-- TODO: Sobald die echten Fotos von der Bar fertig sind, hier austauschen -->
+            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=85" alt="Atmosphäre im Herzblatt" />
+            <div class="floating-info">
+              <b>Cheers!</b>
+              <p>Genieße tolle Drinks, kühles Nolte Bier und entspannte Abende im Hinterhof.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Konzept -->
+      <section id="konzept">
+        <div class="sec-header">
+          <div>
+            <div class="subline">Unser Konzept</div>
+            <h2>Gute Drinks, leckeres Essen, bester Vibe.</h2>
+          </div>
+          <p class="sec-text">
+            Egal ob auf einen schnellen Spritz an der Bar, ein ausgedehntes Dinner oder laue Sommerabende in unserem kleinen, versteckten Paradies mitten in Ehrenfeld.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="feature-card">
+            <div class="card-icon">🍹</div>
+            <h3>Drinks & Spritz</h3>
+            <p>Kreative Spritz-Variationen, meisterhaft gemixte Drinks an der Bar und natürlich frisch gezapftes Nolte Bier.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="card-icon">🪴</div>
+            <h3>Süßer Hinterhof</h3>
+            <p>Unser verstecktes Highlight: Ein gemütlicher, grüner Hinterhof abseits vom Trubel der Venloer Straße für die perfekten Sommerabende.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="card-icon">🌱</div>
+            <h3>Food & Vegan</h3>
+            <p>Neben unseren Bar-Snacks bieten wir moderne, ehrliche Teller mit starkem Fokus auf vegane Vielfalt.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Speisekarte -->
+      <section id="speisekarte">
+        <div class="menu-layout">
+          <div class="menu-image-container">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=85" alt="Drinks und Food" />
+          </div>
+
+          <div class="menu-box">
+            <div class="subline">Karte</div>
+            <h2>Drinks, Snacks & mehr.</h2>
+            <p class="sec-text">
+              Eine kleine Vorschau auf das, was euch an der Bar und aus der Küche erwartet.
+            </p>
+
+            <div class="tab-nav">
+              <button class="tab-btn active" type="button" data-menu="drinks">Drinks & Spritz</button>
+              <button class="tab-btn" type="button" data-menu="nolte">Nolte Bier</button>
+              <button class="tab-btn" type="button" data-menu="food">Food</button>
+            </div>
+
+            <!-- Hier wird das Menü via JS gerendert -->
+            <div class="menu-items" id="menuContainer"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Galerie -->
+      <section id="galerie">
+        <div class="sec-header">
+          <div>
+            <div class="subline">Bildergalerie</div>
+            <h2>Einblicke ins Herzblatt.</h2>
+          </div>
+          <p class="sec-text">
+            Die Bar, unsere Teller und der versteckte Hinterhof in Aktion. Klick dich durch die einzelnen Kategorien.
+          </p>
+        </div>
+
+        <div class="masonry-grid">
+          <button class="gal-card span-row" type="button" data-gallery="bar">
+            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=85" alt="Die Bar im Herzblatt" />
+            <span>Die Bar</span>
+          </button>
+
+          <button class="gal-card" type="button" data-gallery="food">
+            <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=85" alt="Food & Snacks" />
+            <span>Food</span>
+          </button>
+
+          <button class="gal-card" type="button" data-gallery="drinks">
+            <img src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&w=900&q=85" alt="Frische Drinks" />
+            <span>Drinks</span>
+          </button>
+
+          <button class="gal-card span-col" type="button" data-gallery="hinterhof">
+            <img src="https://images.unsplash.com/photo-1600891963935-9e3ecf46e8b3?auto=format&fit=crop&w=1000&q=85" alt="Versteckter Hinterhof" />
+            <span>Süßer Hinterhof</span>
+          </button>
+
+          <button class="gal-card" type="button" data-gallery="events">
+            <img src="https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=900&q=85" alt="Private Feier in der Bar" />
+            <span>Feiern bei uns</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Events -->
+      <section id="feiern">
+        <div class="event-banner">
+          <div>
+            <div class="subline">Private Feiern</div>
+            <h2>Geburtstag oder Firmen-Event?</h2>
+            <p>
+              Miete Bereiche der Bar oder unseren kompletten Hinterhof für dein Event. Wir kümmern uns um die passenden Drinks, Nolte Bier vom Fass und das Catering.
+            </p>
+            <a class="btn-secondary" href="#kontakt">Event anfragen</a>
+          </div>
+
+          <ul class="event-features">
+            <li>Geburtstage im Hinterhof</li>
+            <li>Drink-Pauschalen & Buffet</li>
+            <li>Große vegane Auswahl für alle</li>
+            <li>Individuelle Spritz-Kreationen</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Kontakt -->
+      <section id="kontakt">
+        <div class="sec-header">
+          <div>
+            <div class="subline">Kontakt</div>
+            <h2>Komm vorbei.</h2>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="contact-card">
+            <b>Adresse</b>
+            <p>Herzblatt<br>Musterstraße 12<br>50823 Köln (Ehrenfeld)</p>
+          </div>
+
+          <div class="contact-card">
+            <b>Reservierung</b>
+            <p><a href="tel:+492211234567">0221 / 123 45 67</a><br><a href="mailto:hallo@herzblatt-koeln.de">hallo@herzblatt-koeln.de</a></p>
+          </div>
+
+          <div class="contact-card">
+            <b>Öffnungszeiten</b>
+            <p>Di–Do 17:00–00:00<br>Fr–Sa 17:00–02:00<br>So 15:00–22:00</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2026 Herzblatt Köln</p>
+      <div class="footer-nav">
+        <a href="https://www.instagram.com/herzblatt_koeln" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Lightbox Modal Container -->
+  <div class="lb-overlay" id="galleryOverlay">
+    <div class="lb-inner">
+      <button class="lb-btn btn-close" id="closeGalleryBtn">×</button>
+      <button class="lb-btn btn-nav nav-prev" id="prevGalleryBtn">‹</button>
+      <img id="galleryImgDisplay" src="" alt="Großansicht" />
+      <button class="lb-btn btn-nav nav-next" id="nextGalleryBtn">›</button>
+      <div class="lb-counter" id="galleryCounterDisplay"></div>
+    </div>
+  </div>
+
+  <script>
+    // --- Speisekarten Logik ---
+    // TODO: Später in eine eigene JSON auslagern oder mit React neu bauen, wenn die Karte wächst
+    const menuData = {
+      drinks: [
+        { name: "Herzblatt Spritz", desc: "Aperitif, Prosecco, Soda, frische Orange", price: "7,50 €" },
+        // Wichtig für die Jungs hinter der Bar: Melon Sour ist hier die klassische Version ohne Eiweiß!
+        { name: "Melon Sour", desc: "Melonenlikör, frischer Zitronensaft, Sirup (klassisch ohne Eiweiß)", price: "9,50 €" },
+        { name: "Matcha Highball", desc: "Gin, Matcha, Yuzu, Tonic Water", price: "10,50 €" }
+      ],
+      nolte: [
+        { name: "Nolte Helles vom Fass 0,3 l", desc: "Süffig, kalt, perfekt für den Hinterhof", price: "3,50 €" },
+        { name: "Nolte Pils 0,33 l", desc: "Aus der Flasche, schön herb", price: "3,60 €" },
+        { name: "Nolte Radler 0,33 l", desc: "Erfrischender Mix", price: "3,60 €" }
+      ],
+      food: [
+        { name: "Vegane Mezze-Platte", desc: "Hummus, Auberginencreme, Oliven, warmes Fladenbrot", price: "14,90 €", vegan: true },
+        { name: "Knusper-Kartoffeln", desc: "Rosmarin, Meersalz, vegane Kräutercreme", price: "8,90 €", vegan: true },
+        { name: "Herzblatt Smashburger", desc: "Rindfleisch, Cheddar, Brioche, Spezialsoße", price: "13,50 €" }
+      ]
+    };
+
+    const menuContainer = document.getElementById("menuContainer");
+    const menuTabs = document.querySelectorAll(".tab-btn");
+
+    function renderMenu(category) {
+      menuContainer.innerHTML = menuData[category].map(item => `
+        <article class="dish-row">
+          <div>
+            <h3>${item.name}${item.vegan ? '<span class="tag-vegan">vegan</span>' : ''}</h3>
+            <p>${item.desc}</p>
+          </div>
+          <div class="dish-price">${item.price}</div>
+        </article>
+      `).join("");
+    }
+
+    menuTabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        // Active-Class tauschen
+        menuTabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        renderMenu(tab.dataset.menu);
+      });
+    });
+
+    // Start-Kategorie laden
+    renderMenu("drinks");
+
+    // --- Galerie & Slideshow Steuerung ---
+    // Array für die Slideshow (Bilder müssen noch auf den eigenen Server umgezogen werden)
+    const galleryData = {
+      bar: [
+        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1500&q=85",
+        "https://images.unsplash.com/photo-1574096079513-d8259312b785?auto=format&fit=crop&w=1500&q=85"
+      ],
+      food: [
+        "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1500&q=85",
+        "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1500&q=85",
+        "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1500&q=85"
+      ],
+      drinks: [
+        "https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&w=1500&q=85",
+        "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=1500&q=85"
+      ],
+      hinterhof: [
+        "https://images.unsplash.com/photo-1600891963935-9e3ecf46e8b3?auto=format&fit=crop&w=1500&q=85",
+        "https://images.unsplash.com/photo-1533481405265-e9ce0c044abb?auto=format&fit=crop&w=1500&q=85"
+      ],
+      events: [
+        "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1500&q=85"
+      ]
+    };
+
+    // DOM Elemente referenzieren
+    const overlay = document.getElementById("galleryOverlay");
+    const imgDisplay = document.getElementById("galleryImgDisplay");
+    const closeBtn = document.getElementById("closeGalleryBtn");
+    const prevBtn = document.getElementById("prevGalleryBtn");
+    const nextBtn = document.getElementById("nextGalleryBtn");
+    const counterDisplay = document.getElementById("galleryCounterDisplay");
+    const galCards = document.querySelectorAll(".gal-card");
+
+    let activeCategory = "";
+    let activeIndex = 0;
+
+    // View in der Lightbox updaten
+    function updateOverlayView() {
+      const images = galleryData[activeCategory];
+      if (!images) return;
+
+      imgDisplay.src = images[activeIndex];
+      counterDisplay.textContent = `${activeIndex + 1} / ${images.length}`;
+      
+      // Controls ausblenden, wenn nur ein Bild hinterlegt ist
+      if (images.length <= 1) {
+        prevBtn.style.display = "none";
+        nextBtn.style.display = "none";
+        counterDisplay.style.display = "none";
+      } else {
+        prevBtn.style.display = "flex";
+        nextBtn.style.display = "flex";
+        counterDisplay.style.display = "block";
+      }
+    }
+
+    // Klick Event an jede Karte hängen
+    galCards.forEach(card => {
+      card.addEventListener("click", () => {
+        activeCategory = card.getAttribute("data-gallery");
+        activeIndex = 0;
+        updateOverlayView();
+        overlay.classList.add("is-active");
+      });
+    });
+
+    // Slideshow Navigation
+    function showNext(e) {
+      if (e) e.stopPropagation();
+      const images = galleryData[activeCategory];
+      activeIndex = (activeIndex + 1) % images.length;
+      updateOverlayView();
+    }
+
+    function showPrev(e) {
+      if (e) e.stopPropagation();
+      const images = galleryData[activeCategory];
+      activeIndex = (activeIndex - 1 + images.length) % images.length;
+      updateOverlayView();
+    }
+
+    nextBtn.addEventListener("click", showNext);
+    prevBtn.addEventListener("click", showPrev);
+
+    // Modal schließen
+    function closeOverlay() {
+      overlay.classList.remove("is-active");
+      // src leeren, damit das alte Bild beim nächsten Öffnen nicht flackert
+      setTimeout(() => { imgDisplay.src = ""; }, 200);
+    }
+
+    closeBtn.addEventListener("click", closeOverlay);
+    
+    // Klick ins "Schwarze" schließt auch
+    overlay.addEventListener("click", event => {
+      if (event.target === overlay || event.target.classList.contains("lb-inner")) {
+        closeOverlay();
+      }
+    });
+
+    // Keyboard controls für Desktop User
+    document.addEventListener("keydown", event => {
+      if (!overlay.classList.contains("is-active")) return;
+      
+      if (event.key === "Escape") closeOverlay();
+      if (event.key === "ArrowRight") showNext();
+      if (event.key === "ArrowLeft") showPrev();
+    });
+  </script>
+</body>
+</html>
