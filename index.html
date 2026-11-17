@@ -510,7 +510,7 @@
         }
 
         /* ==========================================================================
-           5. HIGHLIGHTS-LEISTE & ÜBER UNS
+           5. HIGHLIGHTS-LEISTE & ÜBER UNS (INKL. SAUBERER ZITAT-BOX)
            ========================================================================== */
         .highlights-leiste {
             margin-top: -10px;
@@ -580,42 +580,55 @@
             color: var(--blau);
         }
 
+        /* Überarbeitete Zitat-Box ohne überlappende Zeichen */
         .zitat-karte {
             background-color: var(--blau);
             color: var(--creme-bg);
-            padding: 44px 38px;
+            padding: 40px 38px 36px;
             border-radius: var(--radius-lg);
+            border: 1px solid rgba(212, 170, 112, 0.3);
             position: relative;
             box-shadow: var(--schatten-stark);
         }
 
-        .zitat-karte::before {
-            content: "„";
-            position: absolute;
-            top: 16px;
-            left: 26px;
-            font-family: var(--font-serif);
-            font-size: 5rem;
-            line-height: 1;
-            color: rgba(212, 170, 112, 0.35);
+        .zitat-kopf {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            color: var(--gold);
+        }
+
+        .zitat-kopf::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, rgba(212, 170, 112, 0.45), rgba(212, 170, 112, 0));
         }
 
         .zitat-text {
             font-family: var(--font-serif);
-            font-size: 1.45rem;
+            font-size: 1.42rem;
             font-style: italic;
-            line-height: 1.5;
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
+            line-height: 1.55;
+            margin-bottom: 26px;
+            color: #FFFFFF;
+        }
+
+        .zitat-fuss {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
         }
 
         .zitat-autor {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 12px;
-            font-size: 0.92rem;
-            letter-spacing: 0.08em;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--gold);
         }
@@ -628,14 +641,12 @@
         }
 
         .zitat-herz {
-            position: absolute;
-            bottom: 22px;
-            right: 26px;
-            opacity: 0.25;
+            flex-shrink: 0;
+            opacity: 0.55;
         }
 
         /* ==========================================================================
-           6. INTERAKTIVE SPEISEKARTE (TABS + ERNÄHRUNGSFILTER)
+           6. INTERAKTIVE SPEISEKARTE (TABS + FILTER + KLICKBARE BILDER)
            ========================================================================== */
         .speisekarte-sektion {
             background-color: var(--weiss-warm);
@@ -736,14 +747,58 @@
             animation: karteEinblenden 0.35s ease;
         }
 
-        .gericht-thumb {
-            width: 82px;
-            height: 82px;
+        /* Klickbares Vorschaubild mit Lupen-Effekt */
+        .gericht-thumb-btn {
+            position: relative;
+            width: 84px;
+            height: 84px;
             flex-shrink: 0;
             border-radius: var(--radius-sm);
-            object-fit: cover;
-            border: 1px solid rgba(11, 37, 69, 0.14);
+            overflow: hidden;
+            border: 1px solid rgba(11, 37, 69, 0.16);
             background-color: var(--creme-akzent);
+            padding: 0;
+            cursor: zoom-in;
+            transition: transform var(--uebergang), box-shadow var(--uebergang), border-color var(--uebergang);
+        }
+
+        .gericht-thumb-btn:hover {
+            transform: scale(1.05);
+            border-color: var(--gold-dunkel);
+            box-shadow: 0 6px 16px rgba(11, 37, 69, 0.18);
+        }
+
+        .gericht-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+
+        .gericht-thumb-btn:hover .gericht-thumb {
+            transform: scale(1.08);
+        }
+
+        .gericht-zoom-icon {
+            position: absolute;
+            right: 4px;
+            bottom: 4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background-color: rgba(11, 37, 69, 0.78);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.85;
+            transition: opacity 0.25s ease, background-color 0.25s ease;
+            pointer-events: none;
+        }
+
+        .gericht-thumb-btn:hover .gericht-zoom-icon {
+            opacity: 1;
+            background-color: var(--blau);
         }
 
         .gericht-inhalt {
@@ -765,7 +820,7 @@
             border-color: var(--gold);
         }
 
-        .gericht-karte.highlight-bier .gericht-thumb {
+        .gericht-karte.highlight-bier .gericht-thumb-btn {
             border-color: rgba(212, 170, 112, 0.6);
         }
 
@@ -1347,7 +1402,7 @@
         }
 
         /* ==========================================================================
-           11. FOOTER & MODALS (IMPRESSUM & DATENSCHUTZ)
+           11. FOOTER, MODALS & SPEISEKARTEN-LIGHTBOX
            ========================================================================== */
         .site-footer {
             background-color: var(--blau);
@@ -1402,8 +1457,8 @@
             position: fixed;
             inset: 0;
             z-index: 1200;
-            background-color: rgba(11, 37, 69, 0.72);
-            backdrop-filter: blur(4px);
+            background-color: rgba(11, 37, 69, 0.78);
+            backdrop-filter: blur(5px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -1475,8 +1530,78 @@
             margin-bottom: 10px;
         }
 
+        /* Lightbox speziell für vergrößerte Speisekarten-Bilder */
+        .lightbox-box {
+            background-color: var(--blau);
+            color: var(--creme-bg);
+            max-width: 760px;
+            width: 100%;
+            border-radius: var(--radius-lg);
+            border: 1.5px solid rgba(212, 170, 112, 0.45);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
+            animation: zoomIn 0.25s ease;
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .lightbox-img-wrap {
+            width: 100%;
+            max-height: 72vh;
+            background-color: #071930;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .lightbox-img-wrap img {
+            width: 100%;
+            max-height: 72vh;
+            object-fit: contain;
+        }
+
+        .lightbox-caption {
+            padding: 18px 24px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+            border-top: 1px solid rgba(212, 170, 112, 0.25);
+        }
+
+        .lightbox-titel {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            color: #FFFFFF;
+        }
+
+        .lightbox-preis {
+            font-weight: 600;
+            font-size: 1.08rem;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+
+        .lightbox-box .modal-close {
+            top: 14px;
+            right: 14px;
+            background-color: rgba(11, 37, 69, 0.85);
+            color: #FFFFFF;
+            border-color: rgba(212, 170, 112, 0.5);
+        }
+
+        .lightbox-box .modal-close:hover {
+            background-color: var(--gold);
+            color: var(--blau);
+        }
+
         /* ==========================================================================
-           12. SCHWEBENDE SCHNELLKONTAKT-BUTTONS (WHATSAPP & TELEFON) UNTEN RECHTS
+           12. SCHWEBENDE SCHNELLKONTAKT-BUTTONS (GOOGLE MAPS & TELEFON) UNTEN RECHTS
            ========================================================================== */
         .floating-kontakt {
             position: fixed;
@@ -1507,7 +1632,7 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 8px 22px rgba(11, 37, 69, 0.28);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
         }
 
         .float-btn:hover {
@@ -1515,9 +1640,14 @@
             box-shadow: 0 12px 26px rgba(11, 37, 69, 0.36);
         }
 
-        .float-btn-whatsapp {
-            background-color: #25D366;
-            color: #FFFFFF;
+        .float-btn-maps {
+            background-color: var(--gold);
+            color: var(--blau);
+            border: 1.5px solid var(--gold);
+        }
+
+        .float-btn-maps:hover {
+            background-color: var(--gold-dunkel);
         }
 
         .float-btn-telefon {
@@ -1800,7 +1930,7 @@
         </section>
 
         <!-- ==================================================================
-             ÜBER UNS & PHILOSOPHIE
+             ÜBER UNS & PHILOSOPHIE (MIT KORRIGIERTER ZITAT-BOX)
              ================================================================== -->
         <section class="sektion" id="ueber-uns">
             <div class="container">
@@ -1830,22 +1960,28 @@
                     </div>
 
                     <aside class="zitat-karte" aria-label="Gästezitat">
-                        <p class="zitat-text">
-                            Das Herzblatt in seiner ganzen unkomplizierten Gelassenheit ist einfach ein besonderer Ort.
-                        </p>
-                        <div class="zitat-autor">Sathjan Ramesh</div>
-                        <svg class="zitat-herz" width="52" height="52" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                            <path d="M24.2 39.5C21.8 36.2 10.5 27.6 8.8 18.8C7.6 12.6 12.2 8.2 17.6 9.1C21.1 9.7 23.4 12.6 24.4 15.2C26.2 11.4 30.1 8.4 34.4 9.5C39.2 10.7 41.2 16.1 38.6 21.8C35.8 27.9 28.4 34.8 23.4 40.2"
-                                  stroke="#D4AA70" stroke-width="2.2" stroke-linecap="round"/>
-                        </svg>
+                        <div class="zitat-kopf" aria-hidden="true">
+                            <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.6 0.8C6.2 3.2 2.4 7.8 2.4 13.8C2.4 18.2 5.2 21.2 8.8 21.2C12 21.2 14.2 19 14.2 16C14.2 13 11.8 11 9.2 11C8.4 11 7.6 11.2 7.2 11.4C7.6 7.8 10.2 4.8 13.4 3L11.6 0.8ZM25.4 0.8C20 3.2 16.2 7.8 16.2 13.8C16.2 18.2 19 21.2 22.6 21.2C25.8 21.2 28 19 28 16C28 13 25.6 11 23 11C22.2 11 21.4 11.2 21 11.4C21.4 7.8 24 4.8 27.2 3L25.4 0.8Z" fill="#D4AA70" fill-opacity="0.85"/>
+                            </svg>
+                        </div>
+                        <blockquote class="zitat-text">
+                            „Das Herzblatt in seiner ganzen unkomplizierten Gelassenheit ist einfach ein besonderer Ort.“
+                        </blockquote>
+                        <div class="zitat-fuss">
+                            <div class="zitat-autor">Sathjan Ramesh</div>
+                            <svg class="zitat-herz" width="42" height="42" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                                <path d="M24.2 39.5C21.8 36.2 10.5 27.6 8.8 18.8C7.6 12.6 12.2 8.2 17.6 9.1C21.1 9.7 23.4 12.6 24.4 15.2C26.2 11.4 30.1 8.4 34.4 9.5C39.2 10.7 41.2 16.1 38.6 21.8C35.8 27.9 28.4 34.8 23.4 40.2"
+                                      stroke="#D4AA70" stroke-width="2.2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
                     </aside>
                 </div>
             </div>
         </section>
 
         <!-- ==================================================================
-             INTERAKTIVE, INTEGRIERTE SPEISEKARTE
-             Nutzt dish1.webp, dish2.webp, dish3.webp, dish4.webp und Nolte.webp
+             INTERAKTIVE, INTEGRIERTE SPEISEKARTE (INKL. BILD-VERGRÖSSERUNG)
              ================================================================== -->
         <section class="sektion speisekarte-sektion" id="speisekarte">
             <div class="container">
@@ -1881,7 +2017,7 @@
                 <!-- Legende & PDF-Download-Platzhalter -->
                 <div class="menu-fuss">
                     <p class="menu-legende">
-                        <strong>Kennzeichnung:</strong> V = Vegetarisch · VG = Vegan · GF = Glutenfrei.<br>
+                        <strong>Kennzeichnung:</strong> V = Vegetarisch · VG = Vegan · GF = Glutenfrei · <em>Tipp: Klick auf ein Foto zum Vergrößern.</em><br>
                         <em>Hinweis: Beispiel-Auszug unserer saisonalen Karte. Änderungen je nach Jahreszeit vorbehalten.</em>
                     </p>
                     <div>
@@ -2276,9 +2412,21 @@
     </footer>
 
     <!-- ======================================================================
-         SCHWEBENDE SCHNELLKONTAKT-BUTTONS (UNTEN RECHTS BEIM SCROLLEN)
+         SCHWEBENDE SCHNELLKONTAKT-BUTTONS (GOOGLE MAPS + TELEFON) UNTEN RECHTS
          ====================================================================== -->
     <div class="floating-kontakt" id="floatingKontakt" aria-label="Schnellkontakt">
+        <!-- Neu: Kartensymbol direkt zu Google Maps über dem Telefon-Button -->
+        <a href="https://maps.google.com/?q=Simrockstra%C3%9Fe+2,+50823+K%C3%B6ln"
+           target="_blank" rel="noopener noreferrer"
+           class="float-btn float-btn-maps"
+           aria-label="Route in Google Maps öffnen">
+            <span class="float-tooltip">Google Maps / Route</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+            </svg>
+        </a>
+
         <a href="tel:+4922180132835"
            class="float-btn float-btn-telefon"
            aria-label="Anrufen">
@@ -2287,6 +2435,22 @@
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
         </a>
+    </div>
+
+    <!-- ======================================================================
+         LIGHTBOX-MODAL FÜR VERGRÖSSERTE SPEISEKARTEN-BILDER
+         ====================================================================== -->
+    <div class="modal-backdrop" id="bildLightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitel">
+        <div class="lightbox-box">
+            <button type="button" class="modal-close" aria-label="Schließen">×</button>
+            <div class="lightbox-img-wrap">
+                <img id="lightboxImg" src="" alt="">
+            </div>
+            <div class="lightbox-caption">
+                <span class="lightbox-titel" id="lightboxTitel"></span>
+                <span class="lightbox-preis" id="lightboxPreis"></span>
+            </div>
+        </div>
     </div>
 
     <!-- ======================================================================
@@ -2429,7 +2593,7 @@
             }
 
             /* ----------------------------------------------------------------
-               4. INTERAKTIVE SPEISEKARTE MIT EUREN ORIGINALBILDERN
+               4. INTERAKTIVE SPEISEKARTE MIT KLICKBARER BILD-LIGHTBOX
                (dish1.webp, dish2.webp, dish3.webp, dish4.webp & Nolte.webp)
                ---------------------------------------------------------------- */
             const speisekarteDaten = {
@@ -2499,21 +2663,21 @@
                         name: 'Lauwarmer Apfelstrudel',
                         preis: '7,90 €',
                         beschreibung: 'Mit karamellisierten Mandeln, Vanillesoße und einer Kugel Vanilleeis.',
-                        bild: 'https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?auto=format&fit=crop&w=300&q=80',
+                        bild: 'https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?auto=format&fit=crop&w=800&q=80',
                         tags: ['V']
                     },
                     {
                         name: 'Dunkles Schokoladen-Mousse',
                         preis: '8,40 €',
                         beschreibung: 'Luftig aufgeschlagen aus Zartbitterschokolade mit marinierten Saisonbeeren und Kakaonibs.',
-                        bild: 'https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?auto=format&fit=crop&w=300&q=80',
+                        bild: 'https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?auto=format&fit=crop&w=800&q=80',
                         tags: ['V', 'VG', 'GF']
                     },
                     {
                         name: 'Crème Brûlée mit Tonkabohne',
                         preis: '8,20 €',
                         beschreibung: 'Klassisch abgeflämmt mit feiner Karamellkruste und frischer Minze.',
-                        bild: 'https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?auto=format&fit=crop&w=300&q=80',
+                        bild: 'https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?auto=format&fit=crop&w=800&q=80',
                         tags: ['V', 'GF']
                     }
                 ],
@@ -2537,14 +2701,14 @@
                         name: 'Hausgemachte Zitronen-Rosmarin-Limo (0,4l)',
                         preis: '4,80 €',
                         beschreibung: 'Frisch gepresste Zitronen, Rosmarinsirup und sprudelndes Mineralwasser auf Eis.',
-                        bild: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300&q=80',
+                        bild: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80',
                         tags: ['V', 'VG', 'GF']
                     },
                     {
                         name: 'Offene Weine (Weiß, Rosé, Rot – 0,2l)',
                         preis: 'ab 6,50 €',
                         beschreibung: 'Ausgewählte deutsche und europäische Winzerweine – fragt uns gerne nach unserer aktuellen Empfehlung.',
-                        bild: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=300&q=80',
+                        bild: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
                         tags: ['V', 'VG', 'GF']
                     }
                 ]
@@ -2555,6 +2719,22 @@
             const menuGrid = document.getElementById('menuGrid');
             const menuTabs = document.querySelectorAll('.menu-tab');
             const filterBtns = document.querySelectorAll('.filter-btn');
+
+            // Lightbox-Elemente für Speisekarten-Bilder
+            const bildLightbox = document.getElementById('bildLightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxTitel = document.getElementById('lightboxTitel');
+            const lightboxPreis = document.getElementById('lightboxPreis');
+
+            function oeffneBildLightbox(bildSrc, name, preis) {
+                if (!bildLightbox || !lightboxImg) return;
+                lightboxImg.src = bildSrc;
+                lightboxImg.alt = name;
+                if (lightboxTitel) lightboxTitel.textContent = name;
+                if (lightboxPreis) lightboxPreis.textContent = preis;
+                bildLightbox.classList.add('offen');
+                document.body.style.overflow = 'hidden';
+            }
 
             function renderSpeisekarte() {
                 const liste = speisekarteDaten[aktiveKategorie] || [];
@@ -2587,11 +2767,21 @@
                     ].join('');
 
                     karte.innerHTML = `
-                        <img class="gericht-thumb"
-                             src="${item.bild}"
-                             alt="${item.name}"
-                             loading="lazy"
-                             onerror="this.src='https://placehold.co/160x160/E9D6BE/0B2545?text=Herzblatt'">
+                        <button type="button" class="gericht-thumb-btn" aria-label="Foto von ${item.name} vergrößern" title="Klicken zum Vergrößern">
+                            <img class="gericht-thumb"
+                                 src="${item.bild}"
+                                 alt="${item.name}"
+                                 loading="lazy"
+                                 onerror="this.src='https://placehold.co/400x400/E9D6BE/0B2545?text=Herzblatt'">
+                            <span class="gericht-zoom-icon" aria-hidden="true">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                </svg>
+                            </span>
+                        </button>
                         <div class="gericht-inhalt">
                             <div>
                                 <div class="gericht-kopf">
@@ -2603,6 +2793,15 @@
                             <div class="gericht-badges">${badgesHtml}</div>
                         </div>
                     `;
+
+                    // Klick-Event zum Vergrößern des jeweiligen Gericht-Fotos
+                    const thumbBtn = karte.querySelector('.gericht-thumb-btn');
+                    const thumbImg = karte.querySelector('.gericht-thumb');
+                    if (thumbBtn && thumbImg) {
+                        thumbBtn.addEventListener('click', () => {
+                            oeffneBildLightbox(thumbImg.currentSrc || thumbImg.src, item.name, item.preis);
+                        });
+                    }
 
                     menuGrid.appendChild(karte);
                 });
@@ -2742,7 +2941,7 @@
             }
 
             /* ----------------------------------------------------------------
-               7. MODALS (IMPRESSUM & DATENSCHUTZ)
+               7. MODALS (IMPRESSUM, DATENSCHUTZ & SPEISEKARTEN-LIGHTBOX)
                ---------------------------------------------------------------- */
             const modalTrigger = document.querySelectorAll('[data-modal]');
             const modals = document.querySelectorAll('.modal-backdrop');
