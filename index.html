@@ -225,7 +225,7 @@
             left: 0;
             width: 100%;
             z-index: 900;
-            padding: 18px 0;
+            padding: 14px 0;
             background-color: transparent;
             transition: background-color 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease;
         }
@@ -233,7 +233,7 @@
         .site-header.gescrollt {
             background-color: rgba(11, 37, 69, 0.96);
             backdrop-filter: blur(10px);
-            padding: 12px 0;
+            padding: 10px 0;
             box-shadow: 0 8px 28px rgba(11, 37, 69, 0.24);
         }
 
@@ -255,15 +255,26 @@
             flex-shrink: 0;
         }
 
-        .brand-logo svg {
-            width: 32px;
-            height: 32px;
-            flex-shrink: 0;
+        .brand-logo-img {
+            height: 54px;
+            width: auto;
+            object-fit: contain;
             transition: transform var(--uebergang);
         }
 
-        .brand-logo:hover svg {
-            transform: scale(1.08) rotate(-4deg);
+        .site-header.gescrollt .brand-logo-img {
+            height: 46px;
+        }
+
+        .brand-logo:hover .brand-logo-img {
+            transform: scale(1.04);
+        }
+
+        /* Fallback-Textlogo, falls tranparent.webp mal nicht geladen werden kann */
+        .brand-fallback {
+            display: none;
+            align-items: center;
+            gap: 10px;
         }
 
         .brand-text {
@@ -480,7 +491,7 @@
             gap: 14px;
         }
 
-        /* Hero Slideshow Steuerung (Pfeile + Dots + Bild-Hinweis) */
+        /* Hero Slideshow Steuerung (Pfeile + Dots) */
         .hero-controls {
             position: absolute;
             bottom: 86px;
@@ -777,8 +788,8 @@
         }
 
         .gericht-thumb {
-            width: 78px;
-            height: 78px;
+            width: 82px;
+            height: 82px;
             flex-shrink: 0;
             border-radius: var(--radius-sm);
             object-fit: cover;
@@ -976,22 +987,24 @@
         .nolte-bild-wrapper {
             position: relative;
             width: 100%;
-            max-width: 360px;
+            max-width: 310px;
             margin: 0 auto;
         }
 
+        /* Hochformat-Rahmen passend zum echten Nolte.webp Foto */
         .nolte-bild-rahmen {
             border-radius: var(--radius-md);
             overflow: hidden;
             border: 1.5px solid rgba(212, 170, 112, 0.45);
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
-            height: 250px;
+            aspect-ratio: 3 / 4;
         }
 
         .nolte-bild-rahmen img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
             transition: transform 0.6s ease;
         }
 
@@ -1591,7 +1604,6 @@
         /* ==========================================================================
            13. RESPONSIVE ANPASSUNGEN (TABLET & MOBIL)
            ========================================================================== */
-        /* Kompaktere Abstände auf mittleren Desktops / schmaleren Fenstern */
         @media (max-width: 1120px) {
             .nav-links {
                 gap: 1rem;
@@ -1611,7 +1623,7 @@
             }
         }
 
-        /* Erst unterhalb von 820px sauber auf das mobile Burger-Menü umschalten */
+        /* Unterhalb von 820px sauber auf das mobile Burger-Menü umschalten */
         @media (max-width: 820px) {
             .burger-btn {
                 display: flex;
@@ -1712,7 +1724,7 @@
             }
 
             .float-tooltip {
-                display: none; /* Auf Touch-Geräten nicht nötig */
+                display: none;
             }
         }
     </style>
@@ -1720,20 +1732,27 @@
 <body>
 
     <!-- ======================================================================
-         NAVIGATION (STICKY)
+         NAVIGATION (STICKY) MIT ORIGINAL-LOGO (tranparent.webp)
          ====================================================================== -->
     <header class="site-header" id="siteHeader">
         <div class="container nav-inner">
             <a href="#start" class="brand-logo" aria-label="Herzblatt Startseite">
-                <!-- Handgezeichnetes Herz-SVG als Markenlogo -->
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M24.2 39.5C21.8 36.2 10.5 27.6 8.8 18.8C7.6 12.6 12.2 8.2 17.6 9.1C21.1 9.7 23.4 12.6 24.4 15.2C26.2 11.4 30.1 8.4 34.4 9.5C39.2 10.7 41.2 16.1 38.6 21.8C35.8 27.9 28.4 34.8 23.4 40.2"
-                          stroke="#D4AA70" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="brand-text">
-                    <span class="brand-name">Herzblatt</span>
-                    <span class="brand-sub">Schank- &amp; Speisewirtschaft</span>
+                <img src="tranparent.webp"
+                     alt="Herzblatt – Schank- und Speisewirtschaft Logo"
+                     class="brand-logo-img"
+                     onerror="if(!this.dataset.triedAlt){this.dataset.triedAlt='1';this.src='transparent.webp';}else{this.style.display='none';this.nextElementSibling.style.display='inline-flex';}">
+                <span class="brand-fallback">
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M24.2 39.5C21.8 36.2 10.5 27.6 8.8 18.8C7.6 12.6 12.2 8.2 17.6 9.1C21.1 9.7 23.4 12.6 24.4 15.2C26.2 11.4 30.1 8.4 34.4 9.5C39.2 10.7 41.2 16.1 38.6 21.8C35.8 27.9 28.4 34.8 23.4 40.2"
+                              stroke="#D4AA70" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="brand-text">
+                        <span class="brand-name">Herzblatt</span>
+                        <span class="brand-sub">Schank- & Speisewirtschaft</span>
+                    </span>
                 </span>
+            </a>
+
             <nav class="main-nav" aria-label="Hauptnavigation">
                 <ul class="nav-links" id="navLinks">
                     <li><a href="#ueber-uns">Über uns</a></li>
@@ -1759,35 +1778,34 @@
     <main>
         <!-- ==================================================================
              HERO-BEREICH MIT AUTOMATISCHER HINTERGRUND-SLIDESHOW
-             Hinweis: Die drei <img>-Quellen unten später einfach gegen eigene
-             Herzblatt-Fotos (z. B. bilder/biergarten.jpg) austauschen.
+             Nutzt eure drei Raumbilder: room.webp, table.webp, room2.webp
              ================================================================== -->
         <section class="hero" id="start" aria-label="Willkommen im Herzblatt">
             <div class="hero-slides" id="heroSlides">
-                <!-- Slide 1: Biergarten unter Bäumen mit Lichterketten -->
+                <!-- Slide 1: Weitwinkel Gastraum (room.webp) -->
                 <div class="hero-slide aktiv">
-                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=80"
-                         alt="Abendlicher Biergarten im begrünten Innenhof mit Lichterketten"
-                         onerror="this.src='https://placehold.co/1800x1000/0B2545/E9D6BE?text=Herzblatt+Biergarten'">
+                    <img src="room.webp"
+                         alt="Gemütlicher Gastraum im Herzblatt Köln-Ehrenfeld"
+                         onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=80'">
                 </div>
-                <!-- Slide 2: Gemütlicher Gastraum -->
+                <!-- Slide 2: Gedeckter Tisch am Fenster (table.webp) -->
                 <div class="hero-slide">
-                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=80"
-                         alt="Gemütlicher Gastraum einer modernen Schankwirtschaft"
-                         onerror="this.src='https://placehold.co/1800x1000/0B2545/E9D6BE?text=Herzblatt+Gastraum'">
+                    <img src="table.webp"
+                         alt="Liebevoll gedeckter Holztisch am Fenster im Herzblatt"
+                         onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=80'">
                 </div>
-                <!-- Slide 3: Moderne Brauhausküche & frisch gezapftes Bier -->
+                <!-- Slide 3: Stimmungsvoller Blick in den Gastraum (room2.webp) -->
                 <div class="hero-slide">
-                    <img src="https://images.unsplash.com/photo-1532634922-8fe0b757fb13?auto=format&fit=crop&w=1800&q=80"
-                         alt="Frisch gezapftes Bier und moderne Brauhausküche"
-                         onerror="this.src='https://placehold.co/1800x1000/0B2545/E9D6BE?text=Herzblatt+Kueche+und+Bier'">
+                    <img src="room2.webp"
+                         alt="Abendstimmung in unserer Schank- und Speisewirtschaft"
+                         onerror="this.src='https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=80'">
                 </div>
             </div>
 
             <div class="hero-overlay"></div>
 
             <div class="container hero-content">
-                <div class="hero-badge">Köln-Ehrenfeld &middot; Simrockstraße 2</div>
+                <div class="hero-badge">Köln-Ehrenfeld · Simrockstraße 2</div>
                 <h1>Schön, dass du da bist!</h1>
                 <p class="hero-lead">
                     Mitten im Herzen von Köln-Ehrenfeld erwartet dich deine gemütliche Schank- und Speisewirtschaft –
@@ -1805,9 +1823,9 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
                 <div class="hero-dots" id="heroDots">
-                    <button class="hero-dot aktiv" data-slide="0" aria-label="Bild 1: Biergarten"></button>
-                    <button class="hero-dot" data-slide="1" aria-label="Bild 2: Gastraum"></button>
-                    <button class="hero-dot" data-slide="2" aria-label="Bild 3: Küche & Bier"></button>
+                    <button class="hero-dot aktiv" data-slide="0" aria-label="Bild 1: Gastraum"></button>
+                    <button class="hero-dot" data-slide="1" aria-label="Bild 2: Tisch am Fenster"></button>
+                    <button class="hero-dot" data-slide="2" aria-label="Bild 3: Abendstimmung"></button>
                 </div>
                 <button class="hero-arrow" id="heroNext" aria-label="Nächstes Bild">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -1840,7 +1858,7 @@
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
                         </div>
                         <h3>4x im Jahr neu</h3>
-                        <p>Moderne Brauhausküche mit saisonaler Karte – auch vegan, vegetarisch &amp; glutenfrei.</p>
+                        <p>Moderne Brauhausküche mit saisonaler Karte – auch vegan, vegetarisch & glutenfrei.</p>
                     </div>
                     <div class="highlight-item">
                         <div class="highlight-icon" aria-hidden="true">
@@ -1899,9 +1917,7 @@
 
         <!-- ==================================================================
              INTERAKTIVE, INTEGRIERTE SPEISEKARTE
-             Hinweis: Die Gerichte & Preise stehen übersichtlich im JavaScript-
-             Block ganz unten (Array "speisekarteDaten") und lassen sich dort
-             saisonal schnell austauschen.
+             Nutzt dish1.webp, dish2.webp, dish3.webp, dish4.webp und Nolte.webp
              ================================================================== -->
         <section class="sektion speisekarte-sektion" id="speisekarte">
             <div class="container">
@@ -1916,10 +1932,10 @@
 
                 <!-- Kategorie-Tabs -->
                 <div class="menu-tabs" role="tablist" aria-label="Speisekarten-Kategorien" id="menuTabs">
-                    <button class="menu-tab aktiv" role="tab" aria-selected="true" data-kategorie="vorspeisen">Vorspeisen &amp; Kleinigkeiten</button>
+                    <button class="menu-tab aktiv" role="tab" aria-selected="true" data-kategorie="vorspeisen">Vorspeisen & Kleinigkeiten</button>
                     <button class="menu-tab" role="tab" aria-selected="false" data-kategorie="hauptgerichte">Hauptgerichte</button>
                     <button class="menu-tab" role="tab" aria-selected="false" data-kategorie="desserts">Desserts</button>
-                    <button class="menu-tab" role="tab" aria-selected="false" data-kategorie="getraenke">Getränke &amp; Bier</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" data-kategorie="getraenke">Getränke & Bier</button>
                 </div>
 
                 <!-- Ernährungs-Filter -->
@@ -1937,11 +1953,10 @@
                 <!-- Legende & PDF-Download-Platzhalter -->
                 <div class="menu-fuss">
                     <p class="menu-legende">
-                        <strong>Kennzeichnung:</strong> V = Vegetarisch &middot; VG = Vegan &middot; GF = Glutenfrei.<br>
+                        <strong>Kennzeichnung:</strong> V = Vegetarisch · VG = Vegan · GF = Glutenfrei.<br>
                         <em>Hinweis: Beispiel-Auszug unserer saisonalen Karte. Änderungen je nach Jahreszeit vorbehalten.</em>
                     </p>
                     <div>
-                        <!-- PDF-Link hier später einfach durch href="downloads/speisekarte.pdf" ersetzen -->
                         <button type="button" class="btn btn-outline-dunkel" id="pdfDownloadBtn">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             Komplette Karte als PDF
@@ -1955,7 +1970,7 @@
         </section>
 
         <!-- ==================================================================
-             NOLTE BIER EDITORIAL-SEKTION (DUNKELBLAU #0B2545)
+             NOLTE BIER EDITORIAL-SEKTION (MIT ORIGINALFOTO Nolte.webp)
              ================================================================== -->
         <section class="sektion nolte-sektion" id="nolte-bier">
             <div class="container">
@@ -1986,14 +2001,13 @@
 
                     <div class="nolte-bild-wrapper">
                         <div class="nolte-bild-rahmen">
-                            <!-- Platzhalter-Foto: später gegen eigenes Nolte-Cristall-Foto ersetzen -->
-                            <img src="https://images.unsplash.com/photo-1575037614876-c38a4d44f5b8?auto=format&fit=crop&w=1000&q=80"
-                                 alt="Frisch gezapftes goldgelbes Bier im Glas"
-                                 onerror="this.src='https://placehold.co/800x1000/143661/D4AA70?text=Nolte+Cristall'">
+                            <img src="Nolte.webp"
+                                 alt="Frisch gezapftes Nolte Cristall im Glas im Herzblatt"
+                                 onerror="if(!this.dataset.triedLower){this.dataset.triedLower='1';this.src='nolte.webp';}else{this.src='https://images.unsplash.com/photo-1575037614876-c38a4d44f5b8?auto=format&fit=crop&w=1000&q=80';}">
                         </div>
                         <div class="nolte-stempel">
                             <strong>Nolte Cristall</strong>
-                            <span>Untergärig, goldgelb &amp; mit Wurzeln in Ehrenfeld.</span>
+                            <span>Untergärig, goldgelb & mit Wurzeln in Ehrenfeld.</span>
                         </div>
                     </div>
                 </div>
@@ -2002,8 +2016,7 @@
 
         <!-- ==================================================================
              INTERAKTIVE FOTOGALERIE-SLIDESHOW („EINBLICKE INS HERZBLATT“)
-             Hinweis: Alle 4 Bilder sind Platzhalter – Pfade einfach tauschen,
-             sobald die finalen Fotos vom Shooting da sind.
+             Integriert eure Bilder: room.webp, table.webp, room2.webp, dish4.webp, Nolte.webp
              ================================================================== -->
         <section class="sektion" id="galerie">
             <div class="container">
@@ -2011,16 +2024,17 @@
                     <span class="sektion-eyebrow">Atmosphäre</span>
                     <h2 class="sektion-titel">Einblicke ins Herzblatt</h2>
                     <p class="sektion-untertitel">
-                        Ob im gemütlichen Gastraum, an der Theke oder im begrünten Innenhof unter Bäumen –
-                        schau dich schon mal ein bisschen um.
+                        Ob im gemütlichen Gastraum, am liebevoll gedeckten Tisch oder bei einem frisch gezapften
+                        Nolte Cristall – schau dich schon mal ein bisschen bei uns um.
                     </p>
                 </div>
 
                 <div class="galerie-wrapper reveal">
                     <div class="galerie-viewport" id="galerieViewport">
                         <div class="galerie-track" id="galerieTrack">
+                            <!-- Slide 1: room.webp -->
                             <figure class="galerie-slide">
-                                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80"
+                                <img src="room.webp"
                                      alt="Gemütlicher Gastraum im Herzblatt"
                                      onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Unser+Gastraum'">
                                 <figcaption class="galerie-caption">
@@ -2029,19 +2043,32 @@
                                 </figcaption>
                             </figure>
 
+                            <!-- Slide 2: table.webp -->
                             <figure class="galerie-slide">
-                                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80"
-                                     alt="Biergarten im begrünten Innenhof"
-                                     onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Biergarten+im+Innenhof'">
+                                <img src="table.webp"
+                                     alt="Gedeckter Tisch am Fenster im Herzblatt"
+                                     onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Platz+nehmen'">
                                 <figcaption class="galerie-caption">
-                                    <h3>Biergarten im begrünten Innenhof</h3>
-                                    <p>Laue Sommerabende unter Bäumen – mitten in Ehrenfeld und doch ganz ruhig.</p>
+                                    <h3>Platz nehmen & wohlfühlen</h3>
+                                    <p>Gemütliche Ecken für lange Abende mit deinen Lieblingsmenschen.</p>
                                 </figcaption>
                             </figure>
 
+                            <!-- Slide 3: room2.webp -->
                             <figure class="galerie-slide">
-                                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1400&q=80"
-                                     alt="Saisonale Brauhausküche"
+                                <img src="room2.webp"
+                                     alt="Blick durch den Gastraum im Herzblatt"
+                                     onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Abendstimmung'">
+                                <figcaption class="galerie-caption">
+                                    <h3>Abendstimmung in Ehrenfeld</h3>
+                                    <p>Ganz ohne Schnickschnack, dafür mit umso mehr Herz und Gastfreundschaft.</p>
+                                </figcaption>
+                            </figure>
+
+                            <!-- Slide 4: dish4.webp -->
+                            <figure class="galerie-slide">
+                                <img src="dish4.webp"
+                                     alt="Saisonale Brauhausküche im Herzblatt"
                                      onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Moderne+Brauhauskueche'">
                                 <figcaption class="galerie-caption">
                                     <h3>Moderne Brauhausküche</h3>
@@ -2049,12 +2076,13 @@
                                 </figcaption>
                             </figure>
 
+                            <!-- Slide 5: Nolte.webp -->
                             <figure class="galerie-slide">
-                                <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=80"
-                                     alt="Theke und Zapfhahn im Herzblatt"
-                                     onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Theke+und+Zapfhahn'">
+                                <img src="Nolte.webp"
+                                     alt="Frisch gezapftes Nolte Cristall an der Theke"
+                                     onerror="if(!this.dataset.triedLower){this.dataset.triedLower='1';this.src='nolte.webp';}else{this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Nolte+Cristall';}">
                                 <figcaption class="galerie-caption">
-                                    <h3>An der Theke</h3>
+                                    <h3>Frisch vom Fass</h3>
                                     <p>Perfekt gezapftes Nolte Cristall, Kölsch und gute Gespräche bis spät in die Nacht.</p>
                                 </figcaption>
                             </figure>
@@ -2079,7 +2107,7 @@
         <section class="sektion feiern-sektion" id="feiern">
             <div class="container">
                 <div class="sektion-header reveal">
-                    <span class="sektion-eyebrow">Private Feiern &amp; Events</span>
+                    <span class="sektion-eyebrow">Private Feiern & Events</span>
                     <h2 class="sektion-titel">Dein Anlass. Unser Herzblatt.</h2>
                     <p class="sektion-untertitel">
                         Ob Hochzeit, Geburtstag, Weihnachtsfeier, Firmenveranstaltung oder einfach ein besonderer Abend mit
@@ -2089,7 +2117,7 @@
 
                 <div class="feiern-karten reveal">
                     <article class="feier-karte">
-                        <span class="feier-zahl">ca. 50 Sitzplätze &middot; Exklusiv mietbar</span>
+                        <span class="feier-zahl">ca. 50 Sitzplätze · Exklusiv mietbar</span>
                         <h3>Das Herzblatt ganz für euch</h3>
                         <p>
                             Für deine Veranstaltung kannst du unseren gemütlichen Innenbereich exklusiv mieten.
@@ -2102,7 +2130,7 @@
                     </article>
 
                     <article class="feier-karte">
-                        <span class="feier-zahl">ca. 90 Sitzplätze &middot; Exklusiv mietbar</span>
+                        <span class="feier-zahl">ca. 90 Sitzplätze · Exklusiv mietbar</span>
                         <h3>Sommerfeste unter Bäumen</h3>
                         <p>
                             Ein besonderes Highlight ist unser großzügiger Biergarten im begrünten Innenhof.
@@ -2120,12 +2148,6 @@
                     <h3>Du hast einen Anlass? Schreib uns!</h3>
                     <p>Nenn uns einfach deinen Wunschtermin, die ungefähre Gästezahl und deine Vorstellungen – wir melden uns zeitnah bei dir.</p>
 
-                    <!--
-                        Hinweis für den Live-Betrieb:
-                        Aktuell validiert das Formular im Browser und zeigt eine Bestätigung.
-                        Für den echten E-Mail-Versand später z. B. Formspree, Web3Forms oder
-                        ein eigenes kleines PHP-Skript als action="..." eintragen.
-                    -->
                     <form id="feierFormular" novalidate>
                         <div class="form-grid">
                             <div class="form-gruppe">
@@ -2167,7 +2189,7 @@
                             </div>
 
                             <div class="form-gruppe voll">
-                                <label for="fNachricht">Anlass &amp; Wünsche *</label>
+                                <label for="fNachricht">Anlass & Wünsche *</label>
                                 <textarea id="fNachricht" name="nachricht" placeholder="Erzähl uns kurz, was ihr feiert und was euch wichtig ist..." required></textarea>
                                 <span class="form-fehler">Bitte schreib uns ein paar Zeilen zu deinem Anlass.</span>
                             </div>
@@ -2193,7 +2215,7 @@
             <div class="container">
                 <div class="sektion-header reveal">
                     <span class="sektion-eyebrow">Besuch uns</span>
-                    <h2 class="sektion-titel">Reservierung, Zeiten &amp; Kontakt</h2>
+                    <h2 class="sektion-titel">Reservierung, Zeiten & Kontakt</h2>
                     <p class="sektion-untertitel">
                         Ob auf ein frisch gezapftes Bier, ein leckeres Abendessen oder einen gemütlichen Abend mit Freunden –
                         im Herzblatt bist du immer herzlich willkommen.
@@ -2210,10 +2232,6 @@
                                 oder einfach kurz telefonisch.
                             </p>
 
-                            <!--
-                                PLATZHALTER FÜR RESERVIERUNGSSYSTEM:
-                                Hier später einfach das Embed-Skript von resmio, Dish, aleno oder OpenTable einfügen.
-                            -->
                             <div class="widget-platzhalter" id="reservierungsWidget">
                                 <strong>Online-Tischbuchung (bis 8 Personen)</strong><br>
                                 Unser Buchungs-Widget wird in Kürze hier eingebunden. Bis dahin reservieren wir euch euren Tisch sehr gerne per Telefon oder E-Mail!
@@ -2235,7 +2253,7 @@
                             <h3>Öffnungszeiten</h3>
                             <ul class="zeiten-liste">
                                 <li>
-                                    <span class="zeiten-tag">Montag &amp; Dienstag</span>
+                                    <span class="zeiten-tag">Montag & Dienstag</span>
                                     <span class="zeiten-uhr">16:00 – 23:00 Uhr</span>
                                     <span class="zeiten-notiz">Barbetrieb ohne warme Küche</span>
                                 </li>
@@ -2259,7 +2277,7 @@
                     <!-- Karte 3: Kontakt & Anfahrt -->
                     <div class="info-karte">
                         <div>
-                            <h3>Kontakt &amp; Anfahrt</h3>
+                            <h3>Kontakt & Anfahrt</h3>
                             <div class="kontakt-zeile">
                                 <strong>Adresse</strong>
                                 Herzblatt – Schank- und Speisewirtschaft<br>
@@ -2293,58 +2311,62 @@
     </main>
 
     <!-- ======================================================================
-         FOOTER
+         FOOTER MIT ORIGINAL-LOGO (tranparent.webp)
          ====================================================================== -->
     <footer class="site-footer">
         <div class="container">
             <div class="footer-inner">
-                <div class="brand-logo">
-                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M24.2 39.5C21.8 36.2 10.5 27.6 8.8 18.8C7.6 12.6 12.2 8.2 17.6 9.1C21.1 9.7 23.4 12.6 24.4 15.2C26.2 11.4 30.1 8.4 34.4 9.5C39.2 10.7 41.2 16.1 38.6 21.8C35.8 27.9 28.4 34.8 23.4 40.2"
-                              stroke="#D4AA70" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span class="brand-text">
-                        <span class="brand-name">Herzblatt</span>
-                        <span class="brand-sub">Köln-Ehrenfeld</span>
+                <a href="#start" class="brand-logo" aria-label="Herzblatt Startseite">
+                    <img src="tranparent.webp"
+                         alt="Herzblatt Logo"
+                         class="brand-logo-img"
+                         onerror="if(!this.dataset.triedAlt){this.dataset.triedAlt='1';this.src='transparent.webp';}else{this.style.display='none';this.nextElementSibling.style.display='inline-flex';}">
+                    <span class="brand-fallback">
+                        <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M24.2 39.5C21.8 36.2 10.5 27.6 8.8 18.8C7.6 12.6 12.2 8.2 17.6 9.1C21.1 9.7 23.4 12.6 24.4 15.2C26.2 11.4 30.1 8.4 34.4 9.5C39.2 10.7 41.2 16.1 38.6 21.8C35.8 27.9 28.4 34.8 23.4 40.2"
+                                  stroke="#D4AA70" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="brand-text">
+                            <span class="brand-name">Herzblatt</span>
+                            <span class="brand-sub">Köln-Ehrenfeld</span>
+                        </span>
                     </span>
-                </div>
+                </a>
 
                 <div class="footer-links">
                     <button type="button" class="footer-link-btn" data-modal="impressumModal">Impressum</button>
                     <button type="button" class="footer-link-btn" data-modal="datenschutzModal">Datenschutz</button>
-                    <a href="#start" class="footer-link-btn">Nach oben &uarr;</a>
+                    <a href="#start" class="footer-link-btn">Nach oben ↑</a>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <span>&copy; <span id="aktuellesJahr">2026</span> Herzblatt – Schank- und Speisewirtschaft (XYZ-Gastro GmbH)</span>
-                <span>Simrockstraße 2 &middot; 50823 Köln</span>
+                <span>© <span id="aktuellesJahr">2026</span> Herzblatt – Schank- und Speisewirtschaft (XYZ-Gastro GmbH)</span>
+                <span>Simrockstraße 2 · 50823 Köln</span>
             </div>
         </div>
     </footer>
 
     <!-- ======================================================================
          SCHWEBENDE SCHNELLKONTAKT-BUTTONS (UNTEN RECHTS BEIM SCROLLEN)
-         Hinweis: WhatsApp-Nummer im href ("4922180132835") bei Bedarf einfach
-         gegen eure Mobilnummer (ohne führende 0, mit 49) austauschen.
          ====================================================================== -->
     <div class="floating-kontakt" id="floatingKontakt" aria-label="Schnellkontakt">
-        <!-- <a href="https://wa.me/4922180132835?text=Hallo%20Herzblatt-Team%2C%20ich%20habe%20eine%20Frage%20zu%20einer%20Reservierung." -->
-           <!-- target="_blank" rel="noopener noreferrer" -->
-           <!-- class="float-btn float-btn-whatsapp" -->
-           <!-- aria-label="WhatsApp schreiben"> -->
-            <!-- <span class="float-tooltip">WhatsApp schreiben</span> -->
-            <!-- Sauberes WhatsApp SVG-Icon -->
-            <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"> -->
-                <!-- <path d="M12.03 2C6.51 2 2.02 6.48 2.02 12c0 1.97.57 3.81 1.56 5.36L2 22l4.77-1.53A9.94 9.94 0 0 0 12.03 22c5.52 0 10-4.48 10-10S17.55 2 12.03 2zm5.82 14.12c-.25.7-1.45 1.34-2 1.42-.52.08-1.18.11-1.91-.12-.44-.14-1.01-.33-1.74-.65-3.06-1.32-5.06-4.41-5.21-4.61-.15-.2-1.24-1.65-1.24-3.15 0-1.5.78-2.24 1.06-2.55.28-.3.61-.38.81-.38.2 0 .41.01.58.01.19.01.44-.07.69.53.25.61.86 2.1.94 2.25.08.15.13.33.02.53-.1.2-.15.33-.3.51-.15.18-.32.4-.46.53-.15.15-.31.32-.13.62.18.3.79 1.3 1.7 2.11 1.17 1.04 2.15 1.37 2.46 1.52.3.15.48.13.66-.08.18-.2.76-.89.96-1.19.2-.3.41-.25.69-.15.28.1 1.77.84 2.08.99.3.15.51.23.58.36.08.13.08.76-.17 1.46z"/> -->
-            <!-- </svg> -->
-        <!-- </a> -->
+        <!-- Optionaler WhatsApp-Button (aktuell wie in deinem Code auskommentiert):
+        <a href="https://wa.me/4922180132835?text=Hallo%20Herzblatt-Team%2C%20ich%20habe%20eine%20Frage%20zu%20einer%20Reservierung."
+           target="_blank" rel="noopener noreferrer"
+           class="float-btn float-btn-whatsapp"
+           aria-label="WhatsApp schreiben">
+            <span class="float-tooltip">WhatsApp schreiben</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12.03 2C6.51 2 2.02 6.48 2.02 12c0 1.97.57 3.81 1.56 5.36L2 22l4.77-1.53A9.94 9.94 0 0 0 12.03 22c5.52 0 10-4.48 10-10S17.55 2 12.03 2zm5.82 14.12c-.25.7-1.45 1.34-2 1.42-.52.08-1.18.11-1.91-.12-.44-.14-1.01-.33-1.74-.65-3.06-1.32-5.06-4.41-5.21-4.61-.15-.2-1.24-1.65-1.24-3.15 0-1.5.78-2.24 1.06-2.55.28-.3.61-.38.81-.38.2 0 .41.01.58.01.19.01.44-.07.69.53.25.61.86 2.1.94 2.25.08.15.13.33.02.53-.1.2-.15.33-.3.51-.15.18-.32.4-.46.53-.15.15-.31.32-.13.62.18.3.79 1.3 1.7 2.11 1.17 1.04 2.15 1.37 2.46 1.52.3.15.48.13.66-.08.18-.2.76-.89.96-1.19.2-.3.41-.25.69-.15.28.1 1.77.84 2.08.99.3.15.51.23.58.36.08.13.08.76-.17 1.46z"/>
+            </svg>
+        </a>
+        -->
 
         <a href="tel:+4922180132835"
            class="float-btn float-btn-telefon"
            aria-label="Anrufen">
             <span class="float-tooltip">Anrufen</span>
-            <!-- Sauberes Telefon SVG-Icon -->
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
@@ -2356,7 +2378,7 @@
          ====================================================================== -->
     <div class="modal-backdrop" id="impressumModal" role="dialog" aria-modal="true" aria-labelledby="impressumTitel">
         <div class="modal-box">
-            <button type="button" class="modal-close" aria-label="Schließen">&times;</button>
+            <button type="button" class="modal-close" aria-label="Schließen">×</button>
             <h3 id="impressumTitel">Impressum</h3>
             <p><strong>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</strong></p>
 
@@ -2413,7 +2435,7 @@
          ====================================================================== -->
     <div class="modal-backdrop" id="datenschutzModal" role="dialog" aria-modal="true" aria-labelledby="datenschutzTitel">
         <div class="modal-box">
-            <button type="button" class="modal-close" aria-label="Schließen">&times;</button>
+            <button type="button" class="modal-close" aria-label="Schließen">×</button>
             <h3 id="datenschutzTitel">Datenschutzerklärung</h3>
             <p>
                 <em>Platzhalter-Hinweis:</em> Bitte bindet vor dem endgültigen Live-Gang hier eure vollständige
@@ -2425,7 +2447,7 @@
             <p>
                 XYZ-Gastro GmbH<br>
                 Sömmeringstraße 9, 50823 Köln<br>
-                E-Mail: xyzgastro@gmail.com &middot; Telefon: +49 221 80132835
+                E-Mail: xyzgastro@gmail.com · Telefon: +49 221 80132835
             </p>
         </div>
     </div>
@@ -2448,7 +2470,6 @@
             function aktualisiereScrollZustand() {
                 const y = window.scrollY;
                 header.classList.toggle('gescrollt', y > 50);
-                // WhatsApp- und Telefonsymbol ab 320px Scrolltiefe weich einblenden
                 floatingKontakt.classList.toggle('sichtbar', y > 320);
             }
 
@@ -2473,7 +2494,6 @@
                 burgerBtn.setAttribute('aria-expanded', String(istOffen));
             });
 
-            // Menü schließen, sobald ein Link angetippt wird
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', schliesseMenue);
             });
@@ -2523,83 +2543,69 @@
             starteHeroAutoplay();
 
             /* ----------------------------------------------------------------
-               4. INTERAKTIVE SPEISEKARTE (PLATZHALTER-DATEN + FILTER)
-               Hinweis: Gerichte, Beschreibungen, Preise, Fotos ("bild") und
-               Tags (V, VG, GF) können hier saisonal direkt angepasst werden.
+               4. INTERAKTIVE SPEISEKARTE MIT EUREN ORIGINALBILDERN
+               (dish1.webp, dish2.webp, dish3.webp, dish4.webp & Nolte.webp)
                ---------------------------------------------------------------- */
             const speisekarteDaten = {
                 vorspeisen: [
                     {
-                        name: 'Ehrenfelder Sauerteigbrot & Aufstriche',
-                        preis: '7,50 €',
-                        beschreibung: 'Ofenfrisches Krustenbrot mit geschlagener Kräuterbutter, geröstetem Rote-Bete-Hummus und grobem Meersalz.',
-                        bild: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80',
+                        name: 'Geröstete Rote Bete & bunte Garten-Vorspeise',
+                        preis: '9,50 €',
+                        beschreibung: 'Marinierte Rote Bete, Kirschtomaten, Kräuter und Oliven mit cremigem Dip aufgeschlagener Creme.',
+                        bild: 'dish3.webp',
+                        tags: ['V', 'GF']
+                    },
+                    {
+                        name: 'Großer Herzblatt-Wildkräutersalat & Krustenbrot',
+                        preis: '11,80 €',
+                        beschreibung: 'Knackige Blattsalate der Saison mit gerösteten Kernen, frischen Kräutern, Hausdressing und ofenfrischem Brot.',
+                        bild: 'dish2.webp',
                         tags: ['V', 'VG']
                     },
                     {
-                        name: 'Hausgemachte Kartoffelsuppe',
-                        preis: '8,20 €',
-                        beschreibung: 'Cremig aus regionalen Kartoffeln und Wurzelgemüse, verfeinert mit Majoranöl und krossen Croûtons (auch ohne Croûtons glutenfrei).',
-                        bild: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=300&q=80',
-                        tags: ['V', 'VG', 'GF']
+                        name: 'Ehrenfelder Sauerteigbrot & Aufstriche',
+                        preis: '7,50 €',
+                        beschreibung: 'Ofenfrisches Krustenbrot mit geschlagener Kräuterbutter, geröstetem Rote-Bete-Hummus und grobem Meersalz.',
+                        bild: 'dish2.webp',
+                        tags: ['V', 'VG']
                     },
                     {
                         name: 'Halver Hahn „Herzblatt-Art“',
                         preis: '8,90 €',
                         beschreibung: 'Röggelchen mit mittelaltem Gouda, Senf-Kaviar, eingelegten roten Zwiebeln und Gewürzgurke.',
-                        bild: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=300&q=80',
+                        bild: 'dish3.webp',
                         tags: ['V']
-                    },
-                    {
-                        name: 'Gebeizter Lachs auf Reibekuchen',
-                        preis: '11,50 €',
-                        beschreibung: 'Zwei knusprige Kartoffel-Rievkooche mit hausgebeiztem Lachs, Meerrettich-Schmand und frischem Dill.',
-                        bild: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=300&q=80',
-                        tags: ['GF']
                     }
                 ],
                 hauptgerichte: [
                     {
-                        name: 'Wiener Schnitzel vom Kalb',
-                        preis: '24,90 €',
-                        beschreibung: 'Goldbraun in Butterschmalz ausgebacken, dazu lauwarmer Kartoffel-Gurkensalat, Preiselbeeren und Zitrone.',
-                        bild: 'https://images.unsplash.com/photo-1599921841143-819065a55cc6?auto=format&fit=crop&w=300&q=80',
-                        tags: []
+                        name: 'Herzblatt-Schmorgericht auf knuspriger Waffel',
+                        preis: '21,90 €',
+                        beschreibung: 'Zart geschmortes Ragout in kräftiger Jus auf herzhaft gebackener Kartoffelwaffel mit frischem Schnittlauch.',
+                        bild: 'dish4.webp',
+                        tags: [],
+                        highlight: true
                     },
                     {
-                        name: 'Rheinischer Sauerbraten (modern)',
+                        name: 'Knusprig gebackenes Filet & bunter Beilagensalat',
                         preis: '22,50 €',
-                        beschreibung: 'Zart geschmort in dunkler Rosinen-Printensoße mit handgedrehten Kartoffelklößen und geschmortem Apfelrotkohl.',
-                        bild: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=300&q=80',
+                        beschreibung: 'Goldbraun in Knusperpanade ausgebacken, serviert mit frischer Limette, Kräuter-Dip und kleinem Marktsalat.',
+                        bild: 'dish1.webp',
                         tags: []
                     },
                     {
-                        name: 'Gebackener Blumenkohl & Kräuter-Polenta',
+                        name: 'Saisonale Gemüse-Komposition & Rote Bete',
                         preis: '17,90 €',
-                        beschreibung: 'Im Ganzen gerösteter Blumenkohl mit Miso-Senf-Glasur, cremiger Polenta, gerösteten Haselnüssen und Granatapfel.',
-                        bild: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80',
+                        beschreibung: 'Ofengeröstete Rote Bete, geschmorte Tomaten, Kräuteröl und aufgeschlagene pflanzliche Kräuter-Crème.',
+                        bild: 'dish3.webp',
                         tags: ['V', 'VG', 'GF']
                     },
                     {
-                        name: 'Hausgemachte Käsespätzle',
+                        name: 'Großer Erntesalat mit warmem Sauerteigbrot',
                         preis: '16,50 €',
-                        beschreibung: 'Mit gereiftem Allgäuer Bergkäse, knusprigen Röstzwiebeln, Schnittlauch und einem kleinen Beilagensalat.',
-                        bild: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=300&q=80',
-                        tags: ['V']
-                    },
-                    {
-                        name: 'Geschmorte Aubergine auf Linsengemüse',
-                        preis: '18,20 €',
-                        beschreibung: 'Karamellisierte Aubergine auf Belugalinsen mit Wurzelgemüse, Thymian und veganer Kräuter-Crème.',
-                        bild: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=300&q=80',
-                        tags: ['V', 'VG', 'GF']
-                    },
-                    {
-                        name: 'Zanderfilet auf der Haut gebraten',
-                        preis: '23,80 €',
-                        beschreibung: 'Mit Rahmwirsing, Salzkartoffeln und einer leichten Riesling-Senf-Soße.',
-                        bild: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=300&q=80',
-                        tags: ['GF']
+                        beschreibung: 'Bunte Blattsalate, geröstete Saaten, Gartenkräuter, Zitronen-Vinaigrette und kräftiges Ehrenfelder Krustenbrot.',
+                        bild: 'dish2.webp',
+                        tags: ['V', 'VG']
                     }
                 ],
                 desserts: [
@@ -2630,7 +2636,7 @@
                         name: 'Nolte Cristall vom Fass (0,3l / 0,5l)',
                         preis: '3,90 € / 5,40 €',
                         beschreibung: 'Unser Ehrenfelder Highlight: goldgelb, untergärig, schlank und angenehm spritzig – nach altem Familienrezept.',
-                        bild: 'https://images.unsplash.com/photo-1575037614876-c38a4d44f5b8?auto=format&fit=crop&w=300&q=80',
+                        bild: 'Nolte.webp',
                         tags: ['V', 'VG'],
                         highlight: true
                     },
@@ -2638,7 +2644,7 @@
                         name: 'Frisch gezapftes Kölsch (0,2l)',
                         preis: '2,40 €',
                         beschreibung: 'Eiskalt aus dem Fass, wie es sich in Köln gehört.',
-                        bild: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=300&q=80',
+                        bild: 'Nolte.webp',
                         tags: ['V', 'VG']
                     },
                     {
@@ -2653,13 +2659,6 @@
                         preis: 'ab 6,50 €',
                         beschreibung: 'Ausgewählte deutsche und europäische Winzerweine – fragt uns gerne nach unserer aktuellen Empfehlung.',
                         bild: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=300&q=80',
-                        tags: ['V', 'VG', 'GF']
-                    },
-                    {
-                        name: 'Herzblatt Spritz',
-                        preis: '8,50 €',
-                        beschreibung: 'Fruchtiger Aperitif mit trockenem Riesling-Sekt, Blutorange und einem Zweig Thymian (auch alkoholfrei).',
-                        bild: 'https://images.unsplash.com/photo-1560512823-829485b8bf24?auto=format&fit=crop&w=300&q=80',
                         tags: ['V', 'VG', 'GF']
                     }
                 ]
@@ -2723,7 +2722,6 @@
                 });
             }
 
-            // Kategorie-Tabs umschalten
             menuTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     aktiveKategorie = tab.dataset.kategorie;
@@ -2736,7 +2734,6 @@
                 });
             });
 
-            // Ernährungs-Filter umschalten
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     aktiverFilter = btn.dataset.filter;
@@ -2745,10 +2742,8 @@
                 });
             });
 
-            // Erste Ansicht direkt rendern
             renderSpeisekarte();
 
-            // Hinweis für den PDF-Download-Platzhalter
             const pdfBtn = document.getElementById('pdfDownloadBtn');
             const pdfHinweis = document.getElementById('pdfHinweis');
             if (pdfBtn && pdfHinweis) {
@@ -2768,7 +2763,6 @@
             const galerieDotsContainer = document.getElementById('galerieDots');
             let galerieIndex = 0;
 
-            // Navigationspunkte dynamisch erzeugen
             if (galerieDotsContainer && galerieSlides.length > 0) {
                 galerieSlides.forEach((_, idx) => {
                     const dot = document.createElement('button');
@@ -2796,7 +2790,6 @@
                 galerieNext.addEventListener('click', () => geheZuGalerieBild(galerieIndex + 1));
             }
 
-            // Touch-Swipe für Smartphones und Tablets
             if (galerieViewport) {
                 let touchStartX = 0;
                 let touchEndeX = 0;
@@ -2854,7 +2847,6 @@
                     }
                 });
 
-                // Fehlerstatus beim Tippen direkt zurücksetzen
                 feierFormular.querySelectorAll('input, textarea, select').forEach(feld => {
                     feld.addEventListener('input', () => {
                         const gruppe = feld.closest('.form-gruppe');
@@ -2890,7 +2882,6 @@
                 if (closeBtn) {
                     closeBtn.addEventListener('click', schliesseAlleModals);
                 }
-                // Klick außerhalb der Box schließt das Modal
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) schliesseAlleModals();
                 });
@@ -2916,7 +2907,6 @@
 
                 revealElemente.forEach(el => observer.observe(el));
             } else {
-                // Fallback für sehr alte Browser
                 revealElemente.forEach(el => el.classList.add('sichtbar'));
             }
         });
