@@ -1,1287 +1,2925 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Herzblatt Ehrenfeld | Drinks, Food & Hinterhof</title>
-  <meta name="description" content="Bar und Restaurant in Köln-Ehrenfeld. Tolle Drinks, Nolte Bier, vegane Küche und ein versteckter Hinterhof." />
-  <meta name="author" content="Jan" />
-  <!-- TODO: Finale SEO Keywords ergänzen, bevor die Seite live geht -->
-
-  <style>
-    /* --- CSS Reset & Setup --- */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* Farbpalette für das Herzblatt Design */
-    :root {
-      --beige: #c7a56b;
-      --beige-soft: #d9c397;
-      --sand: #a77a3d;
-      --blue: #17384f;
-      --blue-soft: #275b79;
-      --blue-muted: #d2c09a;
-      --ink: #21180f;
-      --muted: #6f5e49;
-      --white: #fff8ea;
-      --line: rgba(45, 31, 18, 0.22);
-      --shadow: 0 22px 52px rgba(36, 22, 10, 0.22);
-      
-      --radius-xl: 18px;
-      --radius-lg: 14px;
-      --radius-md: 10px;
-      
-      /* Max-Breite für Desktop, damit der Text lesbar bleibt */
-      --max-w: 1180px; 
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
-      background: var(--beige-soft);
-      color: var(--ink);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    img {
-      display: block;
-      width: 100%;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* Hintergrund-Textur */
-    .page-wrapper {
-      min-height: 100vh;
-      background:
-        linear-gradient(rgba(38, 24, 12, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(38, 24, 12, 0.06) 1px, transparent 1px),
-        radial-gradient(circle at 14% 8%, rgba(39, 91, 121, 0.16), transparent 32%),
-        radial-gradient(circle at 86% 10%, rgba(126, 82, 32, 0.28), transparent 34%),
-        linear-gradient(180deg, #d9c397 0%, #c7a56b 48%, #d7be8a 100%);
-      background-size: 42px 42px, 42px 42px, auto, auto, auto;
-    }
-
-    /* --- Navigation --- */
-    .main-nav {
-      position: fixed;
-      top: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 50;
-      width: min(calc(100% - 32px), var(--max-w));
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 12px 14px 12px 18px;
-      border: 1px solid rgba(255, 255, 255, 0.65);
-      border-radius: 12px;
-      background: rgba(255, 248, 234, 0.86);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 18px 44px rgba(21, 63, 99, 0.13);
-    }
-
-    .brand-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: max-content;
-    }
-
-    .logo-img {
-      height: 42px;
-      width: auto;
-      border-radius: 8px;
-      object-fit: cover;
-      box-shadow: 0 4px 12px rgba(21, 63, 99, 0.15);
-      transition: transform 0.2s ease;
-    }
-    
-    .logo-nolte {
-      height: 34px;
-      border-radius: 0;
-      box-shadow: none;
-      object-fit: contain;
-    }
-
-    .brand-container:hover .logo-img:not(.logo-nolte) {
-      transform: scale(1.05);
-    }
-    
-    .logo-separator {
-      color: rgba(21, 63, 99, 0.3);
-      font-weight: 300;
-      font-size: 1.5rem;
-      line-height: 1;
-    }
-
-    .menu-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: rgba(23, 33, 43, 0.72);
-      font-size: 0.93rem;
-      font-weight: 650;
-    }
-
-    .menu-links a {
-      padding: 10px 12px;
-      border-radius: 8px;
-      transition: 0.2s ease;
-    }
-
-    .menu-links a:hover {
-      color: var(--blue);
-      background: rgba(21, 63, 99, 0.08);
-    }
-
-    /* Buttons */
-    .btn-primary,
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      border: 0;
-      border-radius: 8px;
-      padding: 12px 18px;
-      font-weight: 800;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    .btn-primary {
-      background: var(--blue);
-      color: var(--white);
-      box-shadow: 0 14px 34px rgba(21, 63, 99, 0.26);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      background: #0f3455;
-      box-shadow: 0 18px 42px rgba(21, 63, 99, 0.3);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 248, 234, 0.72);
-      color: var(--blue);
-      border: 1px solid var(--line);
-    }
-
-    .btn-secondary:hover {
-      background: #ffffff;
-    }
-
-    /* --- Hero Section --- */
-    .hero {
-      width: min(calc(100% - 32px), var(--max-w));
-      margin: 0 auto;
-      padding: 150px 0 72px;
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      align-items: center;
-      gap: 46px;
-    }
-
-    .hero-tagline {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 13px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      background: rgba(21, 63, 99, 0.12);
-      color: var(--blue);
-      font-weight: 800;
-      font-size: 0.86rem;
-      letter-spacing: 0.02em;
-    }
-
-    .hero-tagline::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 4px;
-      background: var(--blue-soft);
-      box-shadow: 0 0 0 6px rgba(47, 102, 143, 0.13);
-    }
-
-    h1 {
-      max-width: 760px;
-      color: var(--blue);
-      font-size: clamp(3.1rem, 6.8vw, 6.7rem);
-      line-height: 0.9;
-      letter-spacing: -0.075em;
-      margin-bottom: 24px;
-    }
-
-    .hero-copy {
-      max-width: 640px;
-      color: rgba(23, 33, 43, 0.74);
-      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-      line-height: 1.75;
-      margin-bottom: 30px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      max-width: 620px;
-    }
-
-    .stat-box {
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid rgba(21, 63, 99, 0.12);
-      background: rgba(255, 248, 234, 0.48);
-    }
-
-    .stat-box strong {
-      display: block;
-      color: var(--blue);
-      font-size: 1.35rem;
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-    }
-
-    .stat-box span {
-      color: var(--muted);
-      font-size: 0.88rem;
-      font-weight: 650;
-    }
-
-    .partner-badge {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 15px;
-      padding: 12px 18px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      max-width: max-content;
-      font-weight: 700;
-      color: var(--blue);
-      font-size: 0.9rem;
-    }
-
-    .partner-badge img {
-      width: 75px;
-      height: auto;
-      object-fit: contain;
-    }
-
-    .hero-visual {
-      position: relative;
-    }
-
-    .hero-image-card {
-      position: relative;
-      overflow: hidden;
-      min-height: 620px;
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      background: var(--blue);
-      isolation: isolate;
-    }
-
-    .hero-image-card img {
-      height: 620px;
-      object-fit: cover;
-      filter: saturate(0.94) contrast(1.02);
-    }
-
-    .hero-image-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(21, 63, 99, 0.02), rgba(21, 63, 99, 0.84));
-      z-index: 1;
-    }
-
-    .floating-info {
-      position: absolute;
-      right: 24px;
-      bottom: 24px;
-      z-index: 2;
-      width: min(310px, calc(100% - 48px));
-      padding: 20px;
-      border-radius: 12px;
-      background: rgba(255, 248, 234, 0.9);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.16);
-    }
-
-    .floating-info b {
-      display: block;
-      color: var(--blue);
-      font-size: 1.08rem;
-      margin-bottom: 4px;
-    }
-
-    .floating-info p {
-      color: rgba(23, 33, 43, 0.72);
-      font-size: 0.94rem;
-    }
-
-    /* --- Standard Sections --- */
-    section {
-      width: min(calc(100% - 32px), var(--max-w));
-      margin: 0 auto;
-      padding: 72px 0;
-    }
-
-    .sec-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 24px;
-      align-items: end;
-      margin-bottom: 30px;
-    }
-
-    .subline {
-      color: var(--blue-soft);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.78rem;
-      font-weight: 900;
-      margin-bottom: 9px;
-    }
-
-    h2 {
-      color: var(--blue);
-      font-size: clamp(2.1rem, 4vw, 4.2rem);
-      line-height: 0.98;
-      letter-spacing: -0.06em;
-      max-width: 720px;
-    }
-
-    .sec-text {
-      max-width: 450px;
-      color: rgba(23, 33, 43, 0.68);
-      font-size: 1rem;
-    }
-
-    /* 3-Spalten Grid */
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .feature-card {
-      padding: 28px;
-      min-height: 260px;
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--line);
-      background: rgba(255, 248, 234, 0.54);
-      box-shadow: 0 18px 50px rgba(21, 63, 99, 0.08);
-      transition: transform 0.25s ease, background 0.25s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.78);
-    }
-
-    .card-icon {
-      width: 52px;
-      height: 52px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      margin-bottom: 42px;
-      background: var(--blue-muted);
-      color: var(--blue);
-      font-size: 1.45rem;
-    }
-
-    .feature-card h3 {
-      color: var(--blue);
-      font-size: 1.38rem;
-      letter-spacing: -0.035em;
-      margin-bottom: 10px;
-    }
-
-    .feature-card p {
-      color: rgba(23, 33, 43, 0.68);
-      font-size: 0.98rem;
-    }
-
-    /* --- Speisekarte Split Layout --- */
-    .menu-layout {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    .menu-image-container {
-      overflow: hidden;
-      min-height: 520px;
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .menu-image-container img {
-      height: 100%;
-      min-height: 520px;
-      object-fit: cover;
-    }
-
-    .menu-box {
-      padding: 34px;
-      border-radius: 18px;
-      background: var(--blue);
-      color: var(--white);
-      box-shadow: var(--shadow);
-    }
-
-    .menu-box .subline,
-    .menu-box h2 {
-      color: var(--beige-soft);
-    }
-
-    .menu-box .sec-text {
-      color: rgba(255, 255, 255, 0.72);
-      margin-bottom: 26px;
-    }
-
-    .tab-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin-bottom: 24px;
-    }
-
-    .tab-btn {
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      border-radius: 7px;
-      padding: 9px 13px;
-      background: rgba(255, 255, 255, 0.08);
-      color: rgba(255, 255, 255, 0.76);
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .tab-btn.active,
-    .tab-btn:hover {
-      background: var(--beige-soft);
-      color: var(--blue);
-    }
-
-    .menu-items {
-      display: grid;
-      gap: 14px;
-    }
-
-    .dish-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      padding: 18px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .dish-row h3 {
-      font-size: 1.05rem;
-      letter-spacing: -0.025em;
-      margin-bottom: 4px;
-    }
-
-    .dish-row p {
-      color: rgba(255, 255, 255, 0.68);
-      font-size: 0.92rem;
-    }
-
-    .dish-price {
-      color: var(--beige);
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .tag-vegan {
-      display: inline-flex;
-      margin-left: 8px;
-      padding: 3px 8px;
-      border-radius: 5px;
-      background: rgba(199, 234, 192, 0.2);
-      color: #d8ffd0;
-      font-size: 0.72rem;
-      font-weight: 900;
-      vertical-align: middle;
-    }
-
-    /* --- Galerie Grid --- */
-    .masonry-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr 1fr;
-      grid-auto-rows: 220px;
-      gap: 16px;
-    }
-
-    .gal-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      box-shadow: 0 18px 46px rgba(21, 63, 99, 0.11);
-      cursor: pointer;
-      background: var(--sand);
-    }
-
-    .gal-card.span-row {
-      grid-row: span 2;
-    }
-
-    .gal-card.span-col {
-      grid-column: span 2;
-    }
-
-    .gal-card img {
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-
-    .gal-card:hover img {
-      transform: scale(1.06);
-    }
-
-    .gal-card span {
-      position: absolute;
-      left: 16px;
-      bottom: 16px;
-      padding: 8px 11px;
-      border-radius: 6px;
-      background: rgba(255, 248, 234, 0.88);
-      color: var(--blue);
-      font-weight: 900;
-      font-size: 0.86rem;
-      backdrop-filter: blur(12px);
-    }
-
-    /* --- Events Banner --- */
-    .event-banner {
-      display: grid;
-      grid-template-columns: 1fr 0.9fr;
-      gap: 24px;
-      padding: 34px;
-      border-radius: 10px;
-      background:
-        linear-gradient(135deg, rgba(21, 63, 99, 0.96), rgba(47, 102, 143, 0.92)),
-        url("https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1600&q=80");
-      background-size: cover;
-      background-position: center;
-      color: var(--white);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .event-banner h2,
-    .event-banner .subline {
-      color: var(--beige-soft);
-    }
-
-    .event-banner p {
-      color: rgba(255, 255, 255, 0.74);
-      max-width: 620px;
-      margin: 16px 0 26px;
-    }
-
-    .event-features {
-      display: grid;
-      gap: 12px;
-      align-content: center;
-    }
-
-    .event-features li {
-      list-style: none;
-      padding: 16px 18px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: rgba(255, 255, 255, 0.86);
-      font-weight: 760;
-    }
-
-    /* --- Kontakt & Footer --- */
-    .contact-card {
-      padding: 24px;
-      border-radius: 14px;
-      background: rgba(255, 248, 234, 0.58);
-      border: 1px solid var(--line);
-    }
-
-    .contact-card b {
-      display: block;
-      color: var(--blue);
-      margin-bottom: 7px;
-      font-size: 1.06rem;
-    }
-
-    .contact-card p,
-    .contact-card a {
-      color: rgba(23, 33, 43, 0.7);
-    }
-    
-    .contact-card a:hover {
-      color: var(--blue);
-      text-decoration: underline;
-    }
-
-    footer {
-      width: min(calc(100% - 32px), var(--max-w));
-      margin: 0 auto;
-      padding: 34px 0 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      color: rgba(23, 33, 43, 0.58);
-      font-size: 0.92rem;
-      border-top: 1px solid var(--line);
-    }
-    
-    .footer-nav {
-      display: flex;
-      gap: 16px;
-    }
-    
-    .footer-nav a:hover {
-      color: var(--blue);
-    }
-
-    /* --- Lightbox / Modal Styling --- */
-    .lb-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      display: none; /* wird per JS via .is-active gesteuert */
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(15, 25, 34, 0.82);
-      backdrop-filter: blur(14px);
-    }
-
-    .lb-overlay.is-active {
-      display: flex;
-    }
-
-    .lb-inner {
-      position: relative;
-      width: min(980px, 100%);
-      border-radius: 14px;
-      overflow: hidden;
-      background: var(--beige-soft);
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lb-inner img {
-      max-height: 78vh;
-      width: 100%;
-      object-fit: contain;
-      background: #000;
-    }
-
-    .lb-btn {
-      position: absolute;
-      border: 0;
-      border-radius: 999px;
-      background: rgba(251, 247, 239, 0.92);
-      color: var(--blue);
-      font-weight: 900;
-      cursor: pointer;
-      z-index: 10;
-      transition: background 0.2s;
-    }
-
-    .lb-btn:hover {
-      background: #ffffff;
-    }
-
-    .btn-close {
-      top: 14px;
-      right: 14px;
-      width: 42px;
-      height: 42px;
-      font-size: 1.3rem;
-    }
-
-    .btn-nav {
-      top: 50%;
-      transform: translateY(-50%);
-      width: 46px;
-      height: 46px;
-      font-size: 1.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .nav-prev { left: 14px; }
-    .nav-next { right: 14px; }
-
-    .lb-counter {
-      position: absolute;
-      bottom: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(15, 25, 34, 0.7);
-      color: #fff;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      z-index: 10;
-      backdrop-filter: blur(8px);
-    }
-
-    /* --- Media Queries für Handys & Tablets --- */
-    @media (max-width: 920px) {
-      .main-nav {
-        top: 10px;
-        width: calc(100% - 20px);
-      }
-
-      .menu-links {
-        display: none;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-        padding-top: 118px;
-      }
-
-      .hero-image-card,
-      .hero-image-card img {
-        min-height: 470px;
-        height: 470px;
-      }
-
-      .sec-header,
-      .menu-layout,
-      .event-banner {
-        grid-template-columns: 1fr;
-      }
-
-      .sec-header {
-        align-items: start;
-      }
-
-      .grid-3,
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .masonry-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .gal-card.span-col {
-        grid-column: span 1;
-      }
-    }
-
-    @media (max-width: 620px) {
-      .btn-primary.nav-cta {
-        display: none; /* CTA im Header auf Handy ausblenden wg Platz */
-      }
-
-      .hero {
-        width: min(calc(100% - 22px), var(--max-w));
-        padding-bottom: 42px;
-      }
-
-      h1 {
-        font-size: clamp(3.25rem, 17vw, 5.2rem);
-      }
-
-      .hero-stats {
-        grid-template-columns: 1fr;
-      }
-
-      section {
-        width: min(calc(100% - 22px), var(--max-w));
-        padding: 52px 0;
-      }
-
-      .hero-image-card,
-      .hero-image-card img {
-        min-height: 420px;
-        height: 420px;
-        border-radius: 14px;
-      }
-
-      .floating-info {
-        left: 16px;
-        right: 16px;
-        bottom: 16px;
-        width: auto;
-      }
-
-      .menu-box,
-      .event-banner {
-        padding: 24px;
-        border-radius: 14px;
-      }
-
-      .menu-image-container,
-      .menu-image-container img {
-        min-height: 360px;
-      }
-
-      .masonry-grid {
-        grid-template-columns: 1fr;
-        grid-auto-rows: 250px;
-      }
-
-      .gal-card.span-row,
-      .gal-card.span-col {
-        grid-row: span 1;
-        grid-column: span 1;
-      }
-
-      footer {
-        flex-direction: column;
-        align-items: flex-start;
-        width: min(calc(100% - 22px), var(--max-w));
-        gap: 12px;
-      }
-      
-      .btn-nav {
-        width: 38px;
-        height: 38px;
-        font-size: 1.4rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herzblatt – Schank- und Speisewirtschaft in Köln-Ehrenfeld</title>
+    <meta name="description" content="Herzblatt in Köln-Ehrenfeld: Moderne Brauhausküche, saisonale Speisekarte, Nolte Cristall vom Fass, Biergarten im Innenhof und private Feiern.">
+
+    <!-- Google Fonts: Playfair Display für Überschriften, Inter für klare Lesbarkeit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. FARBPALETTE (RAL-VORGABE) & GRUNDVARIABLEN
+           ========================================================================== */
+        :root {
+            /* Exakte RAL-Farben aus dem Herzblatt-Farbkonzept */
+            --blau: #0B2545;           /* RAL 5003 Saphirblau */
+            --blau-hell: #143661;      /* Nuance für Hover & Karten */
+            --gold: #D4AA70;           /* RAL 1001 Goldbeige */
+            --gold-dunkel: #BD9156;    /* Hover-Ton für Buttons */
+            --creme-akzent: #E9D6BE;   /* RAL 1015 Hellelfenbein */
+            --creme-bg: #F5EFE6;       /* Heller Seitenhintergrund */
+            --weiss-warm: #FCF9F4;     /* Kartenhintergrund */
+            --anthrazit: #292725;      /* RAL 7021 Schwarzgrau (Fließtext) */
+            --text-gedaempft: #5C5854; /* Sekundärtext */
+            --linie: rgba(11, 37, 69, 0.12);
+
+            /* Typografie */
+            --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+            /* Abstände, Radien & Schatten */
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+            --schatten-weich: 0 10px 30px rgba(11, 37, 69, 0.08);
+            --schatten-stark: 0 18px 45px rgba(11, 37, 69, 0.16);
+            --uebergang: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* ==========================================================================
+           2. RESET & BASIS-STYLING
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--creme-bg);
+            color: var(--anthrazit);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color var(--uebergang), background-color var(--uebergang);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--blau);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .sektion {
+            padding: 88px 0;
+            position: relative;
+            scroll-margin-top: 78px;
+        }
+
+        #oeffnungszeiten {
+            scroll-margin-top: 96px;
+        }
+
+        .sektion-header {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 52px;
+        }
+
+        .sektion-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--gold-dunkel);
+            margin-bottom: 12px;
+        }
+
+        .sektion-eyebrow::before,
+        .sektion-eyebrow::after {
+            content: "";
+            width: 22px;
+            height: 1px;
+            background-color: var(--gold);
+        }
+
+        .sektion-titel {
+            font-size: clamp(2rem, 4vw, 2.85rem);
+            margin-bottom: 16px;
+        }
+
+        .sektion-untertitel {
+            font-size: 1.05rem;
+            color: var(--text-gedaempft);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: 999px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            transition: all var(--uebergang);
+            text-align: center;
+        }
+
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--blau);
+            border-color: var(--gold);
+        }
+
+        .btn-gold:hover {
+            background-color: var(--gold-dunkel);
+            border-color: var(--gold-dunkel);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 170, 112, 0.35);
+        }
+
+        .btn-outline-hell {
+            background-color: rgba(11, 37, 69, 0.25);
+            color: #FFFFFF;
+            border-color: rgba(233, 214, 190, 0.75);
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-outline-hell:hover {
+            background-color: var(--creme-akzent);
+            color: var(--blau);
+            border-color: var(--creme-akzent);
+            transform: translateY(-2px);
+        }
+
+        .btn-blau {
+            background-color: var(--blau);
+            color: var(--creme-bg);
+            border-color: var(--blau);
+        }
+
+        .btn-blau:hover {
+            background-color: var(--blau-hell);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(11, 37, 69, 0.25);
+        }
+
+        .btn-outline-dunkel {
+            background-color: transparent;
+            color: var(--blau);
+            border-color: var(--blau);
+        }
+
+        .btn-outline-dunkel:hover {
+            background-color: var(--blau);
+            color: var(--creme-bg);
+            transform: translateY(-2px);
+        }
+
+        /* Scroll-Reveal-Animation (dezent & weich) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
+        }
+
+        .reveal.sichtbar {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           3. STICKY NAVIGATION
+           ========================================================================== */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 900;
+            padding: 18px 0;
+            background-color: transparent;
+            transition: background-color 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .site-header.gescrollt {
+            background-color: rgba(11, 37, 69, 0.96);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+            box-shadow: 0 8px 28px rgba(11, 37, 69, 0.24);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: nowrap;
+        }
+
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #FFFFFF;
+            z-index: 950;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .brand-logo svg {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            transition: transform var(--uebergang);
+        }
+
+        .brand-logo:hover svg {
+            transform: scale(1.08) rotate(-4deg);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .brand-name {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .brand-sub {
+            font-size: 0.62rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--creme-akzent);
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 1.4rem;
+            list-style: none;
+        }
+
+        .nav-links li {
+            flex-shrink: 0;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 0.925rem;
+            font-weight: 400;
+            position: relative;
+            padding: 4px 0;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 1.5px;
+            background-color: var(--gold);
+            transition: width var(--uebergang);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.aktiv {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.aktiv::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            padding: 10px 20px;
+            font-size: 0.88rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .nav-mobile-cta {
+            display: none;
+        }
+
+        /* Mobiles Burger-Menü */
+        .burger-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 42px;
+            height: 42px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 950;
+            padding: 6px;
+        }
+
+        .burger-btn span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #FFFFFF;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .burger-btn.offen span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .burger-btn.offen span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-btn.offen span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* ==========================================================================
+           4. DYNAMISCHER HERO MIT SLIDESHOW & SVG-WELLE
+           ========================================================================== */
+        .hero {
+            position: relative;
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
+            background-color: var(--blau);
+            color: #FFFFFF;
+            overflow: hidden;
+            padding: 120px 0 130px;
+        }
+
+        .hero-slides {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: scale(1.04);
+            transition: opacity 1.1s ease, transform 6.5s ease;
+        }
+
+        .hero-slide.aktiv {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Dunkler Verlauf für perfekte Lesbarkeit der Typografie */
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background: linear-gradient(
+                105deg,
+                rgba(11, 37, 69, 0.86) 0%,
+                rgba(11, 37, 69, 0.62) 55%,
+                rgba(11, 37, 69, 0.45) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 680px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background-color: rgba(212, 170, 112, 0.18);
+            border: 1px solid rgba(212, 170, 112, 0.5);
+            color: var(--creme-akzent);
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            color: #FFFFFF;
+            font-size: clamp(2.6rem, 6vw, 4.4rem);
+            line-height: 1.12;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .hero-lead {
+            font-size: clamp(1.05rem, 2vw, 1.22rem);
+            color: rgba(245, 239, 230, 0.92);
+            margin-bottom: 34px;
+            max-width: 580px;
+            font-weight: 300;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        /* Hero Slideshow Steuerung (Pfeile + Dots + Bild-Hinweis) */
+        .hero-controls {
+            position: absolute;
+            bottom: 86px;
+            right: 5%;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hero-arrow {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(233, 214, 190, 0.45);
+            background-color: rgba(11, 37, 69, 0.45);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all var(--uebergang);
+        }
+
+        .hero-arrow:hover {
+            background-color: var(--gold);
+            border-color: var(--gold);
+            color: var(--blau);
+        }
+
+        .hero-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .hero-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.35s ease;
+        }
+
+        .hero-dot.aktiv {
+            width: 28px;
+            background-color: var(--gold);
+        }
+
+        /* Geschwungene SVG-Welle am unteren Rand des Hero */
+        .hero-welle {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            z-index: 3;
+            line-height: 0;
+            pointer-events: none;
+        }
+
+        .hero-welle svg {
+            width: 100%;
+            height: 68px;
+            display: block;
+        }
+
+        /* ==========================================================================
+           5. HIGHLIGHTS-LEISTE & ÜBER UNS
+           ========================================================================== */
+        .highlights-leiste {
+            margin-top: -10px;
+            padding-bottom: 40px;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .highlight-item {
+            text-align: center;
+            padding: 28px 22px;
+            background-color: var(--weiss-warm);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--linie);
+            box-shadow: var(--schatten-weich);
+            transition: transform var(--uebergang);
+        }
+
+        .highlight-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .highlight-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            background-color: rgba(212, 170, 112, 0.18);
+            color: var(--blau);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .highlight-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+
+        .highlight-item p {
+            font-size: 0.92rem;
+            color: var(--text-gedaempft);
+        }
+
+        /* Über uns Zweispaltig */
+        .ueber-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 56px;
+            align-items: center;
+        }
+
+        .ueber-text p {
+            margin-bottom: 18px;
+            font-size: 1.02rem;
+        }
+
+        .ueber-signatur {
+            margin-top: 24px;
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--blau);
+        }
+
+        .zitat-karte {
+            background-color: var(--blau);
+            color: var(--creme-bg);
+            padding: 44px 38px;
+            border-radius: var(--radius-lg);
+            position: relative;
+            box-shadow: var(--schatten-stark);
+        }
+
+        .zitat-karte::before {
+            content: "„";
+            position: absolute;
+            top: 16px;
+            left: 26px;
+            font-family: var(--font-serif);
+            font-size: 5rem;
+            line-height: 1;
+            color: rgba(212, 170, 112, 0.35);
+        }
+
+        .zitat-text {
+            font-family: var(--font-serif);
+            font-size: 1.45rem;
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .zitat-autor {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.92rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .zitat-autor::before {
+            content: "";
+            width: 28px;
+            height: 1.5px;
+            background-color: var(--gold);
+        }
+
+        .zitat-herz {
+            position: absolute;
+            bottom: 22px;
+            right: 26px;
+            opacity: 0.25;
+        }
+
+        /* ==========================================================================
+           6. INTERAKTIVE SPEISEKARTE (TABS + ERNÄHRUNGSFILTER)
+           ========================================================================== */
+        .speisekarte-sektion {
+            background-color: var(--weiss-warm);
+            border-top: 1px solid var(--linie);
+            border-bottom: 1px solid var(--linie);
+        }
+
+        /* Kategorie-Tabs */
+        .menu-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .menu-tab {
+            padding: 12px 24px;
+            border-radius: 999px;
+            border: 1.5px solid var(--linie);
+            background-color: var(--creme-bg);
+            color: var(--blau);
+            font-family: var(--font-sans);
+            font-size: 0.94rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--uebergang);
+        }
+
+        .menu-tab:hover {
+            border-color: var(--gold);
+        }
+
+        .menu-tab.aktiv {
+            background-color: var(--blau);
+            color: var(--creme-bg);
+            border-color: var(--blau);
+            box-shadow: 0 6px 18px rgba(11, 37, 69, 0.18);
+        }
+
+        /* Ernährungs-Filter */
+        .menu-filter-leiste {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 42px;
+        }
+
+        .filter-label {
+            font-size: 0.85rem;
+            color: var(--text-gedaempft);
+            margin-right: 6px;
+        }
+
+        .filter-btn {
+            padding: 7px 15px;
+            border-radius: 999px;
+            border: 1px solid rgba(11, 37, 69, 0.2);
+            background-color: transparent;
+            color: var(--anthrazit);
+            font-size: 0.84rem;
+            cursor: pointer;
+            transition: all var(--uebergang);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--gold-dunkel);
+            color: var(--blau);
+        }
+
+        .filter-btn.aktiv {
+            background-color: var(--gold);
+            border-color: var(--gold);
+            color: var(--blau);
+            font-weight: 600;
+        }
+
+        /* Gerichte-Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+            min-height: 200px;
+        }
+
+        .gericht-karte {
+            background-color: var(--creme-bg);
+            border: 1px solid var(--linie);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 16px;
+            transition: transform var(--uebergang), box-shadow var(--uebergang);
+            animation: karteEinblenden 0.35s ease;
+        }
+
+        .gericht-thumb {
+            width: 78px;
+            height: 78px;
+            flex-shrink: 0;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            border: 1px solid rgba(11, 37, 69, 0.14);
+            background-color: var(--creme-akzent);
+        }
+
+        .gericht-inhalt {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .gericht-karte:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--schatten-weich);
+        }
+
+        .gericht-karte.highlight-bier {
+            background-color: var(--blau);
+            color: var(--creme-bg);
+            border-color: var(--gold);
+        }
+
+        .gericht-karte.highlight-bier .gericht-thumb {
+            border-color: rgba(212, 170, 112, 0.6);
+        }
+
+        .gericht-karte.highlight-bier .gericht-name,
+        .gericht-karte.highlight-bier .gericht-preis {
+            color: var(--gold);
+        }
+
+        .gericht-karte.highlight-bier .gericht-desc {
+            color: rgba(245, 239, 230, 0.88);
+        }
+
+        @keyframes karteEinblenden {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gericht-kopf {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+
+        .gericht-name {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--blau);
+        }
+
+        .gericht-preis {
+            font-weight: 600;
+            font-size: 1.02rem;
+            color: var(--blau);
+            white-space: nowrap;
+        }
+
+        .gericht-desc {
+            font-size: 0.92rem;
+            color: var(--text-gedaempft);
+            margin-bottom: 14px;
+        }
+
+        .gericht-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .badge-v {
+            background-color: rgba(46, 125, 50, 0.12);
+            color: #246328;
+        }
+
+        .badge-vg {
+            background-color: rgba(27, 94, 32, 0.16);
+            color: #164d1a;
+        }
+
+        .badge-gf {
+            background-color: rgba(212, 170, 112, 0.28);
+            color: #7A5826;
+        }
+
+        .badge-tipp {
+            background-color: var(--gold);
+            color: var(--blau);
+        }
+
+        .menu-leer-hinweis {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--creme-bg);
+            border-radius: var(--radius-md);
+            color: var(--text-gedaempft);
+        }
+
+        .menu-fuss {
+            margin-top: 44px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 28px;
+            border-top: 1px solid var(--linie);
+        }
+
+        .menu-legende {
+            font-size: 0.85rem;
+            color: var(--text-gedaempft);
+        }
+
+        .pdf-hinweis {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            background-color: rgba(212, 170, 112, 0.2);
+            border-left: 3px solid var(--gold-dunkel);
+            color: var(--blau);
+            font-size: 0.9rem;
+        }
+
+        .pdf-hinweis.sichtbar {
+            display: block;
+        }
+
+        /* ==========================================================================
+           7. NOLTE BIER EDITORIAL (DUNKELBLAU #0B2545)
+           ========================================================================== */
+        .nolte-sektion {
+            background-color: var(--blau);
+            color: var(--creme-bg);
+            overflow: hidden;
+        }
+
+        .nolte-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 0.65fr;
+            gap: 44px;
+            align-items: center;
+        }
+
+        .nolte-sektion h2 {
+            color: #FFFFFF;
+            font-size: clamp(2rem, 3.8vw, 2.8rem);
+            margin-bottom: 10px;
+        }
+
+        .nolte-sub {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--gold);
+            margin-bottom: 24px;
+        }
+
+        .nolte-text p {
+            margin-bottom: 16px;
+            color: rgba(245, 239, 230, 0.9);
+            font-size: 1rem;
+        }
+
+        .nolte-prost {
+            margin-top: 24px;
+            display: inline-block;
+            padding-top: 14px;
+            border-top: 1px solid rgba(212, 170, 112, 0.4);
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            color: var(--gold);
+        }
+
+        .nolte-bild-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        .nolte-bild-rahmen {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1.5px solid rgba(212, 170, 112, 0.45);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+            height: 250px;
+        }
+
+        .nolte-bild-rahmen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .nolte-bild-rahmen:hover img {
+            transform: scale(1.04);
+        }
+
+        .nolte-stempel {
+            margin-top: 14px;
+            background-color: rgba(212, 170, 112, 0.14);
+            border: 1px solid rgba(212, 170, 112, 0.35);
+            color: var(--creme-bg);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+
+        .nolte-stempel strong {
+            display: block;
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            color: var(--gold);
+            margin-bottom: 2px;
+        }
+
+        .nolte-stempel span {
+            font-size: 0.82rem;
+            line-height: 1.35;
+            color: rgba(245, 239, 230, 0.85);
+            display: block;
+        }
+
+        /* ==========================================================================
+           8. INTERAKTIVE FOTOGALERIE-SLIDESHOW (MIT TOUCH / SWIPE)
+           ========================================================================== */
+        .galerie-wrapper {
+            position: relative;
+            max-width: 1020px;
+            margin: 0 auto;
+        }
+
+        .galerie-viewport {
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--schatten-stark);
+            background-color: var(--blau);
+            touch-action: pan-y;
+        }
+
+        .galerie-track {
+            display: flex;
+            transition: transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .galerie-slide {
+            min-width: 100%;
+            position: relative;
+            aspect-ratio: 16 / 9;
+        }
+
+        .galerie-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .galerie-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 48px 32px 26px;
+            background: linear-gradient(to top, rgba(11, 37, 69, 0.92), rgba(11, 37, 69, 0));
+            color: #FFFFFF;
+        }
+
+        .galerie-caption h3 {
+            color: var(--creme-akzent);
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        .galerie-caption p {
+            font-size: 0.94rem;
+            color: rgba(245, 239, 230, 0.9);
+        }
+
+        .galerie-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background-color: rgba(252, 249, 244, 0.92);
+            color: var(--blau);
+            box-shadow: var(--schatten-weich);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+            transition: all var(--uebergang);
+        }
+
+        .galerie-nav-btn:hover {
+            background-color: var(--gold);
+            transform: translateY(-50%) scale(1.06);
+        }
+
+        .galerie-prev { left: 16px; }
+        .galerie-next { right: 16px; }
+
+        .galerie-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .galerie-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 999px;
+            border: none;
+            background-color: rgba(11, 37, 69, 0.22);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .galerie-dot.aktiv {
+            width: 30px;
+            background-color: var(--blau);
+        }
+
+        /* ==========================================================================
+           9. PRIVATE FEIERN & ANFRAGEFORMULAR
+           ========================================================================== */
+        .feiern-sektion {
+            background-color: var(--weiss-warm);
+            border-top: 1px solid var(--linie);
+            border-bottom: 1px solid var(--linie);
+        }
+
+        .feiern-karten {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            margin-bottom: 52px;
+        }
+
+        .feier-karte {
+            background-color: var(--creme-bg);
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            border: 1px solid var(--linie);
+            box-shadow: var(--schatten-weich);
+        }
+
+        .feier-zahl {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 999px;
+            background-color: var(--blau);
+            color: var(--gold);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .feier-karte h3 {
+            font-size: 1.55rem;
+            margin-bottom: 12px;
+        }
+
+        .feier-karte p {
+            color: var(--text-gedaempft);
+            margin-bottom: 12px;
+        }
+
+        .feier-hinweis {
+            font-size: 0.86rem;
+            font-style: italic;
+            color: var(--blau);
+        }
+
+        /* Anfrageformular */
+        .formular-box {
+            max-width: 820px;
+            margin: 0 auto;
+            background-color: var(--creme-bg);
+            border: 1px solid var(--linie);
+            border-radius: var(--radius-lg);
+            padding: 42px 38px;
+            box-shadow: var(--schatten-weich);
+        }
+
+        .formular-box h3 {
+            font-size: 1.7rem;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .formular-box > p {
+            text-align: center;
+            color: var(--text-gedaempft);
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-gruppe {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-gruppe.voll {
+            grid-column: 1 / -1;
+        }
+
+        .form-gruppe label {
+            font-size: 0.86rem;
+            font-weight: 500;
+            color: var(--blau);
+        }
+
+        .form-gruppe input,
+        .form-gruppe select,
+        .form-gruppe textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid rgba(11, 37, 69, 0.18);
+            background-color: #FFFFFF;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--anthrazit);
+            transition: border-color var(--uebergang), box-shadow var(--uebergang);
+        }
+
+        .form-gruppe input:focus,
+        .form-gruppe select:focus,
+        .form-gruppe textarea:focus {
+            outline: none;
+            border-color: var(--gold-dunkel);
+            box-shadow: 0 0 0 3px rgba(212, 170, 112, 0.25);
+        }
+
+        .form-gruppe textarea {
+            min-height: 115px;
+            resize: vertical;
+        }
+
+        .form-fehler {
+            font-size: 0.8rem;
+            color: #B3261E;
+            display: none;
+        }
+
+        .form-gruppe.ungueltig input,
+        .form-gruppe.ungueltig select,
+        .form-gruppe.ungueltig textarea {
+            border-color: #B3261E;
+        }
+
+        .form-gruppe.ungueltig .form-fehler {
+            display: block;
+        }
+
+        .form-submit-wrap {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .form-erfolg {
+            display: none;
+            margin-top: 22px;
+            padding: 18px 22px;
+            border-radius: var(--radius-md);
+            background-color: rgba(46, 125, 50, 0.12);
+            border: 1px solid rgba(46, 125, 50, 0.35);
+            color: #1E5622;
+            text-align: center;
+        }
+
+        .form-erfolg.sichtbar {
+            display: block;
+        }
+
+        /* ==========================================================================
+           10. RESERVIERUNG, ÖFFNUNGSZEITEN & KONTAKT
+           ========================================================================== */
+        .kontakt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 26px;
+        }
+
+        .info-karte {
+            background-color: var(--weiss-warm);
+            border: 1px solid var(--linie);
+            border-radius: var(--radius-lg);
+            padding: 34px 28px;
+            box-shadow: var(--schatten-weich);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .info-karte h3 {
+            font-size: 1.45rem;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--linie);
+        }
+
+        /* Reservierungs-Widget-Platzhalter */
+        .widget-platzhalter {
+            margin: 16px 0 20px;
+            padding: 18px;
+            border-radius: var(--radius-md);
+            border: 1.5px dashed var(--gold-dunkel);
+            background-color: rgba(212, 170, 112, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--blau);
+        }
+
+        .zeiten-liste {
+            list-style: none;
+        }
+
+        .zeiten-liste li {
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--linie);
+        }
+
+        .zeiten-liste li:last-child {
+            border-bottom: none;
+        }
+
+        .zeiten-tag {
+            font-weight: 600;
+            color: var(--blau);
+            display: block;
+        }
+
+        .zeiten-uhr {
+            color: var(--anthrazit);
+            font-weight: 500;
+        }
+
+        .zeiten-notiz {
+            display: block;
+            font-size: 0.84rem;
+            color: var(--text-gedaempft);
+        }
+
+        .kontakt-zeile {
+            margin-bottom: 14px;
+            font-size: 0.96rem;
+        }
+
+        .kontakt-zeile strong {
+            display: block;
+            color: var(--blau);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .kontakt-zeile a:hover {
+            color: var(--gold-dunkel);
+            text-decoration: underline;
+        }
+
+        .barriere-hinweis {
+            margin-top: 16px;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            background-color: var(--creme-bg);
+            font-size: 0.83rem;
+            color: var(--text-gedaempft);
+        }
+
+        /* ==========================================================================
+           11. FOOTER & MODALS (IMPRESSUM & DATENSCHUTZ)
+           ========================================================================== */
+        .site-footer {
+            background-color: var(--blau);
+            color: rgba(245, 239, 230, 0.85);
+            padding: 56px 0 36px;
+        }
+
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid rgba(233, 214, 190, 0.16);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+        }
+
+        .footer-link-btn {
+            background: none;
+            border: none;
+            color: var(--creme-akzent);
+            font-family: var(--font-sans);
+            font-size: 0.92rem;
+            cursor: pointer;
+            padding: 4px 0;
+            transition: color var(--uebergang);
+        }
+
+        .footer-link-btn:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            padding-top: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 0.84rem;
+            color: rgba(233, 214, 190, 0.68);
+        }
+
+        /* Modal Overlay */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 1200;
+            background-color: rgba(11, 37, 69, 0.72);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-backdrop.offen {
+            display: flex;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-box {
+            background-color: var(--weiss-warm);
+            color: var(--anthrazit);
+            max-width: 680px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            position: relative;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--linie);
+            background-color: var(--creme-bg);
+            color: var(--blau);
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--uebergang);
+        }
+
+        .modal-close:hover {
+            background-color: var(--blau);
+            color: #FFFFFF;
+        }
+
+        .modal-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 18px;
+            padding-right: 36px;
+        }
+
+        .modal-box h4 {
+            font-size: 1.05rem;
+            margin-top: 18px;
+            margin-bottom: 6px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+        }
+
+        .modal-box p {
+            font-size: 0.94rem;
+            margin-bottom: 10px;
+        }
+
+        /* ==========================================================================
+           12. SCHWEBENDE SCHNELLKONTAKT-BUTTONS (WHATSAPP & TELEFON) UNTEN RECHTS
+           ========================================================================== */
+        .floating-kontakt {
+            position: fixed;
+            right: 22px;
+            bottom: 24px;
+            z-index: 950;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            /* Anfangs ausgeblendet, erscheint weich beim Scrollen */
+            opacity: 0;
+            transform: translateY(18px);
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .floating-kontakt.sichtbar {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .float-btn {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 22px rgba(11, 37, 69, 0.28);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 26px rgba(11, 37, 69, 0.36);
+        }
+
+        .float-btn-whatsapp {
+            background-color: #25D366;
+            color: #FFFFFF;
+        }
+
+        .float-btn-telefon {
+            background-color: var(--blau);
+            color: var(--gold);
+            border: 1.5px solid rgba(212, 170, 112, 0.55);
+        }
+
+        /* Dezenter Hover-Tooltip links neben dem Symbol */
+        .float-tooltip {
+            position: absolute;
+            right: 60px;
+            background-color: var(--anthrazit);
+            color: #FFFFFF;
+            font-size: 0.78rem;
+            font-weight: 500;
+            white-space: nowrap;
+            padding: 6px 12px;
+            border-radius: 6px;
+            opacity: 0;
+            transform: translateX(6px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .float-btn:hover .float-tooltip {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ==========================================================================
+           13. RESPONSIVE ANPASSUNGEN (TABLET & MOBIL)
+           ========================================================================== */
+        /* Kompaktere Abstände auf mittleren Desktops / schmaleren Fenstern */
+        @media (max-width: 1120px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.86rem;
+            }
+
+            .brand-sub {
+                display: none;
+            }
+
+            .nav-cta {
+                padding: 9px 16px;
+                font-size: 0.84rem;
+            }
+        }
+
+        /* Erst unterhalb von 820px sauber auf das mobile Burger-Menü umschalten */
+        @media (max-width: 820px) {
+            .burger-btn {
+                display: flex;
+            }
+
+            .nav-cta-desktop {
+                display: none;
+            }
+
+            .nav-mobile-cta {
+                display: block;
+                margin-top: 8px;
+            }
+
+            .main-nav {
+                flex: 0 0 auto;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: min(82vw, 320px);
+                height: 100vh;
+                background-color: var(--blau);
+                flex-direction: column;
+                justify-content: center;
+                gap: 24px;
+                padding: 40px 28px;
+                box-shadow: -12px 0 35px rgba(0, 0, 0, 0.35);
+                transition: right 0.35s ease;
+            }
+
+            .nav-links.offen {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.12rem;
+            }
+        }
+
+        @media (max-width: 980px) {
+            .ueber-grid,
+            .nolte-grid,
+            .kontakt-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+        }
+
+        @media (max-width: 860px) {
+            .highlights-grid,
+            .menu-grid,
+            .feiern-karten,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sektion {
+                padding: 64px 0;
+            }
+
+            .hero {
+                min-height: 86vh;
+                padding: 110px 0 120px;
+            }
+
+            .hero-controls {
+                bottom: 72px;
+                right: 24px;
+            }
+
+            .hero-welle svg {
+                height: 44px;
+            }
+
+            .zitat-karte,
+            .formular-box,
+            .feier-karte {
+                padding: 28px 22px;
+            }
+
+            .galerie-slide {
+                aspect-ratio: 4 / 3;
+            }
+
+            .galerie-nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .floating-kontakt {
+                right: 16px;
+                bottom: 18px;
+            }
+
+            .float-tooltip {
+                display: none; /* Auf Touch-Geräten nicht nötig */
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="page-wrapper">
-    
-    <!-- Top Navigation -->
-    <header class="main-nav">
-      <a class="brand-container" href="#top">
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASBhISExMQEhIVERgVEhcVGBoYFxcYFxcXGhgaFhYfHykgGSAlGxUYIjEhJSorLi4vGB81ODUvNygtLisBCgoKDg0OGhAQGi0mICUyLy0wLTctLS0tNS0uLSswNS01LTAtLS0tKy0yLS0vLS0vLS0tLS0tLS0tLS0tLS0tLf/AABEIAOEA4QMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABQYCAwQHAf/EAEgQAAICAQIDBAUHCQUGBwAAAAECAAMRBBIFITEGE0FRIjJhcYEHFCNCkaGxN1JicnWCg6KyFTM2krMWJFNjwdEXQ3OTtOHw/8QAGAEBAQEBAQAAAAAAAAAAAAAAAAECAwT/xAAnEQEBAAIBAwMEAgMAAAAAAAAAAQIRAxIhMSJRcUFhgbEToTJCkf/aAAwDAQACEQMRAD8A9giImGiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICQOs7V0LqzTSt2ruX1k067wn69mQi9PEzi1ltvEOIvp6navRVNs1NiHDXOOtNbeCj6zfD32TQ6KqnSrXUi11r0VRgf8A2fbN6mPlz6rl48IReNcQzk8MsC+zUUlv8uR+M7OHcfpt1XcsttF+M91euxyPEoea2D9UmS05OKcNq1Gl7uxcjOVI5MjDoyN1Vh4ESbl+i9OU8XbriRnA9VY1b1XHN1DbHbGBYCAa7APDcp5jwYMPCSczZpqXc2REQpERAREQEREBERAREQEREBERAREQEREBERASE7YcSejgjd1/f2utGn/9Sw4B+Ay3wk3K1xr6Ttpw+r6taXahh5kAIh+BYzWHljkt6eyY4LwxNNwuuiv1a1Az4serMfaTk/GdsRM27bk1NQiJo1+srp0jW2MFRRknr7AABzJJIAA5kkCDenA2F7WL/wA3Rtu/gWpt/wDkNJSxwq5YhR5k4H2ynmvWaztIG3PoUq031drXFb3ztfIK1t9ADgbiBjnz5S9XZPRbt1lXzh/z9QzXN/OSB8AJ0ykmt1yxyt3qOx+OaMNg6nTA+RtT/vOui5Hr3IyuvmpDD7RNK8M04XApoA8hWuPsxIzWdnaVDW6ZV02oUFlasbUcjnturGFdT0ORkZyCDzmfS1vKJ2Jo0OpFuhrtAwLK1cDyDKGH4zfMtkREBERAREQEREBERAREQEREBERAREQEreoXHyi0n87h1ij3rcpP3GWSVrtL9H2i4bqOi98+nf8Ajp6H8yD7ZvDyxyeN/eLLERMNkiuPaO6zuGq7pmpv7zZYSqP6DqMsASCpcMOR5rJWJZdJZuacPCdCaqGLsHtsc2XOBgM5AGFHgqqqqB5KM88zuiaNZrKqdOXtdK0HVnIUfaY807SN8he0GtLH5nSf94uXDEf+TUeTWt5cshR4tjwBmtuIanUjbpUNFR66i5cEj/k0H0m/WfaPY0kOE8Kr09JCbmZjutsc7rLG/OdvH3dB0AEuunyzvq7Tw7KqwtSqowqgKo8gBgD7JlETLZERAREQEREBERAREQEREBERAREhOK8dNPaHR6YIGGo7zc2cFdi5GBjnkyyW+Eyyk71NxESKjn4zWO0C6PD941BuBwNu0MVwTnOeR8Jr7UcMOp4FbUpxZgNUemLEIZDnw9IAfGQd/wCVir9mn/Uslq1usrp05stda0HVmOBz6D2knoOpm7OmzTnL1TKX4cvZ7ig1XBqrsYLLixfzbF5OpHhhgZIyg6jXanTcRt1FNXc6HUOpsfUIQK7W5Nd3KsHVG9HO7bz5nEsi8E71Q1+pv1AOCFRu5qx4YWogsP1maXLCTumGdvbXd2a7jGmpbFt1SMeilhuPuT1j8BOUccZ/7jTaq39Jl7hPttwx+Cmdug4Zp6FxTTVV57FCk+8gZPxnXM7jesqh+419g9O2nTKeopXvbPhbYAo/9szdpOBUJqBYVa20dLLmNjjz2luSe5QBJKeU8ZZtVqeK6rfYDoyiaQqxArZX9MqB4nYev5/um8Jcvs58mUw1229WiaNBebNBU56vWjH95Qf+sqfG+0Wr/tnUppu67rRUC3UBlybSRu7tT9X0AefmDMY423TeWcxm6ucTnfXVLpVsZ0RGUMGdgowRkcyfIyGt7Z6PvCtTWapx9XTVtb/MBt++SY2/RbnjPNWGfCcDPQDrK+NbxK4/R6erSp+fqW3vj2U1nAPvaZr2ZWwg6u67WHrtc7KQfZQmFP7+6Xp15qdVviJXQ8QquVjU4sVW2llyVJHUK3RseOM8+U6ZjWgVAqgKoGAAMAAeAHhMplufciIgIiICIiAiIgIiICUvtR/j/hX8b+mXSUvtT/j/AIV/F/ATpx+fxf05c3+P5n7XSIic3VQ+Na4U/KbW+1nY8P21ovrO7W2bVHgM+Z5AAk9JZuH8KbvxfqStuo6qB/d05+rSp8fAufSb2DCiD1IH/izT7OHHHs9O3/pmXKdc7qT4cePHdy37sXQMhBAIIwQRkEHqCPESATgV+mYnRWqtec/Nr9zVAn/hOPSq93pDn0lhic5bHW4yoMca1ScrdBqM+dD12qfdllb+Wam7VYbHzLinw05P3hsSwxLuezPTl9KgR2jsPqcP4i36yVp/VZPM9JrtR/sdxArQDXdqgHsLgMrMy+gteMseY55Hreye1jrPI+yqd7wfSUf8Xi7Wv7UorV2z7M7Z24rNXt7PPz43cm/ddtHo+L/Na6zboaAqKuUrstb0QB9ZlXwlD4Rw97eC8W1T6jUAr3obu2CLcyqzfSDHMZYeiMDDET2Enxnk/ZpS3ydWJ9bV8QSkfvmkN/Krxx5XV/By4SWT7VcuCdjdBXoqi2nrss7tNzWjvDnaM4DZA5+AAxLJWgVMKAoHQAYH2TKJwuVvl6ccZjO0IkR2k4z8109LbQ5t1VVOCcY3k5PwAMl/GNdtrLLdESJ7O8Z+dVXttCirVWUjnncEIw3xz0ktFmrqkss3CIiRSIiAiIgIiICInx2CpkkAeZ5D7YH2UrtT/j/hX8X8JN6ztZw+o4fVUZ8lbe3+VcmUrtF2jrt7Z8Pspr1Fvd7vR7tkazfy+jDAE4x15CduLG78e/6efmzx6fP1n7enxK8OL8Qb1OHFR53aitfuUMZ9LcXbovDave11h+4KJz6K69c9r/xG6j8rNX7OP9dsuU80v03ED8pNam+hb/mmQ61EoK8v6Pdlsk7s/W/7S3pw3iH1tev7umQfixnTkxnbv9HLiyvq7XynPCfFYEZBBHs5zzbimj1Wq7ZjQXastUlQuAatQtnqna1alQ/U9SfVMs3B+DaXhmmute4KLGDWM22usYzgJWoCjr0GSZm4STz3bx5blb27RZInnycT1Wl4pZrGrL6fW6uqqoWOyWKmGCkUlTgEZxkg8hkDMnO09Jv4rp6Ny9zXuv1isxVDUMKu8jrk7yFPonY2ekfx9ycu5fdZRPLPk01lKqLL7KaVpFlVRssVd9lzK9jAHGMIla/Eya7J201WazXKvcaJ3RNNWqkCwp6O9Kx9Z25KAMnnKp8nuo0NQ1B1Kd7a5FddXdG1yuGL7VwfjnHqzrjhrHKfDhnybywvy9hVw1WVIYEciDkH2g+M81+TenvNPok5FaDdqrPY7E00g+3C2t8BMvk64lqF0eoTT6W22g6hm05dwldYP1XY5PIbSQobmT5yT+SjThOFapSALV1jpbjzRVAA9gO775OnoxyizP8AkyxvyvE+4lN7Q623U9qquHVWNUnd97qnrOLNvgit1XOV/wA48Bg1rNKfKLpaqGuXTJbsy1tj1tcobfsLMQebIpx4++Yx4tz+3TLn1fH10lPlF4W2/R/7xqj3mtRMM4IQt0ZBtGCPDr1lpPZ4kY+ecR9/ern+iV/txr637Q8OoB3MmurazHRCSNqsegY8zt64GfKXHX66ujTGyw4AIAAGWZjyVUUc2YnkAOZlyt6cYmMx6sr8KF8m3Bi/Cbn+c6tM6lxitwoO0L6RypJY+J9gl10nCu7vDd/q7MeFlm5Ty8VwBK/8lIP+yQz17+zd78iWXScQS3VWImWWs7Xcepv8UB+sR445DIHXIE5Leqrw44zDF1xETk7kREBERAREQIfi3D9XdqgE1Xzejb6QrQG5jzz9I2Qo6YwMzlq7FaHcGtSzUuPraix7T9hO37pYomuu+IzcMbd1zaPQU0riqqqofoIq/gJVO1P5QOFfxfwl0lL7UflA4V/G/pmuPz+L+mOWSYz5n7XSIic3VTdR+Vmr9nH+uyXKU3UflZq/Zx/1LJcp05Pp8OXF/t8onjfZ3T6q1HfvEtr/ALu2pili+wMPDmftPnMdF2Z01epFrCy+1fVs1Dtay/qbjhfgBJiJnqutbb6Md70hO1fA21ekqCWCqyrUJcjMu5cpnkRkef3Tk13ZIXcMeu3U3b7XD6ixNqd5tGFTaQdtajooPtOScyzTVqqd+ldCSA6MuR1G4EZH2xM7OyZceN3VB7G6ux+PVrqSbF7hn4WxVEU1qzKWFagAOawCCeYXOOvOds7B8POoZwltbMW37LbF3BvWB9LofIYnFw/gerPFeHG2uutdDU9ZsVwRdlAibF9ZeQydw8TjMuc6Z599yuXFxyzWUaNFo66dKtVSqlajCqvQf/vPxkJb2fur4vbfpb1p7/Hfo9feKWHR0G5drcz5g5liicplY7XCVV27DaU2LZ3mqW/B7y5LSr2lvWLkefkuOWB0Akhd2W0L8Nroais1Vf3a8wVz1wwO7n48+fjJiJevL3SceHsg+IdltNZwhdOi/N1SwW1NUAGSxej+0+ees28O4Hs1Quuus1V6jCPYFArzyPd1qAqEjq3U+eOUl4jqutL0Y73pW07J7dRaK9VqatPbYbLKU2gbm9bbbjeinyUj3yf0umSrTLXWqoijCqowAPYJtiS5W+THCY+CIiRoiIgIiICIiAiIgJAcZ4LZb2o0OoUpso73vMk7vSUBdoxz5+6T8Sy2eEyxmU1SIiRVN1H5WKv2cf8AUtlr1ep2BeWS77V5gDOCeZPT1SPeRI2zgee1qa3fyXSmnZjqd5YNuz5MRjHlJPV0s1eAV/SDrvVhjoy5H4+E3lZdfDnhLOr5avnhLkLW7bQN/NQVJAbbzPNgCD5cxzn069NmfHve7xkZybBXnGemTn3TVRobK1wlgwQu7epYllVU3A7hjKqORzzHvzmeHr3ePRz3wt3befK0WY+7GZOzXqLOIqFu5Me6XccY9IYJ9DwPMEe8T7bxFFrDcypVmz0xtKqQc9CC3MHpg5nOeDr3OA7Bijq7Ek7u8GXO0nCkvhuXkR4zZrOFrZezZwGRldSAVYsUySPPCYPn8I7J6nXRbur3AEA+rnxHnjwB9s57eIKtG7DY32J4dahaT9vdHHvE26fTbfrM2MhMk8l8AeeGI6biM4xnJyTy28NLKV3jZusZRt9INaHBy27BA71+WB4c+XOdlu2y7iSLpBZhiMOcdCCiMzAg9D6BHvm6nUE3FGUo2MgEggjOCVIPgSM9Oo85za7hYsJIYoSjK3LIYtWyBiPMBvDqMA9Bjopobv8Ae7Kzbdq7V2qASCeRYkkkDx+qOXXLtonVtp/tH0WIRiBZ3YOV9bvBXgjOVyTkezn7J8HEfpguzDc9wZlGNpA5HPP1geX48pjdwwvcS7KRyHqYLKLEfbYc4YDZgchjJ6zY+hxcpTukCqV2mvI5sD6OGG3p98vZPUDiINwVUYnLZ5qDhLDWSAT6WCuTjoCPEgH5XxEFSdvoh9mQwJ9fZkr4DP3TGzhzFNu8bd7PgpkqWsZ81tkbW9PGTnoDgc85U6DFLoxQq+8eipVvTJPNtxz18hHY9TMa9SzgBiVtWv3liBkeYBLAn9BvKa6uJhkDBG2nZg5HWxQygj94DIz18smZUcPC3VMWJKKQ3IDexz6be30rDjp9IfZNWl4QqWIwILoFXdtHNRWEI9mcZB8D5gkF6T1MhxI7V+jbczOqjcvM1khsEnGcg4Hj7ADjcNWTaQtbMA21myo58s4BPPGefxAyQRNduhY6bYGQgtYWDpuU73LdMg5Unkc+fLpj7TpLEOEsGwkEh13NnluwwYdSCeYPNj4YAdj1M016ELg82sKYyM5BYHI/dMwbiK93YQCdjhOeBncwXIPlu3DP6DT5/Z4FQ2lQ4sZw20Hmxc8xnn63nzxNf9kIAoUsAAqsGJfcFdWGcnlzU/525R2X1N66xjqETZ6ys2QwIAUqD7/XH3zrmn5uPnKMMAKjrgD88oc+z1Pvm6ZqzZERCkREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQP/9k=" alt="Herzblatt Logo" class="logo-img" />
-        <span class="logo-separator">×</span>
-        <img src="https://www.noltebier.de/wp-content/uploads/2019/08/NOLTE-Logo_blue.png" alt="Nolte Bier Logo" class="logo-img logo-nolte" />
-      </a>
 
-      <nav class="menu-links">
-        <a href="#konzept">Konzept</a>
-        <a href="#speisekarte">Karte & Drinks</a>
-        <a href="#galerie">Galerie</a>
-        <a href="#feiern">Feiern</a>
-        <a href="#kontakt">Kontakt</a>
-      </nav>
+    <!-- ======================================================================
+         NAVIGATION (STICKY)
+         ====================================================================== -->
+    <header class="site-header" id="siteHeader">
+        <div class="container nav-inner">
+            <a href="#start" class="brand-logo" aria-label="Herzblatt Startseite">
+                <!-- Handgezeichnetes Herz-SVG als Markenlogo -->
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M24.2 39.5C21.8 36.2 10.5 27.6 8.8 18.8C7.6 12.6 12.2 8.2 17.6 9.1C21.1 9.7 23.4 12.6 24.4 15.2C26.2 11.4 30.1 8.4 34.4 9.5C39.2 10.7 41.2 16.1 38.6 21.8C35.8 27.9 28.4 34.8 23.4 40.2"
+                          stroke="#D4AA70" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="brand-text">
+                    <span class="brand-name">Herzblatt</span>
+                    <span class="brand-sub">Schank- &amp; Speisewirtschaft</span>
+                </span>
+            <nav class="main-nav" aria-label="Hauptnavigation">
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#ueber-uns">Über uns</a></li>
+                    <li><a href="#speisekarte">Speisekarte</a></li>
+                    <li><a href="#nolte-bier">Bier</a></li>
+                    <li><a href="#feiern">Feiern</a></li>
+                    <li><a href="#oeffnungszeiten">Öffnungszeiten</a></li>
+                    <li><a href="#kontakt">Kontakt</a></li>
+                    <li class="nav-mobile-cta"><a href="#kontakt" class="btn btn-gold nav-cta">Tisch reservieren</a></li>
+                </ul>
+            </nav>
 
-      <a class="btn-primary nav-cta" href="#kontakt">Reservieren</a>
+            <a href="#kontakt" class="btn btn-gold nav-cta nav-cta-desktop">Tisch reservieren</a>
+
+            <button class="burger-btn" id="burgerBtn" aria-label="Menü öffnen" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </header>
 
-    <main id="top">
-      
-      <!-- Hero-Section -->
-      <section class="hero">
-        <div>
-          <div class="hero-tagline">Bar · Drinks · Ehrenfeld</div>
-          <h1>Dein Herzblatt. Mitten im Veedel.</h1>
-          <p class="hero-copy">
-            Großartige Drinks, erfrischende Spritz-Variationen, ehrliche Küche mit vielen veganen Optionen und unser versteckter Hinterhof. Exklusiver Partner von Nolte Bier.
-          </p>
-
-          <div class="hero-buttons">
-            <a class="btn-primary" href="#speisekarte">Drinks & Karte ansehen</a>
-            <a class="btn-secondary" href="#galerie">Bildergalerie öffnen</a>
-          </div>
-
-          <div class="hero-stats">
-            <div class="stat-box">
-              <strong>Hinterhof</strong>
-              <span>die versteckte Oase</span>
-            </div>
-            <div class="stat-box">
-              <strong>Drinks</strong>
-              <span>Spritz & Highballs</span>
-            </div>
-            <div class="stat-box">
-              <strong>Vegan</strong>
-              <span>mehr als nur Beilagen</span>
-            </div>
-          </div>
-          
-          <div class="partner-badge">
-            <img src="https://www.noltebier.de/wp-content/uploads/2019/08/NOLTE-Logo_blue.png" alt="Nolte Bier Logo" />
-            <span>Stolzer Partner von Nolte Bier</span>
-          </div>
-        </div>
-
-        <div class="hero-visual">
-          <div class="hero-image-card">
-            <!-- TODO: Sobald die echten Fotos von der Bar fertig sind, hier austauschen -->
-            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=85" alt="Atmosphäre im Herzblatt" />
-            <div class="floating-info">
-              <b>Cheers!</b>
-              <p>Genieße tolle Drinks, kühles Nolte Bier und entspannte Abende im Hinterhof.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Konzept -->
-      <section id="konzept">
-        <div class="sec-header">
-          <div>
-            <div class="subline">Unser Konzept</div>
-            <h2>Gute Drinks, leckeres Essen, bester Vibe.</h2>
-          </div>
-          <p class="sec-text">
-            Egal ob auf einen schnellen Spritz an der Bar, ein ausgedehntes Dinner oder laue Sommerabende in unserem kleinen, versteckten Paradies mitten in Ehrenfeld.
-          </p>
-        </div>
-
-        <div class="grid-3">
-          <article class="feature-card">
-            <div class="card-icon">🍹</div>
-            <h3>Drinks & Spritz</h3>
-            <p>Kreative Spritz-Variationen, meisterhaft gemixte Drinks an der Bar und natürlich frisch gezapftes Nolte Bier.</p>
-          </article>
-
-          <article class="feature-card">
-            <div class="card-icon">🪴</div>
-            <h3>Süßer Hinterhof</h3>
-            <p>Unser verstecktes Highlight: Ein gemütlicher, grüner Hinterhof abseits vom Trubel der Venloer Straße für die perfekten Sommerabende.</p>
-          </article>
-
-          <article class="feature-card">
-            <div class="card-icon">🌱</div>
-            <h3>Food & Vegan</h3>
-            <p>Neben unseren Bar-Snacks bieten wir moderne, ehrliche Teller mit starkem Fokus auf vegane Vielfalt.</p>
-          </article>
-        </div>
-      </section>
-
-      <!-- Speisekarte -->
-      <section id="speisekarte">
-        <div class="menu-layout">
-          <div class="menu-image-container">
-            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=85" alt="Drinks und Food" />
-          </div>
-
-          <div class="menu-box">
-            <div class="subline">Karte</div>
-            <h2>Drinks, Snacks & mehr.</h2>
-            <p class="sec-text">
-              Eine kleine Vorschau auf das, was euch an der Bar und aus der Küche erwartet.
-            </p>
-
-            <div class="tab-nav">
-              <button class="tab-btn active" type="button" data-menu="drinks">Drinks & Spritz</button>
-              <button class="tab-btn" type="button" data-menu="nolte">Nolte Bier</button>
-              <button class="tab-btn" type="button" data-menu="food">Food</button>
+    <main>
+        <!-- ==================================================================
+             HERO-BEREICH MIT AUTOMATISCHER HINTERGRUND-SLIDESHOW
+             Hinweis: Die drei <img>-Quellen unten später einfach gegen eigene
+             Herzblatt-Fotos (z. B. bilder/biergarten.jpg) austauschen.
+             ================================================================== -->
+        <section class="hero" id="start" aria-label="Willkommen im Herzblatt">
+            <div class="hero-slides" id="heroSlides">
+                <!-- Slide 1: Biergarten unter Bäumen mit Lichterketten -->
+                <div class="hero-slide aktiv">
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=80"
+                         alt="Abendlicher Biergarten im begrünten Innenhof mit Lichterketten"
+                         onerror="this.src='https://placehold.co/1800x1000/0B2545/E9D6BE?text=Herzblatt+Biergarten'">
+                </div>
+                <!-- Slide 2: Gemütlicher Gastraum -->
+                <div class="hero-slide">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=80"
+                         alt="Gemütlicher Gastraum einer modernen Schankwirtschaft"
+                         onerror="this.src='https://placehold.co/1800x1000/0B2545/E9D6BE?text=Herzblatt+Gastraum'">
+                </div>
+                <!-- Slide 3: Moderne Brauhausküche & frisch gezapftes Bier -->
+                <div class="hero-slide">
+                    <img src="https://images.unsplash.com/photo-1532634922-8fe0b757fb13?auto=format&fit=crop&w=1800&q=80"
+                         alt="Frisch gezapftes Bier und moderne Brauhausküche"
+                         onerror="this.src='https://placehold.co/1800x1000/0B2545/E9D6BE?text=Herzblatt+Kueche+und+Bier'">
+                </div>
             </div>
 
-            <!-- Hier wird das Menü via JS gerendert -->
-            <div class="menu-items" id="menuContainer"></div>
-          </div>
-        </div>
-      </section>
+            <div class="hero-overlay"></div>
 
-      <!-- Galerie -->
-      <section id="galerie">
-        <div class="sec-header">
-          <div>
-            <div class="subline">Bildergalerie</div>
-            <h2>Einblicke ins Herzblatt.</h2>
-          </div>
-          <p class="sec-text">
-            Die Bar, unsere Teller und der versteckte Hinterhof in Aktion. Klick dich durch die einzelnen Kategorien.
-          </p>
-        </div>
+            <div class="container hero-content">
+                <div class="hero-badge">Köln-Ehrenfeld &middot; Simrockstraße 2</div>
+                <h1>Schön, dass du da bist!</h1>
+                <p class="hero-lead">
+                    Mitten im Herzen von Köln-Ehrenfeld erwartet dich deine gemütliche Schank- und Speisewirtschaft –
+                    mit moderner Brauhausküche, frisch gezapftem Nolte Cristall und einem grünen Innenhof zum Wohlfühlen.
+                </p>
+                <div class="hero-actions">
+                    <a href="#kontakt" class="btn btn-gold">Tisch reservieren</a>
+                    <a href="#speisekarte" class="btn btn-outline-hell">Speisekarte ansehen</a>
+                </div>
+            </div>
 
-        <div class="masonry-grid">
-          <button class="gal-card span-row" type="button" data-gallery="bar">
-            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=85" alt="Die Bar im Herzblatt" />
-            <span>Die Bar</span>
-          </button>
+            <!-- Slideshow-Steuerung -->
+            <div class="hero-controls" aria-label="Slideshow-Steuerung">
+                <button class="hero-arrow" id="heroPrev" aria-label="Vorheriges Bild">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div class="hero-dots" id="heroDots">
+                    <button class="hero-dot aktiv" data-slide="0" aria-label="Bild 1: Biergarten"></button>
+                    <button class="hero-dot" data-slide="1" aria-label="Bild 2: Gastraum"></button>
+                    <button class="hero-dot" data-slide="2" aria-label="Bild 3: Küche & Bier"></button>
+                </div>
+                <button class="hero-arrow" id="heroNext" aria-label="Nächstes Bild">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
 
-          <button class="gal-card" type="button" data-gallery="food">
-            <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=85" alt="Food & Snacks" />
-            <span>Food</span>
-          </button>
+            <!-- Geschwungene SVG-Welle am unteren Rand -->
+            <div class="hero-welle" aria-hidden="true">
+                <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,48 C360,92 1080,0 1440,48 L1440,80 L0,80 Z" fill="#F5EFE6"/>
+                </svg>
+            </div>
+        </section>
 
-          <button class="gal-card" type="button" data-gallery="drinks">
-            <img src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&w=900&q=85" alt="Frische Drinks" />
-            <span>Drinks</span>
-          </button>
+        <!-- ==================================================================
+             DREI KURZ-HIGHLIGHTS (VISUELLER EINSTIEG)
+             ================================================================== -->
+        <section class="highlights-leiste" aria-label="Auf einen Blick">
+            <div class="container">
+                <div class="highlights-grid reveal">
+                    <div class="highlight-item">
+                        <div class="highlight-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11h1a3 3 0 0 1 0 6h-1"/><path d="M9 12v6"/><path d="M13 12v6"/><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z"/><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8"/></svg>
+                        </div>
+                        <h3>Frisch gezapft</h3>
+                        <p>Nolte Cristall vom Fass, Kölsch, ausgewählte Weine und ehrliche Drinks.</p>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+                        </div>
+                        <h3>4x im Jahr neu</h3>
+                        <p>Moderne Brauhausküche mit saisonaler Karte – auch vegan, vegetarisch &amp; glutenfrei.</p>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-5-1.5-1-3-3-3-3s-1.5 2-3 3c-1.5 1-2 3-2 5a5 5 0 0 0 5 5Z"/><path d="M7 22h10"/></svg>
+                        </div>
+                        <h3>Grüner Innenhof</h3>
+                        <p>Großzügiger Biergarten unter Bäumen mit rund 90 Plätzen mitten in Ehrenfeld.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-          <button class="gal-card span-col" type="button" data-gallery="hinterhof">
-            <img src="https://images.unsplash.com/photo-1600891963935-9e3ecf46e8b3?auto=format&fit=crop&w=1000&q=85" alt="Versteckter Hinterhof" />
-            <span>Süßer Hinterhof</span>
-          </button>
+        <!-- ==================================================================
+             ÜBER UNS & PHILOSOPHIE
+             ================================================================== -->
+        <section class="sektion" id="ueber-uns">
+            <div class="container">
+                <div class="ueber-grid reveal">
+                    <div class="ueber-text">
+                        <span class="sektion-eyebrow">Über uns</span>
+                        <h2 class="sektion-titel">Ganz ohne Schnickschnack, dafür mit umso mehr Herz.</h2>
+                        <p>
+                            Mitten im Herzen von Köln-Ehrenfeld erwartet dich ein Ort zum Ankommen, Wohlfühlen und Zusammensein.
+                        </p>
+                        <p>
+                            Im Herzblatt trifft traditionelle Brauhauskultur auf frische Ideen. Unsere moderne, neu interpretierte
+                            Brauhausküche verbindet beliebte Klassiker mit kreativen, zeitgemäßen Gerichten. Viermal im Jahr
+                            wechselt unsere Speisekarte mit den Jahreszeiten – immer saisonal, abwechslungsreich und mit viel
+                            Liebe zum Detail.
+                        </p>
+                        <p>
+                            Dabei ist uns wichtig, dass jeder etwas Passendes findet. Deshalb bieten wir neben unseren klassischen
+                            Gerichten auch eine große Auswahl an veganen, vegetarischen und glutenfreien Speisen.
+                        </p>
+                        <p>
+                            Ob auf ein frisch gezapftes Bier, ein gutes Glas Wein, ein leckeres Essen oder einen langen Abend
+                            mit Freunden – bei uns stehen Gastfreundschaft, Genuss und Geselligkeit im Mittelpunkt. Komm vorbei,
+                            mach es dir gemütlich und fühl dich wie zu Hause.
+                        </p>
+                        <p class="ueber-signatur">Wir freuen uns auf dich! – Dein Herzblatt-Team</p>
+                    </div>
 
-          <button class="gal-card" type="button" data-gallery="events">
-            <img src="https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=900&q=85" alt="Private Feier in der Bar" />
-            <span>Feiern bei uns</span>
-          </button>
-        </div>
-      </section>
+                    <aside class="zitat-karte" aria-label="Gästezitat">
+                        <p class="zitat-text">
+                            Das Herzblatt in seiner ganzen unkomplizierten Gelassenheit ist einfach ein besonderer Ort.
+                        </p>
+                        <div class="zitat-autor">Sathjan Ramesh</div>
+                        <svg class="zitat-herz" width="52" height="52" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                            <path d="M24.2 39.5C21.8 36.2 10.5 27.6 8.8 18.8C7.6 12.6 12.2 8.2 17.6 9.1C21.1 9.7 23.4 12.6 24.4 15.2C26.2 11.4 30.1 8.4 34.4 9.5C39.2 10.7 41.2 16.1 38.6 21.8C35.8 27.9 28.4 34.8 23.4 40.2"
+                                  stroke="#D4AA70" stroke-width="2.2" stroke-linecap="round"/>
+                        </svg>
+                    </aside>
+                </div>
+            </div>
+        </section>
 
-      <!-- Events -->
-      <section id="feiern">
-        <div class="event-banner">
-          <div>
-            <div class="subline">Private Feiern</div>
-            <h2>Geburtstag oder Firmen-Event?</h2>
-            <p>
-              Miete Bereiche der Bar oder unseren kompletten Hinterhof für dein Event. Wir kümmern uns um die passenden Drinks, Nolte Bier vom Fass und das Catering.
-            </p>
-            <a class="btn-secondary" href="#kontakt">Event anfragen</a>
-          </div>
+        <!-- ==================================================================
+             INTERAKTIVE, INTEGRIERTE SPEISEKARTE
+             Hinweis: Die Gerichte & Preise stehen übersichtlich im JavaScript-
+             Block ganz unten (Array "speisekarteDaten") und lassen sich dort
+             saisonal schnell austauschen.
+             ================================================================== -->
+        <section class="sektion speisekarte-sektion" id="speisekarte">
+            <div class="container">
+                <div class="sektion-header reveal">
+                    <span class="sektion-eyebrow">Unsere Speisekarte</span>
+                    <h2 class="sektion-titel">Tradition trifft auf neue Ideen.</h2>
+                    <p class="sektion-untertitel">
+                        Vier Jahreszeiten. Vier Speisekarten. Immer wieder Neues. Neben Fleisch- und Fischgerichten findest du
+                        bei uns eine große Auswahl an vegetarischen, veganen und glutenfreien Speisen – unkompliziert, ehrlich und mit Herz.
+                    </p>
+                </div>
 
-          <ul class="event-features">
-            <li>Geburtstage im Hinterhof</li>
-            <li>Drink-Pauschalen & Buffet</li>
-            <li>Große vegane Auswahl für alle</li>
-            <li>Individuelle Spritz-Kreationen</li>
-          </ul>
-        </div>
-      </section>
+                <!-- Kategorie-Tabs -->
+                <div class="menu-tabs" role="tablist" aria-label="Speisekarten-Kategorien" id="menuTabs">
+                    <button class="menu-tab aktiv" role="tab" aria-selected="true" data-kategorie="vorspeisen">Vorspeisen &amp; Kleinigkeiten</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" data-kategorie="hauptgerichte">Hauptgerichte</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" data-kategorie="desserts">Desserts</button>
+                    <button class="menu-tab" role="tab" aria-selected="false" data-kategorie="getraenke">Getränke &amp; Bier</button>
+                </div>
 
-      <!-- Kontakt -->
-      <section id="kontakt">
-        <div class="sec-header">
-          <div>
-            <div class="subline">Kontakt</div>
-            <h2>Komm vorbei.</h2>
-          </div>
-        </div>
+                <!-- Ernährungs-Filter -->
+                <div class="menu-filter-leiste" aria-label="Nach Ernährung filtern" id="menuFilter">
+                    <span class="filter-label">Filter:</span>
+                    <button class="filter-btn aktiv" data-filter="alle">Alle</button>
+                    <button class="filter-btn" data-filter="V">Vegetarisch (V)</button>
+                    <button class="filter-btn" data-filter="VG">Vegan (VG)</button>
+                    <button class="filter-btn" data-filter="GF">Glutenfrei (GF)</button>
+                </div>
 
-        <div class="grid-3">
-          <div class="contact-card">
-            <b>Adresse</b>
-            <p>Herzblatt<br>Musterstraße 12<br>50823 Köln (Ehrenfeld)</p>
-          </div>
+                <!-- Hier rendert JavaScript die gefilterten Gerichte -->
+                <div class="menu-grid" id="menuGrid" aria-live="polite"></div>
 
-          <div class="contact-card">
-            <b>Reservierung</b>
-            <p><a href="tel:+492211234567">0221 / 123 45 67</a><br><a href="mailto:hallo@herzblatt-koeln.de">hallo@herzblatt-koeln.de</a></p>
-          </div>
+                <!-- Legende & PDF-Download-Platzhalter -->
+                <div class="menu-fuss">
+                    <p class="menu-legende">
+                        <strong>Kennzeichnung:</strong> V = Vegetarisch &middot; VG = Vegan &middot; GF = Glutenfrei.<br>
+                        <em>Hinweis: Beispiel-Auszug unserer saisonalen Karte. Änderungen je nach Jahreszeit vorbehalten.</em>
+                    </p>
+                    <div>
+                        <!-- PDF-Link hier später einfach durch href="downloads/speisekarte.pdf" ersetzen -->
+                        <button type="button" class="btn btn-outline-dunkel" id="pdfDownloadBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Komplette Karte als PDF
+                        </button>
+                    </div>
+                </div>
+                <div class="pdf-hinweis" id="pdfHinweis" role="status">
+                    Die aktuelle Saison-Speisekarte als PDF wird gerade frisch vorbereitet und in Kürze hier verlinkt. Vor Ort im Herzblatt liegt sie natürlich schon für euch bereit!
+                </div>
+            </div>
+        </section>
 
-          <div class="contact-card">
-            <b>Öffnungszeiten</b>
-            <p>Di–Do 17:00–00:00<br>Fr–Sa 17:00–02:00<br>So 15:00–22:00</p>
-          </div>
-        </div>
-      </section>
+        <!-- ==================================================================
+             NOLTE BIER EDITORIAL-SEKTION (DUNKELBLAU #0B2545)
+             ================================================================== -->
+        <section class="sektion nolte-sektion" id="nolte-bier">
+            <div class="container">
+                <div class="nolte-grid reveal">
+                    <div class="nolte-text">
+                        <span class="sektion-eyebrow">Vom Fass im Herzblatt</span>
+                        <h2>Nolte Bier – Eine neue Tradition aus Ehrenfeld</h2>
+                        <p class="nolte-sub">Köln kann mehr als Kölsch!</p>
+                        <p>
+                            Mit Nolte Cristall lebt ein fast vergessener Teil der Kölner Braugeschichte wieder auf.
+                            Hinter dem Bier steht Braumeister Paul Nolte, dessen Großvater Hermann Sester die
+                            traditionsreiche Sester-Brauerei in Köln-Ehrenfeld führte. Bereits in den 1920er-Jahren
+                            wurde dort Cristall gebraut – ein Bierstil, der später nahezu in Vergessenheit geriet.
+                        </p>
+                        <p>
+                            Paul Nolte hat das alte Familienrezept wiederentdeckt und gemeinsam mit der Doemens Akademie
+                            neu interpretiert. Das Ergebnis ist ein goldgelbes, untergäriges Bier, das die Süffigkeit
+                            eines Hellen mit der Frische und feinen Bitternote eines Pils verbindet. Schlank, spritzig
+                            und angenehm unkompliziert.
+                        </p>
+                        <p>
+                            Gebraut wird Nolte Cristall nach dem deutschen Reinheitsgebot in der Familienbrauerei
+                            Rittmayer in Oberfranken. Ein Bier mit Wurzeln in Ehrenfeld, echter Familiengeschichte
+                            und ganz eigenem Charakter. Und genau deshalb passt es so gut zu uns ins Herzblatt.
+                        </p>
+                        <div class="nolte-prost">Auf eine neue Tradition. Prost!</div>
+                    </div>
+
+                    <div class="nolte-bild-wrapper">
+                        <div class="nolte-bild-rahmen">
+                            <!-- Platzhalter-Foto: später gegen eigenes Nolte-Cristall-Foto ersetzen -->
+                            <img src="https://images.unsplash.com/photo-1575037614876-c38a4d44f5b8?auto=format&fit=crop&w=1000&q=80"
+                                 alt="Frisch gezapftes goldgelbes Bier im Glas"
+                                 onerror="this.src='https://placehold.co/800x1000/143661/D4AA70?text=Nolte+Cristall'">
+                        </div>
+                        <div class="nolte-stempel">
+                            <strong>Nolte Cristall</strong>
+                            <span>Untergärig, goldgelb &amp; mit Wurzeln in Ehrenfeld.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             INTERAKTIVE FOTOGALERIE-SLIDESHOW („EINBLICKE INS HERZBLATT“)
+             Hinweis: Alle 4 Bilder sind Platzhalter – Pfade einfach tauschen,
+             sobald die finalen Fotos vom Shooting da sind.
+             ================================================================== -->
+        <section class="sektion" id="galerie">
+            <div class="container">
+                <div class="sektion-header reveal">
+                    <span class="sektion-eyebrow">Atmosphäre</span>
+                    <h2 class="sektion-titel">Einblicke ins Herzblatt</h2>
+                    <p class="sektion-untertitel">
+                        Ob im gemütlichen Gastraum, an der Theke oder im begrünten Innenhof unter Bäumen –
+                        schau dich schon mal ein bisschen um.
+                    </p>
+                </div>
+
+                <div class="galerie-wrapper reveal">
+                    <div class="galerie-viewport" id="galerieViewport">
+                        <div class="galerie-track" id="galerieTrack">
+                            <figure class="galerie-slide">
+                                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80"
+                                     alt="Gemütlicher Gastraum im Herzblatt"
+                                     onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Unser+Gastraum'">
+                                <figcaption class="galerie-caption">
+                                    <h3>Unser Gastraum</h3>
+                                    <p>Rund 50 Sitzplätze, warmes Licht und echte Schankwirtschafts-Atmosphäre.</p>
+                                </figcaption>
+                            </figure>
+
+                            <figure class="galerie-slide">
+                                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80"
+                                     alt="Biergarten im begrünten Innenhof"
+                                     onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Biergarten+im+Innenhof'">
+                                <figcaption class="galerie-caption">
+                                    <h3>Biergarten im begrünten Innenhof</h3>
+                                    <p>Laue Sommerabende unter Bäumen – mitten in Ehrenfeld und doch ganz ruhig.</p>
+                                </figcaption>
+                            </figure>
+
+                            <figure class="galerie-slide">
+                                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1400&q=80"
+                                     alt="Saisonale Brauhausküche"
+                                     onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Moderne+Brauhauskueche'">
+                                <figcaption class="galerie-caption">
+                                    <h3>Moderne Brauhausküche</h3>
+                                    <p>Klassiker neu gedacht und viermal im Jahr frisch auf die Saison abgestimmt.</p>
+                                </figcaption>
+                            </figure>
+
+                            <figure class="galerie-slide">
+                                <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=80"
+                                     alt="Theke und Zapfhahn im Herzblatt"
+                                     onerror="this.src='https://placehold.co/1400x788/0B2545/E9D6BE?text=Theke+und+Zapfhahn'">
+                                <figcaption class="galerie-caption">
+                                    <h3>An der Theke</h3>
+                                    <p>Perfekt gezapftes Nolte Cristall, Kölsch und gute Gespräche bis spät in die Nacht.</p>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+
+                    <button class="galerie-nav-btn galerie-prev" id="galeriePrev" aria-label="Vorheriges Galeriebild">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="galerie-nav-btn galerie-next" id="galerieNext" aria-label="Nächstes Galeriebild">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+
+                    <div class="galerie-dots" id="galerieDots" aria-label="Galerie-Navigation"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             PRIVATE FEIERN & ANFRAGEFORMULAR
+             ================================================================== -->
+        <section class="sektion feiern-sektion" id="feiern">
+            <div class="container">
+                <div class="sektion-header reveal">
+                    <span class="sektion-eyebrow">Private Feiern &amp; Events</span>
+                    <h2 class="sektion-titel">Dein Anlass. Unser Herzblatt.</h2>
+                    <p class="sektion-untertitel">
+                        Ob Hochzeit, Geburtstag, Weihnachtsfeier, Firmenveranstaltung oder einfach ein besonderer Abend mit
+                        deinen Lieblingsmenschen – wir gestalten deine Feier persönlich, unkompliziert und mit Herz.
+                    </p>
+                </div>
+
+                <div class="feiern-karten reveal">
+                    <article class="feier-karte">
+                        <span class="feier-zahl">ca. 50 Sitzplätze &middot; Exklusiv mietbar</span>
+                        <h3>Das Herzblatt ganz für euch</h3>
+                        <p>
+                            Für deine Veranstaltung kannst du unseren gemütlichen Innenbereich exklusiv mieten.
+                            Er bietet den passenden Rahmen für gesellige Abende, festliche Empfänge und gemeinsame Feiern.
+                        </p>
+                        <p>
+                            Von der Getränkeauswahl über die Verpflegung bis zur musikalischen Gestaltung stimmen wir
+                            alles individuell mit dir ab – immer mit Rücksicht auf ein gutes Miteinander mit unserer Nachbarschaft.
+                        </p>
+                    </article>
+
+                    <article class="feier-karte">
+                        <span class="feier-zahl">ca. 90 Sitzplätze &middot; Exklusiv mietbar</span>
+                        <h3>Sommerfeste unter Bäumen</h3>
+                        <p>
+                            Ein besonderes Highlight ist unser großzügiger Biergarten im begrünten Innenhof.
+                            Im Sommer bietet er eine wunderschöne Kulisse für Geburtstage, Hochzeitsfeiern,
+                            Firmenfeste und andere besondere Anlässe.
+                        </p>
+                        <p class="feier-hinweis">
+                            Hinweis: Da sich die Veranstaltung unter freiem Himmel abspielt, ist die Nutzung des Biergartens wetterabhängig.
+                        </p>
+                    </article>
+                </div>
+
+                <!-- Interaktives Anfrageformular -->
+                <div class="formular-box reveal">
+                    <h3>Du hast einen Anlass? Schreib uns!</h3>
+                    <p>Nenn uns einfach deinen Wunschtermin, die ungefähre Gästezahl und deine Vorstellungen – wir melden uns zeitnah bei dir.</p>
+
+                    <!--
+                        Hinweis für den Live-Betrieb:
+                        Aktuell validiert das Formular im Browser und zeigt eine Bestätigung.
+                        Für den echten E-Mail-Versand später z. B. Formspree, Web3Forms oder
+                        ein eigenes kleines PHP-Skript als action="..." eintragen.
+                    -->
+                    <form id="feierFormular" novalidate>
+                        <div class="form-grid">
+                            <div class="form-gruppe">
+                                <label for="fName">Dein Name *</label>
+                                <input type="text" id="fName" name="name" placeholder="Max Mustermann" required>
+                                <span class="form-fehler">Bitte gib deinen Namen an.</span>
+                            </div>
+
+                            <div class="form-gruppe">
+                                <label for="fEmail">E-Mail-Adresse *</label>
+                                <input type="email" id="fEmail" name="email" placeholder="name@beispiel.de" required>
+                                <span class="form-fehler">Bitte gib eine gültige E-Mail-Adresse an.</span>
+                            </div>
+
+                            <div class="form-gruppe">
+                                <label for="fTelefon">Telefonnummer (optional)</label>
+                                <input type="tel" id="fTelefon" name="telefon" placeholder="z. B. 0170 1234567">
+                            </div>
+
+                            <div class="form-gruppe">
+                                <label for="fDatum">Wunschtermin *</label>
+                                <input type="date" id="fDatum" name="datum" required>
+                                <span class="form-fehler">Bitte wähle einen Wunschtermin aus.</span>
+                            </div>
+
+                            <div class="form-gruppe">
+                                <label for="fGaeste">Ungefähre Gästezahl *</label>
+                                <input type="number" id="fGaeste" name="gaeste" min="9" max="140" placeholder="z. B. 45" required>
+                                <span class="form-fehler">Bitte gib eine Gästezahl an (mind. 9 Personen).</span>
+                            </div>
+
+                            <div class="form-gruppe">
+                                <label for="fBereich">Gewünschter Bereich</label>
+                                <select id="fBereich" name="bereich">
+                                    <option value="innen">Innenbereich (ca. 50 Plätze)</option>
+                                    <option value="biergarten">Biergarten im Innenhof (ca. 90 Plätze)</option>
+                                    <option value="beides">Beides / noch unsicher</option>
+                                </select>
+                            </div>
+
+                            <div class="form-gruppe voll">
+                                <label for="fNachricht">Anlass &amp; Wünsche *</label>
+                                <textarea id="fNachricht" name="nachricht" placeholder="Erzähl uns kurz, was ihr feiert und was euch wichtig ist..." required></textarea>
+                                <span class="form-fehler">Bitte schreib uns ein paar Zeilen zu deinem Anlass.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-submit-wrap">
+                            <button type="submit" class="btn btn-blau">Unverbindliche Anfrage senden</button>
+                        </div>
+
+                        <div class="form-erfolg" id="formErfolg" role="status">
+                            <strong>Vielen Dank für deine Anfrage!</strong><br>
+                            Wir haben deine Angaben erhalten und melden uns so schnell wie möglich bei dir. Dein Herzblatt-Team.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             RESERVIERUNG, ÖFFNUNGSZEITEN & KONTAKT
+             ================================================================== -->
+        <section class="sektion" id="kontakt">
+            <div class="container">
+                <div class="sektion-header reveal">
+                    <span class="sektion-eyebrow">Besuch uns</span>
+                    <h2 class="sektion-titel">Reservierung, Zeiten &amp; Kontakt</h2>
+                    <p class="sektion-untertitel">
+                        Ob auf ein frisch gezapftes Bier, ein leckeres Abendessen oder einen gemütlichen Abend mit Freunden –
+                        im Herzblatt bist du immer herzlich willkommen.
+                    </p>
+                </div>
+
+                <div class="kontakt-grid reveal">
+                    <!-- Karte 1: Tischreservierung -->
+                    <div class="info-karte">
+                        <div>
+                            <h3>Tisch reservieren</h3>
+                            <p>
+                                <strong>Bis 8 Personen:</strong> Direkt online buchbar (sobald unser Reservierungssystem aktiv ist)
+                                oder einfach kurz telefonisch.
+                            </p>
+
+                            <!--
+                                PLATZHALTER FÜR RESERVIERUNGSSYSTEM:
+                                Hier später einfach das Embed-Skript von resmio, Dish, aleno oder OpenTable einfügen.
+                            -->
+                            <div class="widget-platzhalter" id="reservierungsWidget">
+                                <strong>Online-Tischbuchung (bis 8 Personen)</strong><br>
+                                Unser Buchungs-Widget wird in Kürze hier eingebunden. Bis dahin reservieren wir euch euren Tisch sehr gerne per Telefon oder E-Mail!
+                            </div>
+
+                            <p style="font-size: 0.92rem; color: var(--text-gedaempft);">
+                                <strong>Ab 9 Personen:</strong> Bitte nutzt unser <a href="#feiern" style="color: var(--blau); text-decoration: underline;">Anfrageformular</a> oder ruft uns direkt an.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 22px;">
+                            <a href="tel:+4922180132835" class="btn btn-gold" style="width: 100%;">Jetzt anrufen: 0221 80132835</a>
+                        </div>
+                    </div>
+
+                    <!-- Karte 2: Öffnungszeiten -->
+                    <div class="info-karte" id="oeffnungszeiten">
+                        <div>
+                            <h3>Öffnungszeiten</h3>
+                            <ul class="zeiten-liste">
+                                <li>
+                                    <span class="zeiten-tag">Montag &amp; Dienstag</span>
+                                    <span class="zeiten-uhr">16:00 – 23:00 Uhr</span>
+                                    <span class="zeiten-notiz">Barbetrieb ohne warme Küche</span>
+                                </li>
+                                <li>
+                                    <span class="zeiten-tag">Mittwoch bis Samstag</span>
+                                    <span class="zeiten-uhr">16:00 – 00:00 Uhr</span>
+                                    <span class="zeiten-notiz">Schank- und Speisewirtschaft</span>
+                                </li>
+                                <li>
+                                    <span class="zeiten-tag">Sonntag</span>
+                                    <span class="zeiten-uhr">Ruhetag</span>
+                                    <span class="zeiten-notiz">Wir tanken Kraft für die neue Woche</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p style="font-size: 0.86rem; color: var(--text-gedaempft); margin-top: 16px;">
+                            Schau einfach vorbei – an der Theke findet sich fast immer noch ein Plätzchen.
+                        </p>
+                    </div>
+
+                    <!-- Karte 3: Kontakt & Anfahrt -->
+                    <div class="info-karte">
+                        <div>
+                            <h3>Kontakt &amp; Anfahrt</h3>
+                            <div class="kontakt-zeile">
+                                <strong>Adresse</strong>
+                                Herzblatt – Schank- und Speisewirtschaft<br>
+                                Simrockstraße 2<br>
+                                50823 Köln-Ehrenfeld
+                            </div>
+                            <div class="kontakt-zeile">
+                                <strong>Telefon</strong>
+                                <a href="tel:+4922180132835">+49 221 80132835</a>
+                            </div>
+                            <div class="kontakt-zeile">
+                                <strong>E-Mail</strong>
+                                <a href="mailto:xyzgastro@gmail.com">xyzgastro@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <a href="https://maps.google.com/?q=Simrockstra%C3%9Fe+2,+50823+K%C3%B6ln"
+                               target="_blank" rel="noopener noreferrer"
+                               class="btn btn-outline-dunkel" style="width: 100%; margin-top: 8px;">
+                                Route in Google Maps öffnen
+                            </a>
+                            <div class="barriere-hinweis">
+                                <strong>Hinweis zur Barrierefreiheit:</strong> Unser Ladenlokal ist baulich und historisch bedingt leider nicht barrierefrei zugänglich.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer>
-      <p>© 2026 Herzblatt Köln</p>
-      <div class="footer-nav">
-        <a href="https://www.instagram.com/herzblatt_koeln" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="#">Impressum</a>
-        <a href="#">Datenschutz</a>
-      </div>
+    <!-- ======================================================================
+         FOOTER
+         ====================================================================== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="brand-logo">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M24.2 39.5C21.8 36.2 10.5 27.6 8.8 18.8C7.6 12.6 12.2 8.2 17.6 9.1C21.1 9.7 23.4 12.6 24.4 15.2C26.2 11.4 30.1 8.4 34.4 9.5C39.2 10.7 41.2 16.1 38.6 21.8C35.8 27.9 28.4 34.8 23.4 40.2"
+                              stroke="#D4AA70" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="brand-text">
+                        <span class="brand-name">Herzblatt</span>
+                        <span class="brand-sub">Köln-Ehrenfeld</span>
+                    </span>
+                </div>
+
+                <div class="footer-links">
+                    <button type="button" class="footer-link-btn" data-modal="impressumModal">Impressum</button>
+                    <button type="button" class="footer-link-btn" data-modal="datenschutzModal">Datenschutz</button>
+                    <a href="#start" class="footer-link-btn">Nach oben &uarr;</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; <span id="aktuellesJahr">2026</span> Herzblatt – Schank- und Speisewirtschaft (XYZ-Gastro GmbH)</span>
+                <span>Simrockstraße 2 &middot; 50823 Köln</span>
+            </div>
+        </div>
     </footer>
-  </div>
 
-  <!-- Lightbox Modal Container -->
-  <div class="lb-overlay" id="galleryOverlay">
-    <div class="lb-inner">
-      <button class="lb-btn btn-close" id="closeGalleryBtn">×</button>
-      <button class="lb-btn btn-nav nav-prev" id="prevGalleryBtn">‹</button>
-      <img id="galleryImgDisplay" src="" alt="Großansicht" />
-      <button class="lb-btn btn-nav nav-next" id="nextGalleryBtn">›</button>
-      <div class="lb-counter" id="galleryCounterDisplay"></div>
+    <!-- ======================================================================
+         SCHWEBENDE SCHNELLKONTAKT-BUTTONS (UNTEN RECHTS BEIM SCROLLEN)
+         Hinweis: WhatsApp-Nummer im href ("4922180132835") bei Bedarf einfach
+         gegen eure Mobilnummer (ohne führende 0, mit 49) austauschen.
+         ====================================================================== -->
+    <div class="floating-kontakt" id="floatingKontakt" aria-label="Schnellkontakt">
+        <!-- <a href="https://wa.me/4922180132835?text=Hallo%20Herzblatt-Team%2C%20ich%20habe%20eine%20Frage%20zu%20einer%20Reservierung." -->
+           <!-- target="_blank" rel="noopener noreferrer" -->
+           <!-- class="float-btn float-btn-whatsapp" -->
+           <!-- aria-label="WhatsApp schreiben"> -->
+            <!-- <span class="float-tooltip">WhatsApp schreiben</span> -->
+            <!-- Sauberes WhatsApp SVG-Icon -->
+            <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"> -->
+                <!-- <path d="M12.03 2C6.51 2 2.02 6.48 2.02 12c0 1.97.57 3.81 1.56 5.36L2 22l4.77-1.53A9.94 9.94 0 0 0 12.03 22c5.52 0 10-4.48 10-10S17.55 2 12.03 2zm5.82 14.12c-.25.7-1.45 1.34-2 1.42-.52.08-1.18.11-1.91-.12-.44-.14-1.01-.33-1.74-.65-3.06-1.32-5.06-4.41-5.21-4.61-.15-.2-1.24-1.65-1.24-3.15 0-1.5.78-2.24 1.06-2.55.28-.3.61-.38.81-.38.2 0 .41.01.58.01.19.01.44-.07.69.53.25.61.86 2.1.94 2.25.08.15.13.33.02.53-.1.2-.15.33-.3.51-.15.18-.32.4-.46.53-.15.15-.31.32-.13.62.18.3.79 1.3 1.7 2.11 1.17 1.04 2.15 1.37 2.46 1.52.3.15.48.13.66-.08.18-.2.76-.89.96-1.19.2-.3.41-.25.69-.15.28.1 1.77.84 2.08.99.3.15.51.23.58.36.08.13.08.76-.17 1.46z"/> -->
+            <!-- </svg> -->
+        <!-- </a> -->
+
+        <a href="tel:+4922180132835"
+           class="float-btn float-btn-telefon"
+           aria-label="Anrufen">
+            <span class="float-tooltip">Anrufen</span>
+            <!-- Sauberes Telefon SVG-Icon -->
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+        </a>
     </div>
-  </div>
 
-  <script>
-    // --- Speisekarten Logik ---
-    // TODO: Später in eine eigene JSON auslagern oder mit React neu bauen, wenn die Karte wächst
-    const menuData = {
-      drinks: [
-        { name: "Herzblatt Spritz", desc: "Aperitif, Prosecco, Soda, frische Orange", price: "7,50 €" },
-        // Wichtig für die Jungs hinter der Bar: Melon Sour ist hier die klassische Version ohne Eiweiß!
-        { name: "Melon Sour", desc: "Melonenlikör, frischer Zitronensaft, Sirup (klassisch ohne Eiweiß)", price: "9,50 €" },
-        { name: "Matcha Highball", desc: "Gin, Matcha, Yuzu, Tonic Water", price: "10,50 €" }
-      ],
-      nolte: [
-        { name: "Nolte Helles vom Fass 0,3 l", desc: "Süffig, kalt, perfekt für den Hinterhof", price: "3,50 €" },
-        { name: "Nolte Pils 0,33 l", desc: "Aus der Flasche, schön herb", price: "3,60 €" },
-        { name: "Nolte Radler 0,33 l", desc: "Erfrischender Mix", price: "3,60 €" }
-      ],
-      food: [
-        { name: "Vegane Mezze-Platte", desc: "Hummus, Auberginencreme, Oliven, warmes Fladenbrot", price: "14,90 €", vegan: true },
-        { name: "Knusper-Kartoffeln", desc: "Rosmarin, Meersalz, vegane Kräutercreme", price: "8,90 €", vegan: true },
-        { name: "Herzblatt Smashburger", desc: "Rindfleisch, Cheddar, Brioche, Spezialsoße", price: "13,50 €" }
-      ]
-    };
+    <!-- ======================================================================
+         MODAL: IMPRESSUM (§ 5 DDG)
+         ====================================================================== -->
+    <div class="modal-backdrop" id="impressumModal" role="dialog" aria-modal="true" aria-labelledby="impressumTitel">
+        <div class="modal-box">
+            <button type="button" class="modal-close" aria-label="Schließen">&times;</button>
+            <h3 id="impressumTitel">Impressum</h3>
+            <p><strong>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</strong></p>
 
-    const menuContainer = document.getElementById("menuContainer");
-    const menuTabs = document.querySelectorAll(".tab-btn");
+            <h4>Betreiber</h4>
+            <p>
+                Herzblatt – Schank- und Speisewirtschaft<br>
+                XYZ-Gastro GmbH<br>
+                Sömmeringstraße 9<br>
+                50823 Köln, Deutschland
+            </p>
 
-    function renderMenu(category) {
-      menuContainer.innerHTML = menuData[category].map(item => `
-        <article class="dish-row">
-          <div>
-            <h3>${item.name}${item.vegan ? '<span class="tag-vegan">vegan</span>' : ''}</h3>
-            <p>${item.desc}</p>
-          </div>
-          <div class="dish-price">${item.price}</div>
-        </article>
-      `).join("");
-    }
+            <h4>Betriebsstätte</h4>
+            <p>
+                Herzblatt<br>
+                Simrockstraße 2<br>
+                50823 Köln, Deutschland
+            </p>
 
-    menuTabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        // Active-Class tauschen
-        menuTabs.forEach(t => t.classList.remove("active"));
-        tab.classList.add("active");
-        renderMenu(tab.dataset.menu);
-      });
-    });
+            <h4>Vertreten durch die Geschäftsführung</h4>
+            <p>
+                Charly Alexander Mix<br>
+                Nils Lenzen<br>
+                Georg Schmitz-Behrenz
+            </p>
 
-    // Start-Kategorie laden
-    renderMenu("drinks");
+            <h4>Kontakt</h4>
+            <p>
+                Telefon: +49 221 80132835<br>
+                E-Mail: xyzgastro@gmail.com
+            </p>
 
-    // --- Galerie & Slideshow Steuerung ---
-    // Array für die Slideshow (Bilder müssen noch auf den eigenen Server umgezogen werden)
-    const galleryData = {
-      bar: [
-        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1574096079513-d8259312b785?auto=format&fit=crop&w=1500&q=85"
-      ],
-      food: [
-        "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1500&q=85"
-      ],
-      drinks: [
-        "https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=1500&q=85"
-      ],
-      hinterhof: [
-        "https://images.unsplash.com/photo-1600891963935-9e3ecf46e8b3?auto=format&fit=crop&w=1500&q=85",
-        "https://images.unsplash.com/photo-1533481405265-e9ce0c044abb?auto=format&fit=crop&w=1500&q=85"
-      ],
-      events: [
-        "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1500&q=85"
-      ]
-    };
+            <h4>Handelsregister</h4>
+            <p>
+                Registergericht: Amtsgericht Köln<br>
+                Registernummer: HRB 119932
+            </p>
 
-    // DOM Elemente referenzieren
-    const overlay = document.getElementById("galleryOverlay");
-    const imgDisplay = document.getElementById("galleryImgDisplay");
-    const closeBtn = document.getElementById("closeGalleryBtn");
-    const prevBtn = document.getElementById("prevGalleryBtn");
-    const nextBtn = document.getElementById("nextGalleryBtn");
-    const counterDisplay = document.getElementById("galleryCounterDisplay");
-    const galCards = document.querySelectorAll(".gal-card");
+            <h4>Umsatzsteuer-Identifikationsnummer</h4>
+            <p>
+                Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br>
+                DE369308521
+            </p>
 
-    let activeCategory = "";
-    let activeIndex = 0;
+            <h4>Verbraucherstreitbeilegung</h4>
+            <p>
+                Die XYZ-Gastro GmbH ist weder bereit noch verpflichtet, an Streitbeilegungsverfahren
+                vor einer Verbraucherschlichtungsstelle teilzunehmen.
+            </p>
+        </div>
+    </div>
 
-    // View in der Lightbox updaten
-    function updateOverlayView() {
-      const images = galleryData[activeCategory];
-      if (!images) return;
+    <!-- ======================================================================
+         MODAL: DATENSCHUTZ (PLATZHALTER)
+         ====================================================================== -->
+    <div class="modal-backdrop" id="datenschutzModal" role="dialog" aria-modal="true" aria-labelledby="datenschutzTitel">
+        <div class="modal-box">
+            <button type="button" class="modal-close" aria-label="Schließen">&times;</button>
+            <h3 id="datenschutzTitel">Datenschutzerklärung</h3>
+            <p>
+                <em>Platzhalter-Hinweis:</em> Bitte bindet vor dem endgültigen Live-Gang hier eure vollständige
+                Datenschutzerklärung nach DSGVO ein (z. B. über einen Generator von eRecht24 oder den Rechtsbeistand),
+                insbesondere für das Kontakt-/Anfrageformular, Google Fonts (oder lokale Einbindung der Schriften),
+                externe Links (Google Maps, WhatsApp) sowie das geplante Tischreservierungs-Widget.
+            </p>
+            <h4>Verantwortliche Stelle</h4>
+            <p>
+                XYZ-Gastro GmbH<br>
+                Sömmeringstraße 9, 50823 Köln<br>
+                E-Mail: xyzgastro@gmail.com &middot; Telefon: +49 221 80132835
+            </p>
+        </div>
+    </div>
 
-      imgDisplay.src = images[activeIndex];
-      counterDisplay.textContent = `${activeIndex + 1} / ${images.length}`;
-      
-      // Controls ausblenden, wenn nur ein Bild hinterlegt ist
-      if (images.length <= 1) {
-        prevBtn.style.display = "none";
-        nextBtn.style.display = "none";
-        counterDisplay.style.display = "none";
-      } else {
-        prevBtn.style.display = "flex";
-        nextBtn.style.display = "flex";
-        counterDisplay.style.display = "block";
-      }
-    }
+    <!-- ======================================================================
+         VANILLA JAVASCRIPT – SAUBER STRUKTURIERT & VERSTÄNDLICH
+         ====================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Aktuelles Jahr im Footer setzen
+            const jahrEl = document.getElementById('aktuellesJahr');
+            if (jahrEl) jahrEl.textContent = new Date().getFullYear();
 
-    // Klick Event an jede Karte hängen
-    galCards.forEach(card => {
-      card.addEventListener("click", () => {
-        activeCategory = card.getAttribute("data-gallery");
-        activeIndex = 0;
-        updateOverlayView();
-        overlay.classList.add("is-active");
-      });
-    });
+            /* ----------------------------------------------------------------
+               1. STICKY HEADER & SCHWEBENDE KONTAKT-BUTTONS BEIM SCROLLEN
+               ---------------------------------------------------------------- */
+            const header = document.getElementById('siteHeader');
+            const floatingKontakt = document.getElementById('floatingKontakt');
 
-    // Slideshow Navigation
-    function showNext(e) {
-      if (e) e.stopPropagation();
-      const images = galleryData[activeCategory];
-      activeIndex = (activeIndex + 1) % images.length;
-      updateOverlayView();
-    }
+            function aktualisiereScrollZustand() {
+                const y = window.scrollY;
+                header.classList.toggle('gescrollt', y > 50);
+                // WhatsApp- und Telefonsymbol ab 320px Scrolltiefe weich einblenden
+                floatingKontakt.classList.toggle('sichtbar', y > 320);
+            }
 
-    function showPrev(e) {
-      if (e) e.stopPropagation();
-      const images = galleryData[activeCategory];
-      activeIndex = (activeIndex - 1 + images.length) % images.length;
-      updateOverlayView();
-    }
+            window.addEventListener('scroll', aktualisiereScrollZustand, { passive: true });
+            aktualisiereScrollZustand();
 
-    nextBtn.addEventListener("click", showNext);
-    prevBtn.addEventListener("click", showPrev);
+            /* ----------------------------------------------------------------
+               2. MOBILES BURGER-MENÜ
+               ---------------------------------------------------------------- */
+            const burgerBtn = document.getElementById('burgerBtn');
+            const navLinks = document.getElementById('navLinks');
 
-    // Modal schließen
-    function closeOverlay() {
-      overlay.classList.remove("is-active");
-      // src leeren, damit das alte Bild beim nächsten Öffnen nicht flackert
-      setTimeout(() => { imgDisplay.src = ""; }, 200);
-    }
+            function schliesseMenue() {
+                burgerBtn.classList.remove('offen');
+                navLinks.classList.remove('offen');
+                burgerBtn.setAttribute('aria-expanded', 'false');
+            }
 
-    closeBtn.addEventListener("click", closeOverlay);
-    
-    // Klick ins "Schwarze" schließt auch
-    overlay.addEventListener("click", event => {
-      if (event.target === overlay || event.target.classList.contains("lb-inner")) {
-        closeOverlay();
-      }
-    });
+            burgerBtn.addEventListener('click', () => {
+                const istOffen = navLinks.classList.toggle('offen');
+                burgerBtn.classList.toggle('offen', istOffen);
+                burgerBtn.setAttribute('aria-expanded', String(istOffen));
+            });
 
-    // Keyboard controls für Desktop User
-    document.addEventListener("keydown", event => {
-      if (!overlay.classList.contains("is-active")) return;
-      
-      if (event.key === "Escape") closeOverlay();
-      if (event.key === "ArrowRight") showNext();
-      if (event.key === "ArrowLeft") showPrev();
-    });
-  </script>
+            // Menü schließen, sobald ein Link angetippt wird
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', schliesseMenue);
+            });
+
+            /* ----------------------------------------------------------------
+               3. HERO HINTERGRUND-SLIDESHOW (AUTOPLAY + PFEILE + DOTS)
+               ---------------------------------------------------------------- */
+            const heroSlides = document.querySelectorAll('.hero-slide');
+            const heroDots = document.querySelectorAll('.hero-dot');
+            const heroPrev = document.getElementById('heroPrev');
+            const heroNext = document.getElementById('heroNext');
+            let heroIndex = 0;
+            let heroTimer = null;
+
+            function zeigeHeroSlide(neuerIndex) {
+                heroIndex = (neuerIndex + heroSlides.length) % heroSlides.length;
+                heroSlides.forEach((slide, i) => slide.classList.toggle('aktiv', i === heroIndex));
+                heroDots.forEach((dot, i) => dot.classList.toggle('aktiv', i === heroIndex));
+            }
+
+            function starteHeroAutoplay() {
+                stoppeHeroAutoplay();
+                heroTimer = setInterval(() => zeigeHeroSlide(heroIndex + 1), 5800);
+            }
+
+            function stoppeHeroAutoplay() {
+                if (heroTimer) clearInterval(heroTimer);
+            }
+
+            heroPrev.addEventListener('click', () => {
+                zeigeHeroSlide(heroIndex - 1);
+                starteHeroAutoplay();
+            });
+
+            heroNext.addEventListener('click', () => {
+                zeigeHeroSlide(heroIndex + 1);
+                starteHeroAutoplay();
+            });
+
+            heroDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    zeigeHeroSlide(Number(dot.dataset.slide));
+                    starteHeroAutoplay();
+                });
+            });
+
+            starteHeroAutoplay();
+
+            /* ----------------------------------------------------------------
+               4. INTERAKTIVE SPEISEKARTE (PLATZHALTER-DATEN + FILTER)
+               Hinweis: Gerichte, Beschreibungen, Preise, Fotos ("bild") und
+               Tags (V, VG, GF) können hier saisonal direkt angepasst werden.
+               ---------------------------------------------------------------- */
+            const speisekarteDaten = {
+                vorspeisen: [
+                    {
+                        name: 'Ehrenfelder Sauerteigbrot & Aufstriche',
+                        preis: '7,50 €',
+                        beschreibung: 'Ofenfrisches Krustenbrot mit geschlagener Kräuterbutter, geröstetem Rote-Bete-Hummus und grobem Meersalz.',
+                        bild: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG']
+                    },
+                    {
+                        name: 'Hausgemachte Kartoffelsuppe',
+                        preis: '8,20 €',
+                        beschreibung: 'Cremig aus regionalen Kartoffeln und Wurzelgemüse, verfeinert mit Majoranöl und krossen Croûtons (auch ohne Croûtons glutenfrei).',
+                        bild: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG', 'GF']
+                    },
+                    {
+                        name: 'Halver Hahn „Herzblatt-Art“',
+                        preis: '8,90 €',
+                        beschreibung: 'Röggelchen mit mittelaltem Gouda, Senf-Kaviar, eingelegten roten Zwiebeln und Gewürzgurke.',
+                        bild: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V']
+                    },
+                    {
+                        name: 'Gebeizter Lachs auf Reibekuchen',
+                        preis: '11,50 €',
+                        beschreibung: 'Zwei knusprige Kartoffel-Rievkooche mit hausgebeiztem Lachs, Meerrettich-Schmand und frischem Dill.',
+                        bild: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=300&q=80',
+                        tags: ['GF']
+                    }
+                ],
+                hauptgerichte: [
+                    {
+                        name: 'Wiener Schnitzel vom Kalb',
+                        preis: '24,90 €',
+                        beschreibung: 'Goldbraun in Butterschmalz ausgebacken, dazu lauwarmer Kartoffel-Gurkensalat, Preiselbeeren und Zitrone.',
+                        bild: 'https://images.unsplash.com/photo-1599921841143-819065a55cc6?auto=format&fit=crop&w=300&q=80',
+                        tags: []
+                    },
+                    {
+                        name: 'Rheinischer Sauerbraten (modern)',
+                        preis: '22,50 €',
+                        beschreibung: 'Zart geschmort in dunkler Rosinen-Printensoße mit handgedrehten Kartoffelklößen und geschmortem Apfelrotkohl.',
+                        bild: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=300&q=80',
+                        tags: []
+                    },
+                    {
+                        name: 'Gebackener Blumenkohl & Kräuter-Polenta',
+                        preis: '17,90 €',
+                        beschreibung: 'Im Ganzen gerösteter Blumenkohl mit Miso-Senf-Glasur, cremiger Polenta, gerösteten Haselnüssen und Granatapfel.',
+                        bild: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG', 'GF']
+                    },
+                    {
+                        name: 'Hausgemachte Käsespätzle',
+                        preis: '16,50 €',
+                        beschreibung: 'Mit gereiftem Allgäuer Bergkäse, knusprigen Röstzwiebeln, Schnittlauch und einem kleinen Beilagensalat.',
+                        bild: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V']
+                    },
+                    {
+                        name: 'Geschmorte Aubergine auf Linsengemüse',
+                        preis: '18,20 €',
+                        beschreibung: 'Karamellisierte Aubergine auf Belugalinsen mit Wurzelgemüse, Thymian und veganer Kräuter-Crème.',
+                        bild: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG', 'GF']
+                    },
+                    {
+                        name: 'Zanderfilet auf der Haut gebraten',
+                        preis: '23,80 €',
+                        beschreibung: 'Mit Rahmwirsing, Salzkartoffeln und einer leichten Riesling-Senf-Soße.',
+                        bild: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=300&q=80',
+                        tags: ['GF']
+                    }
+                ],
+                desserts: [
+                    {
+                        name: 'Lauwarmer Apfelstrudel',
+                        preis: '7,90 €',
+                        beschreibung: 'Mit karamellisierten Mandeln, Vanillesoße und einer Kugel Vanilleeis.',
+                        bild: 'https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V']
+                    },
+                    {
+                        name: 'Dunkles Schokoladen-Mousse',
+                        preis: '8,40 €',
+                        beschreibung: 'Luftig aufgeschlagen aus Zartbitterschokolade mit marinierten Saisonbeeren und Kakaonibs.',
+                        bild: 'https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG', 'GF']
+                    },
+                    {
+                        name: 'Crème Brûlée mit Tonkabohne',
+                        preis: '8,20 €',
+                        beschreibung: 'Klassisch abgeflämmt mit feiner Karamellkruste und frischer Minze.',
+                        bild: 'https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'GF']
+                    }
+                ],
+                getraenke: [
+                    {
+                        name: 'Nolte Cristall vom Fass (0,3l / 0,5l)',
+                        preis: '3,90 € / 5,40 €',
+                        beschreibung: 'Unser Ehrenfelder Highlight: goldgelb, untergärig, schlank und angenehm spritzig – nach altem Familienrezept.',
+                        bild: 'https://images.unsplash.com/photo-1575037614876-c38a4d44f5b8?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG'],
+                        highlight: true
+                    },
+                    {
+                        name: 'Frisch gezapftes Kölsch (0,2l)',
+                        preis: '2,40 €',
+                        beschreibung: 'Eiskalt aus dem Fass, wie es sich in Köln gehört.',
+                        bild: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG']
+                    },
+                    {
+                        name: 'Hausgemachte Zitronen-Rosmarin-Limo (0,4l)',
+                        preis: '4,80 €',
+                        beschreibung: 'Frisch gepresste Zitronen, Rosmarinsirup und sprudelndes Mineralwasser auf Eis.',
+                        bild: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG', 'GF']
+                    },
+                    {
+                        name: 'Offene Weine (Weiß, Rosé, Rot – 0,2l)',
+                        preis: 'ab 6,50 €',
+                        beschreibung: 'Ausgewählte deutsche und europäische Winzerweine – fragt uns gerne nach unserer aktuellen Empfehlung.',
+                        bild: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG', 'GF']
+                    },
+                    {
+                        name: 'Herzblatt Spritz',
+                        preis: '8,50 €',
+                        beschreibung: 'Fruchtiger Aperitif mit trockenem Riesling-Sekt, Blutorange und einem Zweig Thymian (auch alkoholfrei).',
+                        bild: 'https://images.unsplash.com/photo-1560512823-829485b8bf24?auto=format&fit=crop&w=300&q=80',
+                        tags: ['V', 'VG', 'GF']
+                    }
+                ]
+            };
+
+            let aktiveKategorie = 'vorspeisen';
+            let aktiverFilter = 'alle';
+            const menuGrid = document.getElementById('menuGrid');
+            const menuTabs = document.querySelectorAll('.menu-tab');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            function renderSpeisekarte() {
+                const liste = speisekarteDaten[aktiveKategorie] || [];
+                const gefiltert = aktiverFilter === 'alle'
+                    ? liste
+                    : liste.filter(item => item.tags.includes(aktiverFilter));
+
+                menuGrid.innerHTML = '';
+
+                if (gefiltert.length === 0) {
+                    menuGrid.innerHTML = `
+                        <div class="menu-leer-hinweis">
+                            In dieser Kategorie gibt es aktuell keinen Treffer für diesen Filter.
+                            Schau gerne bei „Alle“ oder sprich unser Service-Team direkt an – wir passen vieles flexibel an!
+                        </div>
+                    `;
+                    return;
+                }
+
+                gefiltert.forEach(item => {
+                    const karte = document.createElement('article');
+                    karte.className = 'gericht-karte' + (item.highlight ? ' highlight-bier' : '');
+
+                    const badgesHtml = [
+                        item.highlight ? '<span class="badge badge-tipp">Herzblatt-Tipp</span>' : '',
+                        ...item.tags.map(tag => {
+                            const klasse = tag === 'V' ? 'badge-v' : tag === 'VG' ? 'badge-vg' : 'badge-gf';
+                            return `<span class="badge ${klasse}">${tag}</span>`;
+                        })
+                    ].join('');
+
+                    karte.innerHTML = `
+                        <img class="gericht-thumb"
+                             src="${item.bild}"
+                             alt="${item.name}"
+                             loading="lazy"
+                             onerror="this.src='https://placehold.co/160x160/E9D6BE/0B2545?text=Herzblatt'">
+                        <div class="gericht-inhalt">
+                            <div>
+                                <div class="gericht-kopf">
+                                    <h3 class="gericht-name">${item.name}</h3>
+                                    <span class="gericht-preis">${item.preis}</span>
+                                </div>
+                                <p class="gericht-desc">${item.beschreibung}</p>
+                            </div>
+                            <div class="gericht-badges">${badgesHtml}</div>
+                        </div>
+                    `;
+
+                    menuGrid.appendChild(karte);
+                });
+            }
+
+            // Kategorie-Tabs umschalten
+            menuTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    aktiveKategorie = tab.dataset.kategorie;
+                    menuTabs.forEach(t => {
+                        const istAktiv = t === tab;
+                        t.classList.toggle('aktiv', istAktiv);
+                        t.setAttribute('aria-selected', String(istAktiv));
+                    });
+                    renderSpeisekarte();
+                });
+            });
+
+            // Ernährungs-Filter umschalten
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    aktiverFilter = btn.dataset.filter;
+                    filterBtns.forEach(b => b.classList.toggle('aktiv', b === btn));
+                    renderSpeisekarte();
+                });
+            });
+
+            // Erste Ansicht direkt rendern
+            renderSpeisekarte();
+
+            // Hinweis für den PDF-Download-Platzhalter
+            const pdfBtn = document.getElementById('pdfDownloadBtn');
+            const pdfHinweis = document.getElementById('pdfHinweis');
+            if (pdfBtn && pdfHinweis) {
+                pdfBtn.addEventListener('click', () => {
+                    pdfHinweis.classList.toggle('sichtbar');
+                });
+            }
+
+            /* ----------------------------------------------------------------
+               5. INTERAKTIVE FOTOGALERIE (PFEILE, DOTS & TOUCH-SWIPE)
+               ---------------------------------------------------------------- */
+            const galerieViewport = document.getElementById('galerieViewport');
+            const galerieTrack = document.getElementById('galerieTrack');
+            const galerieSlides = document.querySelectorAll('.galerie-slide');
+            const galeriePrev = document.getElementById('galeriePrev');
+            const galerieNext = document.getElementById('galerieNext');
+            const galerieDotsContainer = document.getElementById('galerieDots');
+            let galerieIndex = 0;
+
+            // Navigationspunkte dynamisch erzeugen
+            if (galerieDotsContainer && galerieSlides.length > 0) {
+                galerieSlides.forEach((_, idx) => {
+                    const dot = document.createElement('button');
+                    dot.type = 'button';
+                    dot.className = 'galerie-dot' + (idx === 0 ? ' aktiv' : '');
+                    dot.setAttribute('aria-label', `Galeriebild ${idx + 1} anzeigen`);
+                    dot.addEventListener('click', () => geheZuGalerieBild(idx));
+                    galerieDotsContainer.appendChild(dot);
+                });
+            }
+
+            const galerieDots = document.querySelectorAll('.galerie-dot');
+
+            function geheZuGalerieBild(neuerIndex) {
+                if (galerieSlides.length === 0) return;
+                galerieIndex = (neuerIndex + galerieSlides.length) % galerieSlides.length;
+                galerieTrack.style.transform = `translateX(-${galerieIndex * 100}%)`;
+                galerieDots.forEach((dot, i) => dot.classList.toggle('aktiv', i === galerieIndex));
+            }
+
+            if (galeriePrev) {
+                galeriePrev.addEventListener('click', () => geheZuGalerieBild(galerieIndex - 1));
+            }
+            if (galerieNext) {
+                galerieNext.addEventListener('click', () => geheZuGalerieBild(galerieIndex + 1));
+            }
+
+            // Touch-Swipe für Smartphones und Tablets
+            if (galerieViewport) {
+                let touchStartX = 0;
+                let touchEndeX = 0;
+
+                galerieViewport.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                galerieViewport.addEventListener('touchend', (e) => {
+                    touchEndeX = e.changedTouches[0].screenX;
+                    const diff = touchStartX - touchEndeX;
+                    if (Math.abs(diff) > 45) {
+                        if (diff > 0) {
+                            geheZuGalerieBild(galerieIndex + 1);
+                        } else {
+                            geheZuGalerieBild(galerieIndex - 1);
+                        }
+                    }
+                }, { passive: true });
+            }
+
+            /* ----------------------------------------------------------------
+               6. ANFRAGEFORMULAR FÜR PRIVATE FEIERN (VALIDIERUNG)
+               ---------------------------------------------------------------- */
+            const feierFormular = document.getElementById('feierFormular');
+            const formErfolg = document.getElementById('formErfolg');
+
+            if (feierFormular) {
+                feierFormular.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    let istGueltig = true;
+
+                    const pflichtfelder = feierFormular.querySelectorAll('[required]');
+                    pflichtfelder.forEach(feld => {
+                        const gruppe = feld.closest('.form-gruppe');
+                        let feldOk = feld.value.trim() !== '';
+
+                        if (feldOk && feld.type === 'email') {
+                            feldOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(feld.value.trim());
+                        }
+                        if (feldOk && feld.type === 'number') {
+                            const wert = Number(feld.value);
+                            feldOk = !Number.isNaN(wert) && wert >= Number(feld.min || 1);
+                        }
+
+                        if (gruppe) {
+                            gruppe.classList.toggle('ungueltig', !feldOk);
+                        }
+                        if (!feldOk) istGueltig = false;
+                    });
+
+                    if (istGueltig && formErfolg) {
+                        formErfolg.classList.add('sichtbar');
+                        feierFormular.reset();
+                    }
+                });
+
+                // Fehlerstatus beim Tippen direkt zurücksetzen
+                feierFormular.querySelectorAll('input, textarea, select').forEach(feld => {
+                    feld.addEventListener('input', () => {
+                        const gruppe = feld.closest('.form-gruppe');
+                        if (gruppe) gruppe.classList.remove('ungueltig');
+                    });
+                });
+            }
+
+            /* ----------------------------------------------------------------
+               7. MODALS (IMPRESSUM & DATENSCHUTZ)
+               ---------------------------------------------------------------- */
+            const modalTrigger = document.querySelectorAll('[data-modal]');
+            const modals = document.querySelectorAll('.modal-backdrop');
+
+            function schliesseAlleModals() {
+                modals.forEach(modal => modal.classList.remove('offen'));
+                document.body.style.overflow = '';
+            }
+
+            modalTrigger.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const zielId = btn.dataset.modal;
+                    const zielModal = document.getElementById(zielId);
+                    if (zielModal) {
+                        zielModal.classList.add('offen');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            modals.forEach(modal => {
+                const closeBtn = modal.querySelector('.modal-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', schliesseAlleModals);
+                }
+                // Klick außerhalb der Box schließt das Modal
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) schliesseAlleModals();
+                });
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') schliesseAlleModals();
+            });
+
+            /* ----------------------------------------------------------------
+               8. DEZENTE SCROLL-REVEAL-ANIMATIONEN (INTERSECTION OBSERVER)
+               ---------------------------------------------------------------- */
+            const revealElemente = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((eintraege, obs) => {
+                    eintraege.forEach(eintrag => {
+                        if (eintrag.isIntersecting) {
+                            eintrag.target.classList.add('sichtbar');
+                            obs.unobserve(eintrag.target);
+                        }
+                    });
+                }, { threshold: 0.12 });
+
+                revealElemente.forEach(el => observer.observe(el));
+            } else {
+                // Fallback für sehr alte Browser
+                revealElemente.forEach(el => el.classList.add('sichtbar'));
+            }
+        });
+    </script>
 </body>
 </html>
